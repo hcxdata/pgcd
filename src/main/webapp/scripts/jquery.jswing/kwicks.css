@@ -1,0 +1,46 @@
+.kwicks>ul, .kwicks>li {
+	list-style: none
+}
+
+.kwicks {
+	width: 660px;
+	position: relative;
+}
+
+.kwicks li {
+	width: 120px;
+	height: 120px;
+	overflow: hidden;
+	margin-right: 9px;
+	float: left
+}
+
+.kwicks li.last {
+	margin-right: 0px
+}
+
+.kwicks li img {
+	width: 120px;
+	height: 120px;
+	border: 5px solid #c6c6c6;
+	float: left
+}
+
+.kwicks li .extension {
+	height: 120px;
+	overflow: hidden
+}
+
+.kwicks li dl {
+	padding: 5px 0px 0px 10px;
+	width: 230px;
+	height: 80px;
+	overflow: hidden;
+	margin-left: 0px
+}
+
+
+.kwicks li dt a {
+	font-size: 14px;
+	font-weight: bold
+}

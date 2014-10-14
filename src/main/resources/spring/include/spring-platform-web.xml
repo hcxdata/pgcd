@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-2.5.xsd"
+	default-autowire="byName">
+
+	<context:component-scan base-package="com.jetyun.pgcd.web"
+		name-generator="com.jetyun.pgcd.core.generator.AbstractBeanNameGenerator" />
+
+	<context:annotation-config />
+
+	<bean
+		class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" />
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<bean id="annotationHandlerMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+
+	<bean id="urlMappingForPlatform"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="order" value="0" />
+		<property name="mappings">
+			<props>
+				<prop key="/JSONRPC.do">baseActionController</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!--Definition of View Resolver -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/platform" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<bean id="localeChangeInterceptor"
+		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver" />
+
+</beans>

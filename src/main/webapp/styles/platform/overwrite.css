@@ -1,0 +1,14 @@
+/*用于重写定义默认样式及对各插件样式进行协调的css文件*/
+/*解决bootstrap样式导致sparkline失效问题*/
+#jqstooltip {
+	box-sizing: content-box
+}
+/*解决bootstrap样式导致morris失效问题*/
+.cl-mcont {
+    color: inherit;
+    font-size: 13px;
+    font-weight: 200;
+    line-height: 21px;
+    margin-top: 0;
+    padding: 15px 30px 30px;
+}

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-2.5.xsd 
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+	default-autowire="byName">
+
+	<context:annotation-config />
+
+	<bean id="propertyConfigurerForPlatform"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="2" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:/db/conf/jdbc-parms.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- JDBC DataSource -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialPoolSize" value="10" />
+		<property name="maxPoolSize" value="10" />
+		<property name="testConnectionOnCheckin" value="true" />
+		<property name="testConnectionOnCheckout" value="true" />
+		<property name="automaticTestTable" value="C3P0TestTable" />
+		<property name="idleConnectionTestPeriod" value="18000" />
+		<property name="maxIdleTime" value="25000" />
+	</bean>
+ 
+	<bean id="dataSourceP6Spy" class="com.p6spy.engine.spy.P6DataSource">
+		<constructor-arg ref="dataSource" />
+	</bean>
+
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributeSource">
+			<value></value>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="${jdbc.dataSource}" />
+	</bean>
+
+	<bean id="transactionTemplate"
+		class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="sqlMapClientDAO"
+		class="org.springframework.orm.ibatis.support.SqlMapClientDaoSupport"
+		abstract="true">
+		<property name="dataSource" ref="${jdbc.dataSource}" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="sqlMapClient" class="com.jetyun.pgcd.core.IncludesSqlMapClientFactoryBean">
+		<property name="configLocation" value="classpath:ibatis/platform/mysql/sqlmap.xml" />
+	</bean>
+	
+	<bean id="flyway" class="com.googlecode.flyway.core.Flyway" init-method="migrate" >
+		<property name="dataSource" ref="dataSource"/>
+		<property name="initOnMigrate" >
+			<value>true</value>
+		</property>
+	</bean>
+	
+	<bean id="sqlMapClientDaoInjector"
+		class="com.jetyun.pgcd.core.SqlMapClientDaoInjector" depends-on="flyway">
+		<property name="dataSource" ref="${jdbc.dataSource}" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	
+	<!--   ibatis 物理分页实现  -->
+	<bean id="sqlExecutor" class="com.jetyun.pgcd.dao.ibatis.ext.LimitSqlExecutor">  
+		<property name="dialect" ref="autoDialect"></property>
+	</bean> 
+
+</beans>
+
