@@ -1,4 +1,4 @@
 <html>
-<body onload="javascript:window.location='hello.do';">
+<body onload="javascript:window.location='eventList.do？method=list';">
 </body>
 </html>
