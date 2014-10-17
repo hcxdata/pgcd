@@ -40,6 +40,12 @@
 		<servlet-class>org.springframework.web.util.Log4jConfigServlet</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>JobScheduler</servlet-name>
+		<servlet-class>com.jetyun.pgcd.service.backend.servlet.ScheduleServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
 
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
