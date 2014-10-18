@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="topics">
+	<resultMap class="com.jetyun.pgcd.dao.domain.Topic" id="topicResult">
+		<result column="id" jdbcType="INT" property="id" />
+		<result column="event_id" jdbcType="INT" property="eventId" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="feature_word" jdbcType="VARCHAR" property="featureWord" />
+		<result column="created_on" jdbcType="VARCHAR" property="createdOn" />
+	</resultMap>
+	<select id="getTopicsByEventID" parameterClass="java.util.Map"
+		resultMap="topicResult">
+		SELECT
+		t.id,t.event_id,t.description,t.feature_word,t.created_on
+		FROM
+		topics t
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="eventID">
+				t.event_id =
+				'$eventID$'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,63 @@
+/* CSS Document */
+body, div, label, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, p, blockquote, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+}
+html {
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 12px;
+}
+body {color:#333;}
+table {
+	display: table;
+	border-collapse: collapse;
+	border-spacing: 0;	
+	border-color: gray;
+}
+tbody {
+	display: table-row-group;
+	vertical-align: middle;
+	border-color: inherit;
+}
+tr {
+	display: table-row;
+	vertical-align: inherit;
+	border-color: inherit;
+}
+td, th {
+	display: table-cell;
+	vertical-align: inherit;
+}
+dl {
+	display: block;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+}
+p {
+	display: block;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+}
+img {border:none;}
+/* rest_e */
+
+/* demo list css */
+.mb {margin-bottom:10px;}
+.wrap {margin:0 auto;padding:0;width:960px;text-align:left;}
+.header {height:100px;border:1px solid #ddd;}
+.content {padding:10px;border:1px solid #ddd;}
+.footer {height:100px;border:1px solid #ddd;}
+
+.infoList, .infoList li {margin:0;padding:0;list-style:none;}
+.infoList {margin:10px 0 0;}
+.infoList li {display:block;overflow:hidden;padding:10px 0;border-top:1px dashed #D2D2D2;}
+.info_photo {float:left;margin-right:14px;padding:1px;width:50px;height:50px;border:1px solid #D2D2D2;}
+.info_photo img {width:50px;height:50px;}
+.info_text {float:left;width:860px;line-height:1.7;}
+.info_time {color:#999;}

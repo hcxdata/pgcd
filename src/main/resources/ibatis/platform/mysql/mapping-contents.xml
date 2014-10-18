@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="contentinfo">
+	<resultMap class="com.jetyun.pgcd.dao.domain.ContentInfo" id="ContentInfoResult">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="tim" jdbcType="VARCHAR" property="tim" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+		<result column="rowkey" jdbcType="VARCHAR" property="rowkey" />
+	</resultMap>
+	<select id="getContentInfoListByEventID" parameterClass="java.util.Map"
+		resultMap="ContentInfoResult">
+		SELECT
+		c.id,c.title,c.tim,c.url,c.rowkey
+		FROM
+		contents c,
+		events e,
+		topics
+		t
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="eventID">
+				t.id = c.id
+				AND t.id =
+				e.id
+				AND e.id = '$eventID$'
+			</isNotNull>
+		</dynamic>
+	</select>
+	<select id="getContentsByTopicID" parameterClass="java.util.Map"
+		resultMap="ContentInfoResult">
+		SELECT
+		c.id,c.title,c.tim,c.url,c.rowkey
+		FROM
+		contents c
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="topicID">
+				c.topic_id=
+				'$topicID$'
+			</isNotNull>
+		</dynamic>
+	</select>
+	<select id="getContentById" parameterClass="java.lang.String"
+		resultMap="ContentInfoResult">
+		SELECT
+		c.id,c.title,c.tim,c.url,c.rowkey
+		FROM
+		contents c
+		where c.id =
+		#value#
+	</select>
+
+</sqlMap>
