@@ -1,11 +1,27 @@
 package com.jetyun.pgcd.dao.domain;
 
-public class Event {
-	private int id;
+public class Topic {
+	private Long id;
+	private Long eventId;
 	private String description;
 	private String featureWord;
-	private int newsNum;
 	private String createdOn;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(Long eventId) {
+		this.eventId = eventId;
+	}
 
 	public String getDescription() {
 		return description;
@@ -15,29 +31,12 @@ public class Event {
 		this.description = description;
 	}
 
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getFeatureWord() {
 		return featureWord;
 	}
 
 	public void setFeatureWord(String featureWord) {
 		this.featureWord = featureWord;
-	}
-
-	public int getNewsNum() {
-		return newsNum;
-	}
-
-	public void setNewsNum(int newsNum) {
-		this.newsNum = newsNum;
 	}
 
 	public String getCreatedOn() {

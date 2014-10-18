@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="events">
+	<resultMap class="com.jetyun.pgcd.dao.domain.Event" id="eventMap">
+		<result property="id" jdbcType="int" column="id" />
+		<result property="description" jdbcType="VARCHAR" column="description" />
+		<result property="featureWord" jdbcType="VARCHAR" column="feature_word" />
+		<result property="newsNum" jdbcType="int" column="newsNum" />
+		<result property="createdOn" jdbcType="VARCHAR" column="created_on" />
+	</resultMap>
+
+	<select id="getEventList" parameterClass="java.util.Map"
+		resultMap="eventMap">
+		SELECT
+		id,description,feature_word,created_on,(
+		select
+		count(1) from topics
+		b join contents c on b.id = c.topic_id where
+		b.event_id = a.id
+		) as
+		newsNum
+		FROM events a
+		order by created_on desc
+	</select>
+	<select id="getEventListCount" parameterClass="java.util.Map"
+		resultClass="int">
+		SELECT
+		count(1)
+		FROM
+		events a
+	</select>
+	<select id="getEventById" parameterClass="java.util.Map"
+		resultMap="eventMap">
+		SELECT
+		id,description,feature_word,created_on,(
+		select
+		count(1) from topics
+		b
+		join contents c on b.id = c.topic_id where
+		b.event_id = a.id
+		) as
+		newsNum
+		FROM events a
+		where id = #eventID#
+	</select>
+</sqlMap>

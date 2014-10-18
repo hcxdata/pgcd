@@ -1,0 +1,226 @@
+/* common_s */
+a, a:link, a:visited {
+	color: #0082CB;
+}
+index.css:1
+a, a:link, a:visited {
+	color: #0082CB;
+}
+a {
+	text-decoration: none;
+}
+a:-webkit-any-link {
+	color: -webkit-link;
+	text-decoration: underline;
+	cursor: auto;
+}
+
+.clearFix {
+	display: block;
+	zoom: 1;
+}
+.clearFix::after {
+	content: ".";
+	display: block;
+	visibility: hidden;
+	height: 0;
+	clear: both;
+}
+
+.male, .man {
+	background-position: -195px 0;
+	width: 9px;
+	height: 12px;
+	margin-right: 10px;
+}
+
+.gray6, .gray6 a:link, .gray6 a:visited, .gray6 a:hover {
+	color: #666;
+}
+.rt {
+	float: right;
+}
+.MIB_btn2 {
+	border: 1px solid #D7D7D7;
+	background: url(../imgs/btn.gif) no-repeat scroll 6px 8px #EAEAEA;
+	text-align: center;
+	color: #666;
+	height: 21px;
+	line-height: 21px;
+	padding-left: 12px;
+}
+.MIB_btn3 {
+	border: 1px solid #D7D7D7;
+	background: url(../imgs/btn.gif) no-repeat scroll 6px -13px #EAEAEA;
+	text-align: center;
+	color: #666;
+	height: 21px;
+	line-height: 21px;
+	padding-left: 12px;
+}
+.MIB_line_sp {
+	color: #CCC;
+	padding: 0 7px 0 6px;
+}
+.MIB_linkbl a:link, .MIB_linkbl a:visited, .MIB_linkbl a:hover, a.MIB_linkbl:link, a.MIB_linkbl:visited, a.MIB_linkbl:hover {
+	color: #84B4BE;
+}
+/* common_e */
+
+.mBlogLayer .top_r, .mBlogLayer .top_l, .mBlogLayer .bottom_l, .mBlogLayer .bottom_r {
+	width: 5px;
+	height: 5px;
+	background: url(../../../images/platform/proMap/logoNew_nocache.png) no-repeat;	
+	_background: url(../../../images/platform/proMap/wraplayer.gif) no-repeat;	
+}
+.mBlogLayer .top_c, .mBlogLayer .bottom_c, .mBlogLayer .mid_l, .mBlogLayer .mid_r {
+	height: 5px;
+	background: url(../../../images/platform/proMap/wraplayer_09.png);
+	_background: url(../../../images/platform/proMap/wraplayer_09.gif);
+	_filter: alpha(opacity=70);
+}
+.mBlogLayer .top_l {
+	background-position: 0 -304px;
+	_background-position: 0 0;
+}
+.mBlogLayer .top_r {
+	background-position: -5px -304px;
+	_background-position: -5px 0;
+}
+.mBlogLayer .mid_c {
+	background: white;
+}
+.mBlogLayer .bottom_l {
+	background-position: 0 -309px;
+	_background-position: 0 -5px;
+}
+.mBlogLayer .bottom_r {
+	background-position: -5px -309px;
+	_background-position: -5px -5px;
+}
+
+
+.mBlogLayer .layerBox {
+	border: 1px solid #A0A0A0;
+}
+.layerArrow {
+	width: 16px;
+	height: 8px;
+	overflow: hidden;
+	position: absolute;
+
+	background-repeat:no-repeat;
+	
+}
+.name_card .links, .name_card .name, .name_card .info, .name_card_con2 {
+	overflow: hidden;
+}
+.name_card .name dt, .name_card .name dd, .name_card .info dt, .name_card .info dd {
+	float: left;
+	display: inline;
+}
+.name_card .layerArrow_t {
+	background-position:0 -12px;
+	top: -2px;
+	left: 22px;
+}
+.name_card .layerArrow_b{
+	background-position:0 -20px;
+	bottom: -2px;
+	left: 22px;
+}
+.name_card .name {
+	padding: 10px;
+	zoom: 1;
+}
+.name_card .name dt {
+	width: 70px;
+	height: 79px;
+}
+.name_card .name dt img{border:1px solid #E0DEDF;}
+.name_card .name dd {
+	color: #777;
+	line-height: 18px;
+	padding-left: 6px;
+	margin-top: -1px;
+	_margin-top: 0;
+}
+.name_card .name dd p {
+	height: 20px;
+	overflow: hidden;
+}
+.name_card_con0 p {
+	height: 18px;
+	overflow: hidden;
+}
+.name_card .name dd .name_card_con4 {
+	width: 210px;
+	margin: 0;
+}
+.name_card_con0 p {
+	height: 18px;
+	overflow: hidden;
+}
+.name_card_con4 {
+	margin: 0 10px 3px;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 278px;
+	color: #777;
+}
+.name_card .name .address img {
+	margin: 0 3px;
+	position: relative;
+	top: 3px;
+	float: left;
+}
+
+.name_card .info {
+	padding: 0 10px;
+	line-height: 20px;
+	margin: -10px 0 10px;
+}
+.name_card .info dt {
+	clear: left;
+	white-space: nowrap;
+	color: #777;
+	width: 36px;
+	padding-top: 2px;
+}
+.name_card .info dd {
+	word-wrap: break-word;
+	word-break: break-all;
+	line-height: 150%;
+	color: #777;
+	width: 240px;
+	padding-top: 3px;
+}
+.name_card .medal dt {
+	height: 24px;
+	line-height: 24px;
+}
+.name_card .links {
+	background: whiteSmoke;
+	height: 38px;
+	line-height: 38px;
+	padding-left: 10px;
+	overflow: hidden;
+	margin-top: 10px;
+}
+.name_card .links em{  font-style: normal; }
+.name_card .links .rt {
+	padding: 0 10px 0 20px;
+	margin: 8px 7px 0 0;
+	display: inline;
+}
+.name_card .name_card_con3, .name_card .links i {
+}
+.name_card .name_card_con3, .name_card .links i {
+}
+.name_card .links i {
+	color: #CCC;
+	padding: 0 5px;
+}
+.name_card .links .name_card_con3 i {
+	padding: 0;
+}

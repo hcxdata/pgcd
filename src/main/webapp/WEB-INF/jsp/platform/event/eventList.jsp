@@ -26,19 +26,19 @@
 			<tbody>
 				<c:forEach var="event" items="${page.list}">
 					<tr>
-						<td>${event.desc }</td>
+						<td>${event.description }</td>
 						<td>${event.featureWord }</td>
 						<td><a
-							href="<%=request.getContextPath() %>/hTimeline.do?eventID=${event.id}"
+							href="<%=request.getContextPath() %>/hTimeline.do?method=list&eventID=${event.id}"
 							target="_blank">分析</a></td>
 						<td><a
-							href="<%=request.getContextPath() %>/hTimeline.do?eventID=${event.id}"
+							href="<%=request.getContextPath() %>/vTimeline.do?method=list&eventID=${event.id}"
 							target="_blank">分析</a></td>
 						<td><a
-							href="<%=request.getContextPath() %>/hTimeline.do?eventID=${event.id}"
+							href="<%=request.getContextPath() %>/proMap.do?eventID=${event.id}"
 							target="_blank">分析</a></td>
 						<td>${event.newsNum }</td>
-						<td>${event.time }</td>
+						<td>${event.createdOn }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

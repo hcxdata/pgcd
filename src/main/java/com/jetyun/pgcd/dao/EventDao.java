@@ -8,6 +8,6 @@ import com.jetyun.pgcd.system.pageTag.Pagination;
 @Component
 public class EventDao extends BasicDao<Event> {
 	public Pagination<Event> getEventPage(int page) {
-		return this.getPage("event.getEventList", page);
+		return this.getPage("events.getEventList", page);
 	}
 }
