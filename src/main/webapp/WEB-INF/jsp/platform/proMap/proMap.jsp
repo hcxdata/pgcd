@@ -18,7 +18,7 @@ body {
 
 #graph-container {
 	height: 80%;
-	width: 80%;
+	width: 90%;
 }
 
 body {
