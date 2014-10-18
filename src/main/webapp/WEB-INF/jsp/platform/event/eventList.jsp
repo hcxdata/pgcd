@@ -29,10 +29,10 @@
 						<td>${event.description }</td>
 						<td>${event.featureWord }</td>
 						<td><a
-							href="<%=request.getContextPath() %>/hTimeline.do?eventID=${event.id}"
+							href="<%=request.getContextPath() %>/hTimeline.do?method=list&eventID=${event.id}"
 							target="_blank">分析</a></td>
 						<td><a
-							href="<%=request.getContextPath() %>/hTimeline.do?eventID=${event.id}"
+							href="<%=request.getContextPath() %>/vTimeline.do?method=list&eventID=${event.id}"
 							target="_blank">分析</a></td>
 						<td><a
 							href="<%=request.getContextPath() %>/proMap.do?eventID=${event.id}"

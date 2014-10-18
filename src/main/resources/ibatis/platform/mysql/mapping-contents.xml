@@ -19,8 +19,8 @@
 		t
 		<dynamic prepend="where">
 			<isNotNull prepend="and" property="eventID">
-				t.id = c.id
-				AND t.id =
+				t.id = c.topic_id
+				AND t.event_id =
 				e.id
 				AND e.id = '$eventID$'
 			</isNotNull>

@@ -494,7 +494,21 @@
 			<version>3.0</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>quartz</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${quartz-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>${httpclient-version}</version>
+		</dependency>
 	</dependencies>
 
 	<properties>
@@ -503,6 +517,8 @@
 		<ibatis-version>2.1.6.589</ibatis-version>
 		<jetty-version>6.1.17</jetty-version>
 		<slf4j-version>1.6.4</slf4j-version>
+		<quartz-version>1.5.2</quartz-version>
+		<httpclient-version>4.3.1</httpclient-version>
 	</properties>
 
 	<profiles>
