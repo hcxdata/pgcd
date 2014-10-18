@@ -1,1036 +1,10083 @@
-//! moment.js
-//! version : 2.5.0
-//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
-//! license : MIT
-//! momentjs.com
-(function(a){function b(a,b,c){switch(arguments.length){case 2:return null!=a?a:b;case 3:return null!=a?a:null!=b?b:c;default:throw new Error("Implement me")}}function c(){return{empty:!1,unusedTokens:[],unusedInput:[],overflow:-2,charsLeftOver:0,nullInput:!1,invalidMonth:null,invalidFormat:!1,userInvalidated:!1,iso:!1}}function d(a){rb.suppressDeprecationWarnings===!1&&"undefined"!=typeof console&&console.warn&&console.warn("Deprecation warning: "+a)}function e(a,b){var c=!0;return l(function(){return c&&(d(a),c=!1),b.apply(this,arguments)},b)}function f(a,b){nc[a]||(d(b),nc[a]=!0)}function g(a,b){return function(c){return o(a.call(this,c),b)}}function h(a,b){return function(c){return this.localeData().ordinal(a.call(this,c),b)}}function i(){}function j(a,b){b!==!1&&E(a),m(this,a),this._d=new Date(+a._d)}function k(a){var b=x(a),c=b.year||0,d=b.quarter||0,e=b.month||0,f=b.week||0,g=b.day||0,h=b.hour||0,i=b.minute||0,j=b.second||0,k=b.millisecond||0;this._milliseconds=+k+1e3*j+6e4*i+36e5*h,this._days=+g+7*f,this._months=+e+3*d+12*c,this._data={},this._locale=rb.localeData(),this._bubble()}function l(a,b){for(var c in b)b.hasOwnProperty(c)&&(a[c]=b[c]);return b.hasOwnProperty("toString")&&(a.toString=b.toString),b.hasOwnProperty("valueOf")&&(a.valueOf=b.valueOf),a}function m(a,b){var c,d,e;if("undefined"!=typeof b._isAMomentObject&&(a._isAMomentObject=b._isAMomentObject),"undefined"!=typeof b._i&&(a._i=b._i),"undefined"!=typeof b._f&&(a._f=b._f),"undefined"!=typeof b._l&&(a._l=b._l),"undefined"!=typeof b._strict&&(a._strict=b._strict),"undefined"!=typeof b._tzm&&(a._tzm=b._tzm),"undefined"!=typeof b._isUTC&&(a._isUTC=b._isUTC),"undefined"!=typeof b._offset&&(a._offset=b._offset),"undefined"!=typeof b._pf&&(a._pf=b._pf),"undefined"!=typeof b._locale&&(a._locale=b._locale),Fb.length>0)for(c in Fb)d=Fb[c],e=b[d],"undefined"!=typeof e&&(a[d]=e);return a}function n(a){return 0>a?Math.ceil(a):Math.floor(a)}function o(a,b,c){for(var d=""+Math.abs(a),e=a>=0;d.length<b;)d="0"+d;return(e?c?"+":"":"-")+d}function p(a,b){var c={milliseconds:0,months:0};return c.months=b.month()-a.month()+12*(b.year()-a.year()),a.clone().add(c.months,"M").isAfter(b)&&--c.months,c.milliseconds=+b-+a.clone().add(c.months,"M"),c}function q(a,b){var c;return b=J(b,a),a.isBefore(b)?c=p(a,b):(c=p(b,a),c.milliseconds=-c.milliseconds,c.months=-c.months),c}function r(a,b){return function(c,d){var e,g;return null===d||isNaN(+d)||(f(b,"moment()."+b+"(period, number) is deprecated. Please use moment()."+b+"(number, period)."),g=c,c=d,d=g),c="string"==typeof c?+c:c,e=rb.duration(c,d),s(this,e,a),this}}function s(a,b,c,d){var e=b._milliseconds,f=b._days,g=b._months;d=null==d?!0:d,e&&a._d.setTime(+a._d+e*c),f&&lb(a,"Date",kb(a,"Date")+f*c),g&&jb(a,kb(a,"Month")+g*c),d&&rb.updateOffset(a,f||g)}function t(a){return"[object Array]"===Object.prototype.toString.call(a)}function u(a){return"[object Date]"===Object.prototype.toString.call(a)||a instanceof Date}function v(a,b,c){var d,e=Math.min(a.length,b.length),f=Math.abs(a.length-b.length),g=0;for(d=0;e>d;d++)(c&&a[d]!==b[d]||!c&&z(a[d])!==z(b[d]))&&g++;return g+f}function w(a){if(a){var b=a.toLowerCase().replace(/(.)s$/,"$1");a=gc[a]||hc[b]||b}return a}function x(a){var b,c,d={};for(c in a)a.hasOwnProperty(c)&&(b=w(c),b&&(d[b]=a[c]));return d}function y(b){var c,d;if(0===b.indexOf("week"))c=7,d="day";else{if(0!==b.indexOf("month"))return;c=12,d="month"}rb[b]=function(e,f){var g,h,i=rb._locale[b],j=[];if("number"==typeof e&&(f=e,e=a),h=function(a){var b=rb().utc().set(d,a);return i.call(rb._locale,b,e||"")},null!=f)return h(f);for(g=0;c>g;g++)j.push(h(g));return j}}function z(a){var b=+a,c=0;return 0!==b&&isFinite(b)&&(c=b>=0?Math.floor(b):Math.ceil(b)),c}function A(a,b){return new Date(Date.UTC(a,b+1,0)).getUTCDate()}function B(a,b,c){return fb(rb([a,11,31+b-c]),b,c).week}function C(a){return D(a)?366:365}function D(a){return a%4===0&&a%100!==0||a%400===0}function E(a){var b;a._a&&-2===a._pf.overflow&&(b=a._a[yb]<0||a._a[yb]>11?yb:a._a[zb]<1||a._a[zb]>A(a._a[xb],a._a[yb])?zb:a._a[Ab]<0||a._a[Ab]>23?Ab:a._a[Bb]<0||a._a[Bb]>59?Bb:a._a[Cb]<0||a._a[Cb]>59?Cb:a._a[Db]<0||a._a[Db]>999?Db:-1,a._pf._overflowDayOfYear&&(xb>b||b>zb)&&(b=zb),a._pf.overflow=b)}function F(a){return null==a._isValid&&(a._isValid=!isNaN(a._d.getTime())&&a._pf.overflow<0&&!a._pf.empty&&!a._pf.invalidMonth&&!a._pf.nullInput&&!a._pf.invalidFormat&&!a._pf.userInvalidated,a._strict&&(a._isValid=a._isValid&&0===a._pf.charsLeftOver&&0===a._pf.unusedTokens.length)),a._isValid}function G(a){return a?a.toLowerCase().replace("_","-"):a}function H(a){for(var b,c,d,e,f=0;f<a.length;){for(e=G(a[f]).split("-"),b=e.length,c=G(a[f+1]),c=c?c.split("-"):null;b>0;){if(d=I(e.slice(0,b).join("-")))return d;if(c&&c.length>=b&&v(e,c,!0)>=b-1)break;b--}f++}return null}function I(a){var b=null;if(!Eb[a]&&Gb)try{b=rb.locale(),require("./locale/"+a),rb.locale(b)}catch(c){}return Eb[a]}function J(a,b){return b._isUTC?rb(a).zone(b._offset||0):rb(a).local()}function K(a){return a.match(/\[[\s\S]/)?a.replace(/^\[|\]$/g,""):a.replace(/\\/g,"")}function L(a){var b,c,d=a.match(Kb);for(b=0,c=d.length;c>b;b++)d[b]=mc[d[b]]?mc[d[b]]:K(d[b]);return function(e){var f="";for(b=0;c>b;b++)f+=d[b]instanceof Function?d[b].call(e,a):d[b];return f}}function M(a,b){return a.isValid()?(b=N(b,a.localeData()),ic[b]||(ic[b]=L(b)),ic[b](a)):a.localeData().invalidDate()}function N(a,b){function c(a){return b.longDateFormat(a)||a}var d=5;for(Lb.lastIndex=0;d>=0&&Lb.test(a);)a=a.replace(Lb,c),Lb.lastIndex=0,d-=1;return a}function O(a,b){var c,d=b._strict;switch(a){case"Q":return Wb;case"DDDD":return Yb;case"YYYY":case"GGGG":case"gggg":return d?Zb:Ob;case"Y":case"G":case"g":return _b;case"YYYYYY":case"YYYYY":case"GGGGG":case"ggggg":return d?$b:Pb;case"S":if(d)return Wb;case"SS":if(d)return Xb;case"SSS":if(d)return Yb;case"DDD":return Nb;case"MMM":case"MMMM":case"dd":case"ddd":case"dddd":return Rb;case"a":case"A":return b._locale._meridiemParse;case"X":return Ub;case"Z":case"ZZ":return Sb;case"T":return Tb;case"SSSS":return Qb;case"MM":case"DD":case"YY":case"GG":case"gg":case"HH":case"hh":case"mm":case"ss":case"ww":case"WW":return d?Xb:Mb;case"M":case"D":case"d":case"H":case"h":case"m":case"s":case"w":case"W":case"e":case"E":return Mb;case"Do":return Vb;default:return c=new RegExp(X(W(a.replace("\\","")),"i"))}}function P(a){a=a||"";var b=a.match(Sb)||[],c=b[b.length-1]||[],d=(c+"").match(ec)||["-",0,0],e=+(60*d[1])+z(d[2]);return"+"===d[0]?-e:e}function Q(a,b,c){var d,e=c._a;switch(a){case"Q":null!=b&&(e[yb]=3*(z(b)-1));break;case"M":case"MM":null!=b&&(e[yb]=z(b)-1);break;case"MMM":case"MMMM":d=c._locale.monthsParse(b),null!=d?e[yb]=d:c._pf.invalidMonth=b;break;case"D":case"DD":null!=b&&(e[zb]=z(b));break;case"Do":null!=b&&(e[zb]=z(parseInt(b,10)));break;case"DDD":case"DDDD":null!=b&&(c._dayOfYear=z(b));break;case"YY":e[xb]=rb.parseTwoDigitYear(b);break;case"YYYY":case"YYYYY":case"YYYYYY":e[xb]=z(b);break;case"a":case"A":c._isPm=c._locale.isPM(b);break;case"H":case"HH":case"h":case"hh":e[Ab]=z(b);break;case"m":case"mm":e[Bb]=z(b);break;case"s":case"ss":e[Cb]=z(b);break;case"S":case"SS":case"SSS":case"SSSS":e[Db]=z(1e3*("0."+b));break;case"X":c._d=new Date(1e3*parseFloat(b));break;case"Z":case"ZZ":c._useUTC=!0,c._tzm=P(b);break;case"dd":case"ddd":case"dddd":d=c._locale.weekdaysParse(b),null!=d?(c._w=c._w||{},c._w.d=d):c._pf.invalidWeekday=b;break;case"w":case"ww":case"W":case"WW":case"d":case"e":case"E":a=a.substr(0,1);case"gggg":case"GGGG":case"GGGGG":a=a.substr(0,2),b&&(c._w=c._w||{},c._w[a]=z(b));break;case"gg":case"GG":c._w=c._w||{},c._w[a]=rb.parseTwoDigitYear(b)}}function R(a){var c,d,e,f,g,h,i;c=a._w,null!=c.GG||null!=c.W||null!=c.E?(g=1,h=4,d=b(c.GG,a._a[xb],fb(rb(),1,4).year),e=b(c.W,1),f=b(c.E,1)):(g=a._locale._week.dow,h=a._locale._week.doy,d=b(c.gg,a._a[xb],fb(rb(),g,h).year),e=b(c.w,1),null!=c.d?(f=c.d,g>f&&++e):f=null!=c.e?c.e+g:g),i=gb(d,e,f,h,g),a._a[xb]=i.year,a._dayOfYear=i.dayOfYear}function S(a){var c,d,e,f,g=[];if(!a._d){for(e=U(a),a._w&&null==a._a[zb]&&null==a._a[yb]&&R(a),a._dayOfYear&&(f=b(a._a[xb],e[xb]),a._dayOfYear>C(f)&&(a._pf._overflowDayOfYear=!0),d=bb(f,0,a._dayOfYear),a._a[yb]=d.getUTCMonth(),a._a[zb]=d.getUTCDate()),c=0;3>c&&null==a._a[c];++c)a._a[c]=g[c]=e[c];for(;7>c;c++)a._a[c]=g[c]=null==a._a[c]?2===c?1:0:a._a[c];a._d=(a._useUTC?bb:ab).apply(null,g),null!=a._tzm&&a._d.setUTCMinutes(a._d.getUTCMinutes()+a._tzm)}}function T(a){var b;a._d||(b=x(a._i),a._a=[b.year,b.month,b.day,b.hour,b.minute,b.second,b.millisecond],S(a))}function U(a){var b=new Date;return a._useUTC?[b.getUTCFullYear(),b.getUTCMonth(),b.getUTCDate()]:[b.getFullYear(),b.getMonth(),b.getDate()]}function V(a){if(a._f===rb.ISO_8601)return void Z(a);a._a=[],a._pf.empty=!0;var b,c,d,e,f,g=""+a._i,h=g.length,i=0;for(d=N(a._f,a._locale).match(Kb)||[],b=0;b<d.length;b++)e=d[b],c=(g.match(O(e,a))||[])[0],c&&(f=g.substr(0,g.indexOf(c)),f.length>0&&a._pf.unusedInput.push(f),g=g.slice(g.indexOf(c)+c.length),i+=c.length),mc[e]?(c?a._pf.empty=!1:a._pf.unusedTokens.push(e),Q(e,c,a)):a._strict&&!c&&a._pf.unusedTokens.push(e);a._pf.charsLeftOver=h-i,g.length>0&&a._pf.unusedInput.push(g),a._isPm&&a._a[Ab]<12&&(a._a[Ab]+=12),a._isPm===!1&&12===a._a[Ab]&&(a._a[Ab]=0),S(a),E(a)}function W(a){return a.replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g,function(a,b,c,d,e){return b||c||d||e})}function X(a){return a.replace(/[-\/\\^$*+?.()|[\]{}]/g,"\\$&")}function Y(a){var b,d,e,f,g;if(0===a._f.length)return a._pf.invalidFormat=!0,void(a._d=new Date(0/0));for(f=0;f<a._f.length;f++)g=0,b=m({},a),b._pf=c(),b._f=a._f[f],V(b),F(b)&&(g+=b._pf.charsLeftOver,g+=10*b._pf.unusedTokens.length,b._pf.score=g,(null==e||e>g)&&(e=g,d=b));l(a,d||b)}function Z(a){var b,c,d=a._i,e=ac.exec(d);if(e){for(a._pf.iso=!0,b=0,c=cc.length;c>b;b++)if(cc[b][1].exec(d)){a._f=cc[b][0]+(e[6]||" ");break}for(b=0,c=dc.length;c>b;b++)if(dc[b][1].exec(d)){a._f+=dc[b][0];break}d.match(Sb)&&(a._f+="Z"),V(a)}else a._isValid=!1}function $(a){Z(a),a._isValid===!1&&(delete a._isValid,rb.createFromInputFallback(a))}function _(b){var c,d=b._i;d===a?b._d=new Date:u(d)?b._d=new Date(+d):null!==(c=Hb.exec(d))?b._d=new Date(+c[1]):"string"==typeof d?$(b):t(d)?(b._a=d.slice(0),S(b)):"object"==typeof d?T(b):"number"==typeof d?b._d=new Date(d):rb.createFromInputFallback(b)}function ab(a,b,c,d,e,f,g){var h=new Date(a,b,c,d,e,f,g);return 1970>a&&h.setFullYear(a),h}function bb(a){var b=new Date(Date.UTC.apply(null,arguments));return 1970>a&&b.setUTCFullYear(a),b}function cb(a,b){if("string"==typeof a)if(isNaN(a)){if(a=b.weekdaysParse(a),"number"!=typeof a)return null}else a=parseInt(a,10);return a}function db(a,b,c,d,e){return e.relativeTime(b||1,!!c,a,d)}function eb(a,b,c){var d=rb.duration(a).abs(),e=wb(d.as("s")),f=wb(d.as("m")),g=wb(d.as("h")),h=wb(d.as("d")),i=wb(d.as("M")),j=wb(d.as("y")),k=e<jc.s&&["s",e]||1===f&&["m"]||f<jc.m&&["mm",f]||1===g&&["h"]||g<jc.h&&["hh",g]||1===h&&["d"]||h<jc.d&&["dd",h]||1===i&&["M"]||i<jc.M&&["MM",i]||1===j&&["y"]||["yy",j];return k[2]=b,k[3]=+a>0,k[4]=c,db.apply({},k)}function fb(a,b,c){var d,e=c-b,f=c-a.day();return f>e&&(f-=7),e-7>f&&(f+=7),d=rb(a).add(f,"d"),{week:Math.ceil(d.dayOfYear()/7),year:d.year()}}function gb(a,b,c,d,e){var f,g,h=bb(a,0,1).getUTCDay();return h=0===h?7:h,c=null!=c?c:e,f=e-h+(h>d?7:0)-(e>h?7:0),g=7*(b-1)+(c-e)+f+1,{year:g>0?a:a-1,dayOfYear:g>0?g:C(a-1)+g}}function hb(b){var c=b._i,d=b._f;return b._locale=b._locale||rb.localeData(b._l),null===c||d===a&&""===c?rb.invalid({nullInput:!0}):("string"==typeof c&&(b._i=c=b._locale.preparse(c)),rb.isMoment(c)?new j(c,!0):(d?t(d)?Y(b):V(b):_(b),new j(b)))}function ib(a,b){var c,d;if(1===b.length&&t(b[0])&&(b=b[0]),!b.length)return rb();for(c=b[0],d=1;d<b.length;++d)b[d][a](c)&&(c=b[d]);return c}function jb(a,b){var c;return"string"==typeof b&&(b=a.localeData().monthsParse(b),"number"!=typeof b)?a:(c=Math.min(a.date(),A(a.year(),b)),a._d["set"+(a._isUTC?"UTC":"")+"Month"](b,c),a)}function kb(a,b){return a._d["get"+(a._isUTC?"UTC":"")+b]()}function lb(a,b,c){return"Month"===b?jb(a,c):a._d["set"+(a._isUTC?"UTC":"")+b](c)}function mb(a,b){return function(c){return null!=c?(lb(this,a,c),rb.updateOffset(this,b),this):kb(this,a)}}function nb(a){return 400*a/146097}function ob(a){return 146097*a/400}function pb(a){rb.duration.fn[a]=function(){return this._data[a]}}function qb(a){"undefined"==typeof ender&&(sb=vb.moment,vb.moment=a?e("Accessing Moment through the global scope is deprecated, and will be removed in an upcoming release.",rb):rb)}for(var rb,sb,tb,ub="2.8.1",vb="undefined"!=typeof global?global:this,wb=Math.round,xb=0,yb=1,zb=2,Ab=3,Bb=4,Cb=5,Db=6,Eb={},Fb=[],Gb="undefined"!=typeof module&&module.exports,Hb=/^\/?Date\((\-?\d+)/i,Ib=/(\-)?(?:(\d*)\.)?(\d+)\:(\d+)(?:\:(\d+)\.?(\d{3})?)?/,Jb=/^(-)?P(?:(?:([0-9,.]*)Y)?(?:([0-9,.]*)M)?(?:([0-9,.]*)D)?(?:T(?:([0-9,.]*)H)?(?:([0-9,.]*)M)?(?:([0-9,.]*)S)?)?|([0-9,.]*)W)$/,Kb=/(\[[^\[]*\])|(\\)?(Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Q|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|mm?|ss?|S{1,4}|X|zz?|ZZ?|.)/g,Lb=/(\[[^\[]*\])|(\\)?(LT|LL?L?L?|l{1,4})/g,Mb=/\d\d?/,Nb=/\d{1,3}/,Ob=/\d{1,4}/,Pb=/[+\-]?\d{1,6}/,Qb=/\d+/,Rb=/[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i,Sb=/Z|[\+\-]\d\d:?\d\d/gi,Tb=/T/i,Ub=/[\+\-]?\d+(\.\d{1,3})?/,Vb=/\d{1,2}/,Wb=/\d/,Xb=/\d\d/,Yb=/\d{3}/,Zb=/\d{4}/,$b=/[+-]?\d{6}/,_b=/[+-]?\d+/,ac=/^\s*(?:[+-]\d{6}|\d{4})-(?:(\d\d-\d\d)|(W\d\d$)|(W\d\d-\d)|(\d\d\d))((T| )(\d\d(:\d\d(:\d\d(\.\d+)?)?)?)?([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/,bc="YYYY-MM-DDTHH:mm:ssZ",cc=[["YYYYYY-MM-DD",/[+-]\d{6}-\d{2}-\d{2}/],["YYYY-MM-DD",/\d{4}-\d{2}-\d{2}/],["GGGG-[W]WW-E",/\d{4}-W\d{2}-\d/],["GGGG-[W]WW",/\d{4}-W\d{2}/],["YYYY-DDD",/\d{4}-\d{3}/]],dc=[["HH:mm:ss.SSSS",/(T| )\d\d:\d\d:\d\d\.\d+/],["HH:mm:ss",/(T| )\d\d:\d\d:\d\d/],["HH:mm",/(T| )\d\d:\d\d/],["HH",/(T| )\d\d/]],ec=/([\+\-]|\d\d)/gi,fc=("Date|Hours|Minutes|Seconds|Milliseconds".split("|"),{Milliseconds:1,Seconds:1e3,Minutes:6e4,Hours:36e5,Days:864e5,Months:2592e6,Years:31536e6}),gc={ms:"millisecond",s:"second",m:"minute",h:"hour",d:"day",D:"date",w:"week",W:"isoWeek",M:"month",Q:"quarter",y:"year",DDD:"dayOfYear",e:"weekday",E:"isoWeekday",gg:"weekYear",GG:"isoWeekYear"},hc={dayofyear:"dayOfYear",isoweekday:"isoWeekday",isoweek:"isoWeek",weekyear:"weekYear",isoweekyear:"isoWeekYear"},ic={},jc={s:45,m:45,h:22,d:26,M:11},kc="DDD w W M D d".split(" "),lc="M D H h m s w W".split(" "),mc={M:function(){return this.month()+1},MMM:function(a){return this.localeData().monthsShort(this,a)},MMMM:function(a){return this.localeData().months(this,a)},D:function(){return this.date()},DDD:function(){return this.dayOfYear()},d:function(){return this.day()},dd:function(a){return this.localeData().weekdaysMin(this,a)},ddd:function(a){return this.localeData().weekdaysShort(this,a)},dddd:function(a){return this.localeData().weekdays(this,a)},w:function(){return this.week()},W:function(){return this.isoWeek()},YY:function(){return o(this.year()%100,2)},YYYY:function(){return o(this.year(),4)},YYYYY:function(){return o(this.year(),5)},YYYYYY:function(){var a=this.year(),b=a>=0?"+":"-";return b+o(Math.abs(a),6)},gg:function(){return o(this.weekYear()%100,2)},gggg:function(){return o(this.weekYear(),4)},ggggg:function(){return o(this.weekYear(),5)},GG:function(){return o(this.isoWeekYear()%100,2)},GGGG:function(){return o(this.isoWeekYear(),4)},GGGGG:function(){return o(this.isoWeekYear(),5)},e:function(){return this.weekday()},E:function(){return this.isoWeekday()},a:function(){return this.localeData().meridiem(this.hours(),this.minutes(),!0)},A:function(){return this.localeData().meridiem(this.hours(),this.minutes(),!1)},H:function(){return this.hours()},h:function(){return this.hours()%12||12},m:function(){return this.minutes()},s:function(){return this.seconds()},S:function(){return z(this.milliseconds()/100)},SS:function(){return o(z(this.milliseconds()/10),2)},SSS:function(){return o(this.milliseconds(),3)},SSSS:function(){return o(this.milliseconds(),3)},Z:function(){var a=-this.zone(),b="+";return 0>a&&(a=-a,b="-"),b+o(z(a/60),2)+":"+o(z(a)%60,2)},ZZ:function(){var a=-this.zone(),b="+";return 0>a&&(a=-a,b="-"),b+o(z(a/60),2)+o(z(a)%60,2)},z:function(){return this.zoneAbbr()},zz:function(){return this.zoneName()},X:function(){return this.unix()},Q:function(){return this.quarter()}},nc={},oc=["months","monthsShort","weekdays","weekdaysShort","weekdaysMin"];kc.length;)tb=kc.pop(),mc[tb+"o"]=h(mc[tb],tb);for(;lc.length;)tb=lc.pop(),mc[tb+tb]=g(mc[tb],2);mc.DDDD=g(mc.DDD,3),l(i.prototype,{set:function(a){var b,c;for(c in a)b=a[c],"function"==typeof b?this[c]=b:this["_"+c]=b},_months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),months:function(a){return this._months[a.month()]},_monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),monthsShort:function(a){return this._monthsShort[a.month()]},monthsParse:function(a){var b,c,d;for(this._monthsParse||(this._monthsParse=[]),b=0;12>b;b++)if(this._monthsParse[b]||(c=rb.utc([2e3,b]),d="^"+this.months(c,"")+"|^"+this.monthsShort(c,""),this._monthsParse[b]=new RegExp(d.replace(".",""),"i")),this._monthsParse[b].test(a))return b},_weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdays:function(a){return this._weekdays[a.day()]},_weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),weekdaysShort:function(a){return this._weekdaysShort[a.day()]},_weekdaysMin:"Su_Mo_Tu_We_Th_Fr_Sa".split("_"),weekdaysMin:function(a){return this._weekdaysMin[a.day()]},weekdaysParse:function(a){var b,c,d;for(this._weekdaysParse||(this._weekdaysParse=[]),b=0;7>b;b++)if(this._weekdaysParse[b]||(c=rb([2e3,1]).day(b),d="^"+this.weekdays(c,"")+"|^"+this.weekdaysShort(c,"")+"|^"+this.weekdaysMin(c,""),this._weekdaysParse[b]=new RegExp(d.replace(".",""),"i")),this._weekdaysParse[b].test(a))return b},_longDateFormat:{LT:"h:mm A",L:"MM/DD/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY LT",LLLL:"dddd, MMMM D, YYYY LT"},longDateFormat:function(a){var b=this._longDateFormat[a];return!b&&this._longDateFormat[a.toUpperCase()]&&(b=this._longDateFormat[a.toUpperCase()].replace(/MMMM|MM|DD|dddd/g,function(a){return a.slice(1)}),this._longDateFormat[a]=b),b},isPM:function(a){return"p"===(a+"").toLowerCase().charAt(0)},_meridiemParse:/[ap]\.?m?\.?/i,meridiem:function(a,b,c){return a>11?c?"pm":"PM":c?"am":"AM"},_calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},calendar:function(a,b){var c=this._calendar[a];return"function"==typeof c?c.apply(b):c},_relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},relativeTime:function(a,b,c,d){var e=this._relativeTime[c];return"function"==typeof e?e(a,b,c,d):e.replace(/%d/i,a)},pastFuture:function(a,b){var c=this._relativeTime[a>0?"future":"past"];return"function"==typeof c?c(b):c.replace(/%s/i,b)},ordinal:function(a){return this._ordinal.replace("%d",a)},_ordinal:"%d",preparse:function(a){return a},postformat:function(a){return a},week:function(a){return fb(a,this._week.dow,this._week.doy).week},_week:{dow:0,doy:6},_invalidDate:"Invalid date",invalidDate:function(){return this._invalidDate}}),rb=function(b,d,e,f){var g;return"boolean"==typeof e&&(f=e,e=a),g={},g._isAMomentObject=!0,g._i=b,g._f=d,g._l=e,g._strict=f,g._isUTC=!1,g._pf=c(),hb(g)},rb.suppressDeprecationWarnings=!1,rb.createFromInputFallback=e("moment construction falls back to js Date. This is discouraged and will be removed in upcoming major release. Please refer to https://github.com/moment/moment/issues/1407 for more info.",function(a){a._d=new Date(a._i)}),rb.min=function(){var a=[].slice.call(arguments,0);return ib("isBefore",a)},rb.max=function(){var a=[].slice.call(arguments,0);return ib("isAfter",a)},rb.utc=function(b,d,e,f){var g;return"boolean"==typeof e&&(f=e,e=a),g={},g._isAMomentObject=!0,g._useUTC=!0,g._isUTC=!0,g._l=e,g._i=b,g._f=d,g._strict=f,g._pf=c(),hb(g).utc()},rb.unix=function(a){return rb(1e3*a)},rb.duration=function(a,b){var c,d,e,f,g=a,h=null;return rb.isDuration(a)?g={ms:a._milliseconds,d:a._days,M:a._months}:"number"==typeof a?(g={},b?g[b]=a:g.milliseconds=a):(h=Ib.exec(a))?(c="-"===h[1]?-1:1,g={y:0,d:z(h[zb])*c,h:z(h[Ab])*c,m:z(h[Bb])*c,s:z(h[Cb])*c,ms:z(h[Db])*c}):(h=Jb.exec(a))?(c="-"===h[1]?-1:1,e=function(a){var b=a&&parseFloat(a.replace(",","."));return(isNaN(b)?0:b)*c},g={y:e(h[2]),M:e(h[3]),d:e(h[4]),h:e(h[5]),m:e(h[6]),s:e(h[7]),w:e(h[8])}):"object"==typeof g&&("from"in g||"to"in g)&&(f=q(rb(g.from),rb(g.to)),g={},g.ms=f.milliseconds,g.M=f.months),d=new k(g),rb.isDuration(a)&&a.hasOwnProperty("_locale")&&(d._locale=a._locale),d},rb.version=ub,rb.defaultFormat=bc,rb.ISO_8601=function(){},rb.momentProperties=Fb,rb.updateOffset=function(){},rb.relativeTimeThreshold=function(b,c){return jc[b]===a?!1:c===a?jc[b]:(jc[b]=c,!0)},rb.lang=e("moment.lang is deprecated. Use moment.locale instead.",function(a,b){return rb.locale(a,b)}),rb.locale=function(a,b){var c;return a&&(c="undefined"!=typeof b?rb.defineLocale(a,b):rb.localeData(a),c&&(rb.duration._locale=rb._locale=c)),rb._locale._abbr},rb.defineLocale=function(a,b){return null!==b?(b.abbr=a,Eb[a]||(Eb[a]=new i),Eb[a].set(b),rb.locale(a),Eb[a]):(delete Eb[a],null)},rb.langData=e("moment.langData is deprecated. Use moment.localeData instead.",function(a){return rb.localeData(a)}),rb.localeData=function(a){var b;if(a&&a._locale&&a._locale._abbr&&(a=a._locale._abbr),!a)return rb._locale;if(!t(a)){if(b=I(a))return b;a=[a]}return H(a)},rb.isMoment=function(a){return a instanceof j||null!=a&&a.hasOwnProperty("_isAMomentObject")},rb.isDuration=function(a){return a instanceof k};for(tb=oc.length-1;tb>=0;--tb)y(oc[tb]);rb.normalizeUnits=function(a){return w(a)},rb.invalid=function(a){var b=rb.utc(0/0);return null!=a?l(b._pf,a):b._pf.userInvalidated=!0,b},rb.parseZone=function(){return rb.apply(null,arguments).parseZone()},rb.parseTwoDigitYear=function(a){return z(a)+(z(a)>68?1900:2e3)},l(rb.fn=j.prototype,{clone:function(){return rb(this)},valueOf:function(){return+this._d+6e4*(this._offset||0)},unix:function(){return Math.floor(+this/1e3)},toString:function(){return this.clone().locale("en").format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ")},toDate:function(){return this._offset?new Date(+this):this._d},toISOString:function(){var a=rb(this).utc();return 0<a.year()&&a.year()<=9999?M(a,"YYYY-MM-DD[T]HH:mm:ss.SSS[Z]"):M(a,"YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]")},toArray:function(){var a=this;return[a.year(),a.month(),a.date(),a.hours(),a.minutes(),a.seconds(),a.milliseconds()]},isValid:function(){return F(this)},isDSTShifted:function(){return this._a?this.isValid()&&v(this._a,(this._isUTC?rb.utc(this._a):rb(this._a)).toArray())>0:!1},parsingFlags:function(){return l({},this._pf)},invalidAt:function(){return this._pf.overflow},utc:function(a){return this.zone(0,a)},local:function(a){return this._isUTC&&(this.zone(0,a),this._isUTC=!1,a&&this.add(this._d.getTimezoneOffset(),"m")),this},format:function(a){var b=M(this,a||rb.defaultFormat);return this.localeData().postformat(b)},add:r(1,"add"),subtract:r(-1,"subtract"),diff:function(a,b,c){var d,e,f=J(a,this),g=6e4*(this.zone()-f.zone());return b=w(b),"year"===b||"month"===b?(d=432e5*(this.daysInMonth()+f.daysInMonth()),e=12*(this.year()-f.year())+(this.month()-f.month()),e+=(this-rb(this).startOf("month")-(f-rb(f).startOf("month")))/d,e-=6e4*(this.zone()-rb(this).startOf("month").zone()-(f.zone()-rb(f).startOf("month").zone()))/d,"year"===b&&(e/=12)):(d=this-f,e="second"===b?d/1e3:"minute"===b?d/6e4:"hour"===b?d/36e5:"day"===b?(d-g)/864e5:"week"===b?(d-g)/6048e5:d),c?e:n(e)},from:function(a,b){return rb.duration({to:this,from:a}).locale(this.locale()).humanize(!b)},fromNow:function(a){return this.from(rb(),a)},calendar:function(a){var b=a||rb(),c=J(b,this).startOf("day"),d=this.diff(c,"days",!0),e=-6>d?"sameElse":-1>d?"lastWeek":0>d?"lastDay":1>d?"sameDay":2>d?"nextDay":7>d?"nextWeek":"sameElse";return this.format(this.localeData().calendar(e,this))},isLeapYear:function(){return D(this.year())},isDST:function(){return this.zone()<this.clone().month(0).zone()||this.zone()<this.clone().month(5).zone()},day:function(a){var b=this._isUTC?this._d.getUTCDay():this._d.getDay();return null!=a?(a=cb(a,this.localeData()),this.add(a-b,"d")):b},month:mb("Month",!0),startOf:function(a){switch(a=w(a)){case"year":this.month(0);case"quarter":case"month":this.date(1);case"week":case"isoWeek":case"day":this.hours(0);case"hour":this.minutes(0);case"minute":this.seconds(0);case"second":this.milliseconds(0)}return"week"===a?this.weekday(0):"isoWeek"===a&&this.isoWeekday(1),"quarter"===a&&this.month(3*Math.floor(this.month()/3)),this},endOf:function(a){return a=w(a),this.startOf(a).add(1,"isoWeek"===a?"week":a).subtract(1,"ms")},isAfter:function(a,b){return b="undefined"!=typeof b?b:"millisecond",+this.clone().startOf(b)>+rb(a).startOf(b)},isBefore:function(a,b){return b="undefined"!=typeof b?b:"millisecond",+this.clone().startOf(b)<+rb(a).startOf(b)},isSame:function(a,b){return b=b||"ms",+this.clone().startOf(b)===+J(a,this).startOf(b)},min:e("moment().min is deprecated, use moment.min instead. https://github.com/moment/moment/issues/1548",function(a){return a=rb.apply(null,arguments),this>a?this:a}),max:e("moment().max is deprecated, use moment.max instead. https://github.com/moment/moment/issues/1548",function(a){return a=rb.apply(null,arguments),a>this?this:a}),zone:function(a,b){var c,d=this._offset||0;return null==a?this._isUTC?d:this._d.getTimezoneOffset():("string"==typeof a&&(a=P(a)),Math.abs(a)<16&&(a=60*a),!this._isUTC&&b&&(c=this._d.getTimezoneOffset()),this._offset=a,this._isUTC=!0,null!=c&&this.subtract(c,"m"),d!==a&&(!b||this._changeInProgress?s(this,rb.duration(d-a,"m"),1,!1):this._changeInProgress||(this._changeInProgress=!0,rb.updateOffset(this,!0),this._changeInProgress=null)),this)},zoneAbbr:function(){return this._isUTC?"UTC":""},zoneName:function(){return this._isUTC?"Coordinated Universal Time":""},parseZone:function(){return this._tzm?this.zone(this._tzm):"string"==typeof this._i&&this.zone(this._i),this},hasAlignedHourOffset:function(a){return a=a?rb(a).zone():0,(this.zone()-a)%60===0},daysInMonth:function(){return A(this.year(),this.month())},dayOfYear:function(a){var b=wb((rb(this).startOf("day")-rb(this).startOf("year"))/864e5)+1;return null==a?b:this.add(a-b,"d")},quarter:function(a){return null==a?Math.ceil((this.month()+1)/3):this.month(3*(a-1)+this.month()%3)},weekYear:function(a){var b=fb(this,this.localeData()._week.dow,this.localeData()._week.doy).year;return null==a?b:this.add(a-b,"y")},isoWeekYear:function(a){var b=fb(this,1,4).year;return null==a?b:this.add(a-b,"y")},week:function(a){var b=this.localeData().week(this);return null==a?b:this.add(7*(a-b),"d")},isoWeek:function(a){var b=fb(this,1,4).week;return null==a?b:this.add(7*(a-b),"d")},weekday:function(a){var b=(this.day()+7-this.localeData()._week.dow)%7;return null==a?b:this.add(a-b,"d")},isoWeekday:function(a){return null==a?this.day()||7:this.day(this.day()%7?a:a-7)},isoWeeksInYear:function(){return B(this.year(),1,4)},weeksInYear:function(){var a=this.localeData()._week;return B(this.year(),a.dow,a.doy)},get:function(a){return a=w(a),this[a]()},set:function(a,b){return a=w(a),"function"==typeof this[a]&&this[a](b),this},locale:function(b){return b===a?this._locale._abbr:(this._locale=rb.localeData(b),this)},lang:e("moment().lang() is deprecated. Use moment().localeData() instead.",function(b){return b===a?this.localeData():(this._locale=rb.localeData(b),this)}),localeData:function(){return this._locale}}),rb.fn.millisecond=rb.fn.milliseconds=mb("Milliseconds",!1),rb.fn.second=rb.fn.seconds=mb("Seconds",!1),rb.fn.minute=rb.fn.minutes=mb("Minutes",!1),rb.fn.hour=rb.fn.hours=mb("Hours",!0),rb.fn.date=mb("Date",!0),rb.fn.dates=e("dates accessor is deprecated. Use date instead.",mb("Date",!0)),rb.fn.year=mb("FullYear",!0),rb.fn.years=e("years accessor is deprecated. Use year instead.",mb("FullYear",!0)),rb.fn.days=rb.fn.day,rb.fn.months=rb.fn.month,rb.fn.weeks=rb.fn.week,rb.fn.isoWeeks=rb.fn.isoWeek,rb.fn.quarters=rb.fn.quarter,rb.fn.toJSON=rb.fn.toISOString,l(rb.duration.fn=k.prototype,{_bubble:function(){var a,b,c,d=this._milliseconds,e=this._days,f=this._months,g=this._data,h=0;g.milliseconds=d%1e3,a=n(d/1e3),g.seconds=a%60,b=n(a/60),g.minutes=b%60,c=n(b/60),g.hours=c%24,e+=n(c/24),h=n(nb(e)),e-=n(ob(h)),f+=n(e/30),e%=30,h+=n(f/12),f%=12,g.days=e,g.months=f,g.years=h},abs:function(){return this._milliseconds=Math.abs(this._milliseconds),this._days=Math.abs(this._days),this._months=Math.abs(this._months),this._data.milliseconds=Math.abs(this._data.milliseconds),this._data.seconds=Math.abs(this._data.seconds),this._data.minutes=Math.abs(this._data.minutes),this._data.hours=Math.abs(this._data.hours),this._data.months=Math.abs(this._data.months),this._data.years=Math.abs(this._data.years),this},weeks:function(){return n(this.days()/7)},valueOf:function(){return this._milliseconds+864e5*this._days+this._months%12*2592e6+31536e6*z(this._months/12)},humanize:function(a){var b=eb(this,!a,this.localeData());return a&&(b=this.localeData().pastFuture(+this,b)),this.localeData().postformat(b)},add:function(a,b){var c=rb.duration(a,b);return this._milliseconds+=c._milliseconds,this._days+=c._days,this._months+=c._months,this._bubble(),this},subtract:function(a,b){var c=rb.duration(a,b);return this._milliseconds-=c._milliseconds,this._days-=c._days,this._months-=c._months,this._bubble(),this},get:function(a){return a=w(a),this[a.toLowerCase()+"s"]()},as:function(a){var b,c;if(a=w(a),b=this._days+this._milliseconds/864e5,"month"===a||"year"===a)return c=this._months+12*nb(b),"month"===a?c:c/12;switch(b+=ob(this._months/12),a){case"week":return b/7;case"day":return b;case"hour":return 24*b;case"minute":return 24*b*60;case"second":return 24*b*60*60;case"millisecond":return 24*b*60*60*1e3;default:throw new Error("Unknown unit "+a)}},lang:rb.fn.lang,locale:rb.fn.locale,toIsoString:e("toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)",function(){return this.toISOString()}),toISOString:function(){var a=Math.abs(this.years()),b=Math.abs(this.months()),c=Math.abs(this.days()),d=Math.abs(this.hours()),e=Math.abs(this.minutes()),f=Math.abs(this.seconds()+this.milliseconds()/1e3);return this.asSeconds()?(this.asSeconds()<0?"-":"")+"P"+(a?a+"Y":"")+(b?b+"M":"")+(c?c+"D":"")+(d||e||f?"T":"")+(d?d+"H":"")+(e?e+"M":"")+(f?f+"S":""):"P0D"},localeData:function(){return this._locale}});for(tb in fc)fc.hasOwnProperty(tb)&&pb(tb.toLowerCase());rb.duration.fn.asMilliseconds=function(){return this.as("ms")},rb.duration.fn.asSeconds=function(){return this.as("s")},rb.duration.fn.asMinutes=function(){return this.as("m")},rb.duration.fn.asHours=function(){return this.as("h")},rb.duration.fn.asDays=function(){return this.as("d")},rb.duration.fn.asWeeks=function(){return this.as("weeks")},rb.duration.fn.asMonths=function(){return this.as("M")},rb.duration.fn.asYears=function(){return this.as("y")},rb.locale("en",{ordinal:function(a){var b=a%10,c=1===z(a%100/10)?"th":1===b?"st":2===b?"nd":3===b?"rd":"th";return a+c}}),function(a){a(rb)}(function(a){return a.defineLocale("af",{months:"Januarie_Februarie_Maart_April_Mei_Junie_Julie_Augustus_September_Oktober_November_Desember".split("_"),monthsShort:"Jan_Feb_Mar_Apr_Mei_Jun_Jul_Aug_Sep_Okt_Nov_Des".split("_"),weekdays:"Sondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrydag_Saterdag".split("_"),weekdaysShort:"Son_Maa_Din_Woe_Don_Vry_Sat".split("_"),weekdaysMin:"So_Ma_Di_Wo_Do_Vr_Sa".split("_"),meridiem:function(a,b,c){return 12>a?c?"vm":"VM":c?"nm":"NM"},longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Vandag om] LT",nextDay:"[Môre om] LT",nextWeek:"dddd [om] LT",lastDay:"[Gister om] LT",lastWeek:"[Laas] dddd [om] LT",sameElse:"L"},relativeTime:{future:"oor %s",past:"%s gelede",s:"'n paar sekondes",m:"'n minuut",mm:"%d minute",h:"'n uur",hh:"%d ure",d:"'n dag",dd:"%d dae",M:"'n maand",MM:"%d maande",y:"'n jaar",yy:"%d jaar"},ordinal:function(a){return a+(1===a||8===a||a>=20?"ste":"de")
-},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("ar-ma",{months:"يناير_فبراير_مارس_أبريل_ماي_يونيو_يوليوز_غشت_شتنبر_أكتوبر_نونبر_دجنبر".split("_"),monthsShort:"يناير_فبراير_مارس_أبريل_ماي_يونيو_يوليوز_غشت_شتنبر_أكتوبر_نونبر_دجنبر".split("_"),weekdays:"الأحد_الإتنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),weekdaysShort:"احد_اتنين_ثلاثاء_اربعاء_خميس_جمعة_سبت".split("_"),weekdaysMin:"ح_ن_ث_ر_خ_ج_س".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[اليوم على الساعة] LT",nextDay:"[غدا على الساعة] LT",nextWeek:"dddd [على الساعة] LT",lastDay:"[أمس على الساعة] LT",lastWeek:"dddd [على الساعة] LT",sameElse:"L"},relativeTime:{future:"في %s",past:"منذ %s",s:"ثوان",m:"دقيقة",mm:"%d دقائق",h:"ساعة",hh:"%d ساعات",d:"يوم",dd:"%d أيام",M:"شهر",MM:"%d أشهر",y:"سنة",yy:"%d سنوات"},week:{dow:6,doy:12}})}),function(a){a(rb)}(function(a){var b={1:"١",2:"٢",3:"٣",4:"٤",5:"٥",6:"٦",7:"٧",8:"٨",9:"٩",0:"٠"},c={"١":"1","٢":"2","٣":"3","٤":"4","٥":"5","٦":"6","٧":"7","٨":"8","٩":"9","٠":"0"};return a.defineLocale("ar-sa",{months:"يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),monthsShort:"يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),weekdays:"الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),weekdaysShort:"أحد_إثنين_ثلاثاء_أربعاء_خميس_جمعة_سبت".split("_"),weekdaysMin:"ح_ن_ث_ر_خ_ج_س".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:function(a){return 12>a?"ص":"م"},calendar:{sameDay:"[اليوم على الساعة] LT",nextDay:"[غدا على الساعة] LT",nextWeek:"dddd [على الساعة] LT",lastDay:"[أمس على الساعة] LT",lastWeek:"dddd [على الساعة] LT",sameElse:"L"},relativeTime:{future:"في %s",past:"منذ %s",s:"ثوان",m:"دقيقة",mm:"%d دقائق",h:"ساعة",hh:"%d ساعات",d:"يوم",dd:"%d أيام",M:"شهر",MM:"%d أشهر",y:"سنة",yy:"%d سنوات"},preparse:function(a){return a.replace(/[۰-۹]/g,function(a){return c[a]}).replace(/،/g,",")},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]}).replace(/,/g,"،")},week:{dow:6,doy:12}})}),function(a){a(rb)}(function(a){var b={1:"١",2:"٢",3:"٣",4:"٤",5:"٥",6:"٦",7:"٧",8:"٨",9:"٩",0:"٠"},c={"١":"1","٢":"2","٣":"3","٤":"4","٥":"5","٦":"6","٧":"7","٨":"8","٩":"9","٠":"0"};return a.defineLocale("ar",{months:"يناير/ كانون الثاني_فبراير/ شباط_مارس/ آذار_أبريل/ نيسان_مايو/ أيار_يونيو/ حزيران_يوليو/ تموز_أغسطس/ آب_سبتمبر/ أيلول_أكتوبر/ تشرين الأول_نوفمبر/ تشرين الثاني_ديسمبر/ كانون الأول".split("_"),monthsShort:"يناير/ كانون الثاني_فبراير/ شباط_مارس/ آذار_أبريل/ نيسان_مايو/ أيار_يونيو/ حزيران_يوليو/ تموز_أغسطس/ آب_سبتمبر/ أيلول_أكتوبر/ تشرين الأول_نوفمبر/ تشرين الثاني_ديسمبر/ كانون الأول".split("_"),weekdays:"الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),weekdaysShort:"أحد_إثنين_ثلاثاء_أربعاء_خميس_جمعة_سبت".split("_"),weekdaysMin:"ح_ن_ث_ر_خ_ج_س".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:function(a){return 12>a?"ص":"م"},calendar:{sameDay:"[اليوم على الساعة] LT",nextDay:"[غدا على الساعة] LT",nextWeek:"dddd [على الساعة] LT",lastDay:"[أمس على الساعة] LT",lastWeek:"dddd [على الساعة] LT",sameElse:"L"},relativeTime:{future:"في %s",past:"منذ %s",s:"ثوان",m:"دقيقة",mm:"%d دقائق",h:"ساعة",hh:"%d ساعات",d:"يوم",dd:"%d أيام",M:"شهر",MM:"%d أشهر",y:"سنة",yy:"%d سنوات"},preparse:function(a){return a.replace(/[۰-۹]/g,function(a){return c[a]}).replace(/،/g,",")},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]}).replace(/,/g,"،")},week:{dow:6,doy:12}})}),function(a){a(rb)}(function(a){var b={1:"-inci",5:"-inci",8:"-inci",70:"-inci",80:"-inci",2:"-nci",7:"-nci",20:"-nci",50:"-nci",3:"-üncü",4:"-üncü",100:"-üncü",6:"-ncı",9:"-uncu",10:"-uncu",30:"-uncu",60:"-ıncı",90:"-ıncı"};return a.defineLocale("az",{months:"yanvar_fevral_mart_aprel_may_iyun_iyul_avqust_sentyabr_oktyabr_noyabr_dekabr".split("_"),monthsShort:"yan_fev_mar_apr_may_iyn_iyl_avq_sen_okt_noy_dek".split("_"),weekdays:"Bazar_Bazar ertəsi_Çərşənbə axşamı_Çərşənbə_Cümə axşamı_Cümə_Şənbə".split("_"),weekdaysShort:"Baz_BzE_ÇAx_Çər_CAx_Cüm_Şən".split("_"),weekdaysMin:"Bz_BE_ÇA_Çə_CA_Cü_Şə".split("_"),longDateFormat:{LT:"HH:mm",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[bugün saat] LT",nextDay:"[sabah saat] LT",nextWeek:"[gələn həftə] dddd [saat] LT",lastDay:"[dünən] LT",lastWeek:"[keçən həftə] dddd [saat] LT",sameElse:"L"},relativeTime:{future:"%s sonra",past:"%s əvvəl",s:"birneçə saniyyə",m:"bir dəqiqə",mm:"%d dəqiqə",h:"bir saat",hh:"%d saat",d:"bir gün",dd:"%d gün",M:"bir ay",MM:"%d ay",y:"bir il",yy:"%d il"},meridiem:function(a){return 4>a?"gecə":12>a?"səhər":17>a?"gündüz":"axşam"},ordinal:function(a){if(0===a)return a+"-ıncı";var c=a%10,d=a%100-c,e=a>=100?100:null;return a+(b[c]||b[d]||b[e])},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){function b(a,b){var c=a.split("_");return b%10===1&&b%100!==11?c[0]:b%10>=2&&4>=b%10&&(10>b%100||b%100>=20)?c[1]:c[2]}function c(a,c,d){var e={mm:c?"хвіліна_хвіліны_хвілін":"хвіліну_хвіліны_хвілін",hh:c?"гадзіна_гадзіны_гадзін":"гадзіну_гадзіны_гадзін",dd:"дзень_дні_дзён",MM:"месяц_месяцы_месяцаў",yy:"год_гады_гадоў"};return"m"===d?c?"хвіліна":"хвіліну":"h"===d?c?"гадзіна":"гадзіну":a+" "+b(e[d],+a)}function d(a,b){var c={nominative:"студзень_люты_сакавік_красавік_травень_чэрвень_ліпень_жнівень_верасень_кастрычнік_лістапад_снежань".split("_"),accusative:"студзеня_лютага_сакавіка_красавіка_траўня_чэрвеня_ліпеня_жніўня_верасня_кастрычніка_лістапада_снежня".split("_")},d=/D[oD]?(\[[^\[\]]*\]|\s+)+MMMM?/.test(b)?"accusative":"nominative";return c[d][a.month()]}function e(a,b){var c={nominative:"нядзеля_панядзелак_аўторак_серада_чацвер_пятніца_субота".split("_"),accusative:"нядзелю_панядзелак_аўторак_сераду_чацвер_пятніцу_суботу".split("_")},d=/\[ ?[Вв] ?(?:мінулую|наступную)? ?\] ?dddd/.test(b)?"accusative":"nominative";return c[d][a.day()]}return a.defineLocale("be",{months:d,monthsShort:"студ_лют_сак_крас_трав_чэрв_ліп_жнів_вер_каст_ліст_снеж".split("_"),weekdays:e,weekdaysShort:"нд_пн_ат_ср_чц_пт_сб".split("_"),weekdaysMin:"нд_пн_ат_ср_чц_пт_сб".split("_"),longDateFormat:{LT:"HH:mm",L:"DD.MM.YYYY",LL:"D MMMM YYYY г.",LLL:"D MMMM YYYY г., LT",LLLL:"dddd, D MMMM YYYY г., LT"},calendar:{sameDay:"[Сёння ў] LT",nextDay:"[Заўтра ў] LT",lastDay:"[Учора ў] LT",nextWeek:function(){return"[У] dddd [ў] LT"},lastWeek:function(){switch(this.day()){case 0:case 3:case 5:case 6:return"[У мінулую] dddd [ў] LT";case 1:case 2:case 4:return"[У мінулы] dddd [ў] LT"}},sameElse:"L"},relativeTime:{future:"праз %s",past:"%s таму",s:"некалькі секунд",m:c,mm:c,h:c,hh:c,d:"дзень",dd:c,M:"месяц",MM:c,y:"год",yy:c},meridiem:function(a){return 4>a?"ночы":12>a?"раніцы":17>a?"дня":"вечара"},ordinal:function(a,b){switch(b){case"M":case"d":case"DDD":case"w":case"W":return a%10!==2&&a%10!==3||a%100===12||a%100===13?a+"-ы":a+"-і";case"D":return a+"-га";default:return a}},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){return a.defineLocale("bg",{months:"януари_февруари_март_април_май_юни_юли_август_септември_октомври_ноември_декември".split("_"),monthsShort:"янр_фев_мар_апр_май_юни_юли_авг_сеп_окт_ное_дек".split("_"),weekdays:"неделя_понеделник_вторник_сряда_четвъртък_петък_събота".split("_"),weekdaysShort:"нед_пон_вто_сря_чет_пет_съб".split("_"),weekdaysMin:"нд_пн_вт_ср_чт_пт_сб".split("_"),longDateFormat:{LT:"H:mm",L:"D.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Днес в] LT",nextDay:"[Утре в] LT",nextWeek:"dddd [в] LT",lastDay:"[Вчера в] LT",lastWeek:function(){switch(this.day()){case 0:case 3:case 6:return"[В изминалата] dddd [в] LT";case 1:case 2:case 4:case 5:return"[В изминалия] dddd [в] LT"}},sameElse:"L"},relativeTime:{future:"след %s",past:"преди %s",s:"няколко секунди",m:"минута",mm:"%d минути",h:"час",hh:"%d часа",d:"ден",dd:"%d дни",M:"месец",MM:"%d месеца",y:"година",yy:"%d години"},ordinal:function(a){var b=a%10,c=a%100;return 0===a?a+"-ев":0===c?a+"-ен":c>10&&20>c?a+"-ти":1===b?a+"-ви":2===b?a+"-ри":7===b||8===b?a+"-ми":a+"-ти"},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){var b={1:"১",2:"২",3:"৩",4:"৪",5:"৫",6:"৬",7:"৭",8:"৮",9:"৯",0:"০"},c={"১":"1","২":"2","৩":"3","৪":"4","৫":"5","৬":"6","৭":"7","৮":"8","৯":"9","০":"0"};return a.defineLocale("bn",{months:"জানুয়ারী_ফেবুয়ারী_মার্চ_এপ্রিল_মে_জুন_জুলাই_অগাস্ট_সেপ্টেম্বর_অক্টোবর_নভেম্বর_ডিসেম্বর".split("_"),monthsShort:"জানু_ফেব_মার্চ_এপর_মে_জুন_জুল_অগ_সেপ্ট_অক্টো_নভ_ডিসেম্".split("_"),weekdays:"রবিবার_সোমবার_মঙ্গলবার_বুধবার_বৃহস্পত্তিবার_শুক্রুবার_শনিবার".split("_"),weekdaysShort:"রবি_সোম_মঙ্গল_বুধ_বৃহস্পত্তি_শুক্রু_শনি".split("_"),weekdaysMin:"রব_সম_মঙ্গ_বু_ব্রিহ_শু_শনি".split("_"),longDateFormat:{LT:"A h:mm সময়",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, LT",LLLL:"dddd, D MMMM YYYY, LT"},calendar:{sameDay:"[আজ] LT",nextDay:"[আগামীকাল] LT",nextWeek:"dddd, LT",lastDay:"[গতকাল] LT",lastWeek:"[গত] dddd, LT",sameElse:"L"},relativeTime:{future:"%s পরে",past:"%s আগে",s:"কএক সেকেন্ড",m:"এক মিনিট",mm:"%d মিনিট",h:"এক ঘন্টা",hh:"%d ঘন্টা",d:"এক দিন",dd:"%d দিন",M:"এক মাস",MM:"%d মাস",y:"এক বছর",yy:"%d বছর"},preparse:function(a){return a.replace(/[১২৩৪৫৬৭৮৯০]/g,function(a){return c[a]})},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]})},meridiem:function(a){return 4>a?"রাত":10>a?"শকাল":17>a?"দুপুর":20>a?"বিকেল":"রাত"},week:{dow:0,doy:6}})}),function(a){a(rb)}(function(a){var b={1:"༡",2:"༢",3:"༣",4:"༤",5:"༥",6:"༦",7:"༧",8:"༨",9:"༩",0:"༠"},c={"༡":"1","༢":"2","༣":"3","༤":"4","༥":"5","༦":"6","༧":"7","༨":"8","༩":"9","༠":"0"};return a.defineLocale("bo",{months:"ཟླ་བ་དང་པོ_ཟླ་བ་གཉིས་པ_ཟླ་བ་གསུམ་པ_ཟླ་བ་བཞི་པ_ཟླ་བ་ལྔ་པ_ཟླ་བ་དྲུག་པ_ཟླ་བ་བདུན་པ_ཟླ་བ་བརྒྱད་པ_ཟླ་བ་དགུ་པ_ཟླ་བ་བཅུ་པ_ཟླ་བ་བཅུ་གཅིག་པ_ཟླ་བ་བཅུ་གཉིས་པ".split("_"),monthsShort:"ཟླ་བ་དང་པོ_ཟླ་བ་གཉིས་པ_ཟླ་བ་གསུམ་པ_ཟླ་བ་བཞི་པ_ཟླ་བ་ལྔ་པ_ཟླ་བ་དྲུག་པ_ཟླ་བ་བདུན་པ_ཟླ་བ་བརྒྱད་པ_ཟླ་བ་དགུ་པ_ཟླ་བ་བཅུ་པ_ཟླ་བ་བཅུ་གཅིག་པ_ཟླ་བ་བཅུ་གཉིས་པ".split("_"),weekdays:"གཟའ་ཉི་མ་_གཟའ་ཟླ་བ་_གཟའ་མིག་དམར་_གཟའ་ལྷག་པ་_གཟའ་ཕུར་བུ_གཟའ་པ་སངས་_གཟའ་སྤེན་པ་".split("_"),weekdaysShort:"ཉི་མ་_ཟླ་བ་_མིག་དམར་_ལྷག་པ་_ཕུར་བུ_པ་སངས་_སྤེན་པ་".split("_"),weekdaysMin:"ཉི་མ་_ཟླ་བ་_མིག་དམར་_ལྷག་པ་_ཕུར་བུ_པ་སངས་_སྤེན་པ་".split("_"),longDateFormat:{LT:"A h:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, LT",LLLL:"dddd, D MMMM YYYY, LT"},calendar:{sameDay:"[དི་རིང] LT",nextDay:"[སང་ཉིན] LT",nextWeek:"[བདུན་ཕྲག་རྗེས་མ], LT",lastDay:"[ཁ་སང] LT",lastWeek:"[བདུན་ཕྲག་མཐའ་མ] dddd, LT",sameElse:"L"},relativeTime:{future:"%s ལ་",past:"%s སྔན་ལ",s:"ལམ་སང",m:"སྐར་མ་གཅིག",mm:"%d སྐར་མ",h:"ཆུ་ཚོད་གཅིག",hh:"%d ཆུ་ཚོད",d:"ཉིན་གཅིག",dd:"%d ཉིན་",M:"ཟླ་བ་གཅིག",MM:"%d ཟླ་བ",y:"ལོ་གཅིག",yy:"%d ལོ"},preparse:function(a){return a.replace(/[༡༢༣༤༥༦༧༨༩༠]/g,function(a){return c[a]})},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]})},meridiem:function(a){return 4>a?"མཚན་མོ":10>a?"ཞོགས་ཀས":17>a?"ཉིན་གུང":20>a?"དགོང་དག":"མཚན་མོ"},week:{dow:0,doy:6}})}),function(a){a(rb)}(function(b){function c(a,b,c){var d={mm:"munutenn",MM:"miz",dd:"devezh"};return a+" "+f(d[c],a)}function d(a){switch(e(a)){case 1:case 3:case 4:case 5:case 9:return a+" bloaz";default:return a+" vloaz"}}function e(a){return a>9?e(a%10):a}function f(a,b){return 2===b?g(a):a}function g(b){var c={m:"v",b:"v",d:"z"};return c[b.charAt(0)]===a?b:c[b.charAt(0)]+b.substring(1)}return b.defineLocale("br",{months:"Genver_C'hwevrer_Meurzh_Ebrel_Mae_Mezheven_Gouere_Eost_Gwengolo_Here_Du_Kerzu".split("_"),monthsShort:"Gen_C'hwe_Meu_Ebr_Mae_Eve_Gou_Eos_Gwe_Her_Du_Ker".split("_"),weekdays:"Sul_Lun_Meurzh_Merc'her_Yaou_Gwener_Sadorn".split("_"),weekdaysShort:"Sul_Lun_Meu_Mer_Yao_Gwe_Sad".split("_"),weekdaysMin:"Su_Lu_Me_Mer_Ya_Gw_Sa".split("_"),longDateFormat:{LT:"h[e]mm A",L:"DD/MM/YYYY",LL:"D [a viz] MMMM YYYY",LLL:"D [a viz] MMMM YYYY LT",LLLL:"dddd, D [a viz] MMMM YYYY LT"},calendar:{sameDay:"[Hiziv da] LT",nextDay:"[Warc'hoazh da] LT",nextWeek:"dddd [da] LT",lastDay:"[Dec'h da] LT",lastWeek:"dddd [paset da] LT",sameElse:"L"},relativeTime:{future:"a-benn %s",past:"%s 'zo",s:"un nebeud segondennoù",m:"ur vunutenn",mm:c,h:"un eur",hh:"%d eur",d:"un devezh",dd:c,M:"ur miz",MM:c,y:"ur bloaz",yy:d},ordinal:function(a){var b=1===a?"añ":"vet";return a+b},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){function b(a,b,c){var d=a+" ";switch(c){case"m":return b?"jedna minuta":"jedne minute";case"mm":return d+=1===a?"minuta":2===a||3===a||4===a?"minute":"minuta";case"h":return b?"jedan sat":"jednog sata";case"hh":return d+=1===a?"sat":2===a||3===a||4===a?"sata":"sati";case"dd":return d+=1===a?"dan":"dana";case"MM":return d+=1===a?"mjesec":2===a||3===a||4===a?"mjeseca":"mjeseci";case"yy":return d+=1===a?"godina":2===a||3===a||4===a?"godine":"godina"}}return a.defineLocale("bs",{months:"januar_februar_mart_april_maj_juni_juli_avgust_septembar_oktobar_novembar_decembar".split("_"),monthsShort:"jan._feb._mar._apr._maj._jun._jul._avg._sep._okt._nov._dec.".split("_"),weekdays:"nedjelja_ponedjeljak_utorak_srijeda_četvrtak_petak_subota".split("_"),weekdaysShort:"ned._pon._uto._sri._čet._pet._sub.".split("_"),weekdaysMin:"ne_po_ut_sr_če_pe_su".split("_"),longDateFormat:{LT:"H:mm",L:"DD. MM. YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[danas u] LT",nextDay:"[sutra u] LT",nextWeek:function(){switch(this.day()){case 0:return"[u] [nedjelju] [u] LT";case 3:return"[u] [srijedu] [u] LT";case 6:return"[u] [subotu] [u] LT";case 1:case 2:case 4:case 5:return"[u] dddd [u] LT"}},lastDay:"[jučer u] LT",lastWeek:function(){switch(this.day()){case 0:case 3:return"[prošlu] dddd [u] LT";case 6:return"[prošle] [subote] [u] LT";case 1:case 2:case 4:case 5:return"[prošli] dddd [u] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"prije %s",s:"par sekundi",m:b,mm:b,h:b,hh:b,d:"dan",dd:b,M:"mjesec",MM:b,y:"godinu",yy:b},ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){return a.defineLocale("ca",{months:"gener_febrer_març_abril_maig_juny_juliol_agost_setembre_octubre_novembre_desembre".split("_"),monthsShort:"gen._febr._mar._abr._mai._jun._jul._ag._set._oct._nov._des.".split("_"),weekdays:"diumenge_dilluns_dimarts_dimecres_dijous_divendres_dissabte".split("_"),weekdaysShort:"dg._dl._dt._dc._dj._dv._ds.".split("_"),weekdaysMin:"Dg_Dl_Dt_Dc_Dj_Dv_Ds".split("_"),longDateFormat:{LT:"H:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:function(){return"[avui a "+(1!==this.hours()?"les":"la")+"] LT"},nextDay:function(){return"[demà a "+(1!==this.hours()?"les":"la")+"] LT"},nextWeek:function(){return"dddd [a "+(1!==this.hours()?"les":"la")+"] LT"},lastDay:function(){return"[ahir a "+(1!==this.hours()?"les":"la")+"] LT"},lastWeek:function(){return"[el] dddd [passat a "+(1!==this.hours()?"les":"la")+"] LT"},sameElse:"L"},relativeTime:{future:"en %s",past:"fa %s",s:"uns segons",m:"un minut",mm:"%d minuts",h:"una hora",hh:"%d hores",d:"un dia",dd:"%d dies",M:"un mes",MM:"%d mesos",y:"un any",yy:"%d anys"},ordinal:"%dº",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){function b(a){return a>1&&5>a&&1!==~~(a/10)}function c(a,c,d,e){var f=a+" ";switch(d){case"s":return c||e?"pár sekund":"pár sekundami";case"m":return c?"minuta":e?"minutu":"minutou";case"mm":return c||e?f+(b(a)?"minuty":"minut"):f+"minutami";break;case"h":return c?"hodina":e?"hodinu":"hodinou";case"hh":return c||e?f+(b(a)?"hodiny":"hodin"):f+"hodinami";break;case"d":return c||e?"den":"dnem";case"dd":return c||e?f+(b(a)?"dny":"dní"):f+"dny";break;case"M":return c||e?"měsíc":"měsícem";case"MM":return c||e?f+(b(a)?"měsíce":"měsíců"):f+"měsíci";break;case"y":return c||e?"rok":"rokem";case"yy":return c||e?f+(b(a)?"roky":"let"):f+"lety"}}var d="leden_únor_březen_duben_květen_červen_červenec_srpen_září_říjen_listopad_prosinec".split("_"),e="led_úno_bře_dub_kvě_čvn_čvc_srp_zář_říj_lis_pro".split("_");return a.defineLocale("cs",{months:d,monthsShort:e,monthsParse:function(a,b){var c,d=[];for(c=0;12>c;c++)d[c]=new RegExp("^"+a[c]+"$|^"+b[c]+"$","i");return d}(d,e),weekdays:"neděle_pondělí_úterý_středa_čtvrtek_pátek_sobota".split("_"),weekdaysShort:"ne_po_út_st_čt_pá_so".split("_"),weekdaysMin:"ne_po_út_st_čt_pá_so".split("_"),longDateFormat:{LT:"H.mm",L:"DD. MM. YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd D. MMMM YYYY LT"},calendar:{sameDay:"[dnes v] LT",nextDay:"[zítra v] LT",nextWeek:function(){switch(this.day()){case 0:return"[v neděli v] LT";case 1:case 2:return"[v] dddd [v] LT";case 3:return"[ve středu v] LT";case 4:return"[ve čtvrtek v] LT";case 5:return"[v pátek v] LT";case 6:return"[v sobotu v] LT"}},lastDay:"[včera v] LT",lastWeek:function(){switch(this.day()){case 0:return"[minulou neděli v] LT";case 1:case 2:return"[minulé] dddd [v] LT";case 3:return"[minulou středu v] LT";case 4:case 5:return"[minulý] dddd [v] LT";case 6:return"[minulou sobotu v] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"před %s",s:c,m:c,mm:c,h:c,hh:c,d:c,dd:c,M:c,MM:c,y:c,yy:c},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("cv",{months:"кăрлач_нарăс_пуш_ака_май_çĕртме_утă_çурла_авăн_юпа_чӳк_раштав".split("_"),monthsShort:"кăр_нар_пуш_ака_май_çĕр_утă_çур_ав_юпа_чӳк_раш".split("_"),weekdays:"вырсарникун_тунтикун_ытларикун_юнкун_кĕçнерникун_эрнекун_шăматкун".split("_"),weekdaysShort:"выр_тун_ытл_юн_кĕç_эрн_шăм".split("_"),weekdaysMin:"вр_тн_ыт_юн_кç_эр_шм".split("_"),longDateFormat:{LT:"HH:mm",L:"DD-MM-YYYY",LL:"YYYY [çулхи] MMMM [уйăхĕн] D[-мĕшĕ]",LLL:"YYYY [çулхи] MMMM [уйăхĕн] D[-мĕшĕ], LT",LLLL:"dddd, YYYY [çулхи] MMMM [уйăхĕн] D[-мĕшĕ], LT"},calendar:{sameDay:"[Паян] LT [сехетре]",nextDay:"[Ыран] LT [сехетре]",lastDay:"[Ĕнер] LT [сехетре]",nextWeek:"[Çитес] dddd LT [сехетре]",lastWeek:"[Иртнĕ] dddd LT [сехетре]",sameElse:"L"},relativeTime:{future:function(a){var b=/сехет$/i.exec(a)?"рен":/çул$/i.exec(a)?"тан":"ран";return a+b},past:"%s каялла",s:"пĕр-ик çеккунт",m:"пĕр минут",mm:"%d минут",h:"пĕр сехет",hh:"%d сехет",d:"пĕр кун",dd:"%d кун",M:"пĕр уйăх",MM:"%d уйăх",y:"пĕр çул",yy:"%d çул"},ordinal:"%d-мĕш",week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){return a.defineLocale("cy",{months:"Ionawr_Chwefror_Mawrth_Ebrill_Mai_Mehefin_Gorffennaf_Awst_Medi_Hydref_Tachwedd_Rhagfyr".split("_"),monthsShort:"Ion_Chwe_Maw_Ebr_Mai_Meh_Gor_Aws_Med_Hyd_Tach_Rhag".split("_"),weekdays:"Dydd Sul_Dydd Llun_Dydd Mawrth_Dydd Mercher_Dydd Iau_Dydd Gwener_Dydd Sadwrn".split("_"),weekdaysShort:"Sul_Llun_Maw_Mer_Iau_Gwe_Sad".split("_"),weekdaysMin:"Su_Ll_Ma_Me_Ia_Gw_Sa".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Heddiw am] LT",nextDay:"[Yfory am] LT",nextWeek:"dddd [am] LT",lastDay:"[Ddoe am] LT",lastWeek:"dddd [diwethaf am] LT",sameElse:"L"},relativeTime:{future:"mewn %s",past:"%s yn ôl",s:"ychydig eiliadau",m:"munud",mm:"%d munud",h:"awr",hh:"%d awr",d:"diwrnod",dd:"%d diwrnod",M:"mis",MM:"%d mis",y:"blwyddyn",yy:"%d flynedd"},ordinal:function(a){var b=a,c="",d=["","af","il","ydd","ydd","ed","ed","ed","fed","fed","fed","eg","fed","eg","eg","fed","eg","eg","fed","eg","fed"];return b>20?c=40===b||50===b||60===b||80===b||100===b?"fed":"ain":b>0&&(c=d[b]),a+c},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("da",{months:"januar_februar_marts_april_maj_juni_juli_august_september_oktober_november_december".split("_"),monthsShort:"jan_feb_mar_apr_maj_jun_jul_aug_sep_okt_nov_dec".split("_"),weekdays:"søndag_mandag_tirsdag_onsdag_torsdag_fredag_lørdag".split("_"),weekdaysShort:"søn_man_tir_ons_tor_fre_lør".split("_"),weekdaysMin:"sø_ma_ti_on_to_fr_lø".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd [d.] D. MMMM YYYY LT"},calendar:{sameDay:"[I dag kl.] LT",nextDay:"[I morgen kl.] LT",nextWeek:"dddd [kl.] LT",lastDay:"[I går kl.] LT",lastWeek:"[sidste] dddd [kl] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"%s siden",s:"få sekunder",m:"et minut",mm:"%d minutter",h:"en time",hh:"%d timer",d:"en dag",dd:"%d dage",M:"en måned",MM:"%d måneder",y:"et år",yy:"%d år"},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){function b(a,b,c){var d={m:["eine Minute","einer Minute"],h:["eine Stunde","einer Stunde"],d:["ein Tag","einem Tag"],dd:[a+" Tage",a+" Tagen"],M:["ein Monat","einem Monat"],MM:[a+" Monate",a+" Monaten"],y:["ein Jahr","einem Jahr"],yy:[a+" Jahre",a+" Jahren"]};return b?d[c][0]:d[c][1]}return a.defineLocale("de-at",{months:"Jänner_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),monthsShort:"Jän._Febr._Mrz._Apr._Mai_Jun._Jul._Aug._Sept._Okt._Nov._Dez.".split("_"),weekdays:"Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split("_"),weekdaysShort:"So._Mo._Di._Mi._Do._Fr._Sa.".split("_"),weekdaysMin:"So_Mo_Di_Mi_Do_Fr_Sa".split("_"),longDateFormat:{LT:"HH:mm [Uhr]",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[Heute um] LT",sameElse:"L",nextDay:"[Morgen um] LT",nextWeek:"dddd [um] LT",lastDay:"[Gestern um] LT",lastWeek:"[letzten] dddd [um] LT"},relativeTime:{future:"in %s",past:"vor %s",s:"ein paar Sekunden",m:b,mm:"%d Minuten",h:b,hh:"%d Stunden",d:b,dd:b,M:b,MM:b,y:b,yy:b},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){function b(a,b,c){var d={m:["eine Minute","einer Minute"],h:["eine Stunde","einer Stunde"],d:["ein Tag","einem Tag"],dd:[a+" Tage",a+" Tagen"],M:["ein Monat","einem Monat"],MM:[a+" Monate",a+" Monaten"],y:["ein Jahr","einem Jahr"],yy:[a+" Jahre",a+" Jahren"]};return b?d[c][0]:d[c][1]}return a.defineLocale("de",{months:"Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),monthsShort:"Jan._Febr._Mrz._Apr._Mai_Jun._Jul._Aug._Sept._Okt._Nov._Dez.".split("_"),weekdays:"Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split("_"),weekdaysShort:"So._Mo._Di._Mi._Do._Fr._Sa.".split("_"),weekdaysMin:"So_Mo_Di_Mi_Do_Fr_Sa".split("_"),longDateFormat:{LT:"HH:mm [Uhr]",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[Heute um] LT",sameElse:"L",nextDay:"[Morgen um] LT",nextWeek:"dddd [um] LT",lastDay:"[Gestern um] LT",lastWeek:"[letzten] dddd [um] LT"},relativeTime:{future:"in %s",past:"vor %s",s:"ein paar Sekunden",m:b,mm:"%d Minuten",h:b,hh:"%d Stunden",d:b,dd:b,M:b,MM:b,y:b,yy:b},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("el",{monthsNominativeEl:"Ιανουάριος_Φεβρουάριος_Μάρτιος_Απρίλιος_Μάιος_Ιούνιος_Ιούλιος_Αύγουστος_Σεπτέμβριος_Οκτώβριος_Νοέμβριος_Δεκέμβριος".split("_"),monthsGenitiveEl:"Ιανουαρίου_Φεβρουαρίου_Μαρτίου_Απριλίου_Μαΐου_Ιουνίου_Ιουλίου_Αυγούστου_Σεπτεμβρίου_Οκτωβρίου_Νοεμβρίου_Δεκεμβρίου".split("_"),months:function(a,b){return/D/.test(b.substring(0,b.indexOf("MMMM")))?this._monthsGenitiveEl[a.month()]:this._monthsNominativeEl[a.month()]},monthsShort:"Ιαν_Φεβ_Μαρ_Απρ_Μαϊ_Ιουν_Ιουλ_Αυγ_Σεπ_Οκτ_Νοε_Δεκ".split("_"),weekdays:"Κυριακή_Δευτέρα_Τρίτη_Τετάρτη_Πέμπτη_Παρασκευή_Σάββατο".split("_"),weekdaysShort:"Κυρ_Δευ_Τρι_Τετ_Πεμ_Παρ_Σαβ".split("_"),weekdaysMin:"Κυ_Δε_Τρ_Τε_Πε_Πα_Σα".split("_"),meridiem:function(a,b,c){return a>11?c?"μμ":"ΜΜ":c?"πμ":"ΠΜ"},longDateFormat:{LT:"h:mm A",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendarEl:{sameDay:"[Σήμερα {}] LT",nextDay:"[Αύριο {}] LT",nextWeek:"dddd [{}] LT",lastDay:"[Χθες {}] LT",lastWeek:function(){switch(this.day()){case 6:return"[το προηγούμενο] dddd [{}] LT";default:return"[την προηγούμενη] dddd [{}] LT"}},sameElse:"L"},calendar:function(a,b){var c=this._calendarEl[a],d=b&&b.hours();return"function"==typeof c&&(c=c.apply(b)),c.replace("{}",d%12===1?"στη":"στις")},relativeTime:{future:"σε %s",past:"%s πριν",s:"δευτερόλεπτα",m:"ένα λεπτό",mm:"%d λεπτά",h:"μία ώρα",hh:"%d ώρες",d:"μία μέρα",dd:"%d μέρες",M:"ένας μήνας",MM:"%d μήνες",y:"ένας χρόνος",yy:"%d χρόνια"},ordinal:function(a){return a+"η"},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("en-au",{months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),weekdaysMin:"Su_Mo_Tu_We_Th_Fr_Sa".split("_"),longDateFormat:{LT:"h:mm A",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},ordinal:function(a){var b=a%10,c=1===~~(a%100/10)?"th":1===b?"st":2===b?"nd":3===b?"rd":"th";return a+c},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("en-ca",{months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),weekdaysMin:"Su_Mo_Tu_We_Th_Fr_Sa".split("_"),longDateFormat:{LT:"h:mm A",L:"YYYY-MM-DD",LL:"D MMMM, YYYY",LLL:"D MMMM, YYYY LT",LLLL:"dddd, D MMMM, YYYY LT"},calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},ordinal:function(a){var b=a%10,c=1===~~(a%100/10)?"th":1===b?"st":2===b?"nd":3===b?"rd":"th";return a+c}})}),function(a){a(rb)}(function(a){return a.defineLocale("en-gb",{months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),weekdaysMin:"Su_Mo_Tu_We_Th_Fr_Sa".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[Last] dddd [at] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},ordinal:function(a){var b=a%10,c=1===~~(a%100/10)?"th":1===b?"st":2===b?"nd":3===b?"rd":"th";return a+c},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("eo",{months:"januaro_februaro_marto_aprilo_majo_junio_julio_aŭgusto_septembro_oktobro_novembro_decembro".split("_"),monthsShort:"jan_feb_mar_apr_maj_jun_jul_aŭg_sep_okt_nov_dec".split("_"),weekdays:"Dimanĉo_Lundo_Mardo_Merkredo_Ĵaŭdo_Vendredo_Sabato".split("_"),weekdaysShort:"Dim_Lun_Mard_Merk_Ĵaŭ_Ven_Sab".split("_"),weekdaysMin:"Di_Lu_Ma_Me_Ĵa_Ve_Sa".split("_"),longDateFormat:{LT:"HH:mm",L:"YYYY-MM-DD",LL:"D[-an de] MMMM, YYYY",LLL:"D[-an de] MMMM, YYYY LT",LLLL:"dddd, [la] D[-an de] MMMM, YYYY LT"},meridiem:function(a,b,c){return a>11?c?"p.t.m.":"P.T.M.":c?"a.t.m.":"A.T.M."},calendar:{sameDay:"[Hodiaŭ je] LT",nextDay:"[Morgaŭ je] LT",nextWeek:"dddd [je] LT",lastDay:"[Hieraŭ je] LT",lastWeek:"[pasinta] dddd [je] LT",sameElse:"L"},relativeTime:{future:"je %s",past:"antaŭ %s",s:"sekundoj",m:"minuto",mm:"%d minutoj",h:"horo",hh:"%d horoj",d:"tago",dd:"%d tagoj",M:"monato",MM:"%d monatoj",y:"jaro",yy:"%d jaroj"},ordinal:"%da",week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){var b="ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.".split("_"),c="ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic".split("_");return a.defineLocale("es",{months:"enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre".split("_"),monthsShort:function(a,d){return/-MMM-/.test(d)?c[a.month()]:b[a.month()]},weekdays:"domingo_lunes_martes_miércoles_jueves_viernes_sábado".split("_"),weekdaysShort:"dom._lun._mar._mié._jue._vie._sáb.".split("_"),weekdaysMin:"Do_Lu_Ma_Mi_Ju_Vi_Sá".split("_"),longDateFormat:{LT:"H:mm",L:"DD/MM/YYYY",LL:"D [de] MMMM [del] YYYY",LLL:"D [de] MMMM [del] YYYY LT",LLLL:"dddd, D [de] MMMM [del] YYYY LT"},calendar:{sameDay:function(){return"[hoy a la"+(1!==this.hours()?"s":"")+"] LT"},nextDay:function(){return"[mañana a la"+(1!==this.hours()?"s":"")+"] LT"},nextWeek:function(){return"dddd [a la"+(1!==this.hours()?"s":"")+"] LT"},lastDay:function(){return"[ayer a la"+(1!==this.hours()?"s":"")+"] LT"},lastWeek:function(){return"[el] dddd [pasado a la"+(1!==this.hours()?"s":"")+"] LT"},sameElse:"L"},relativeTime:{future:"en %s",past:"hace %s",s:"unos segundos",m:"un minuto",mm:"%d minutos",h:"una hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un año",yy:"%d años"},ordinal:"%dº",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){function b(a,b,c,d){var e={s:["mõne sekundi","mõni sekund","paar sekundit"],m:["ühe minuti","üks minut"],mm:[a+" minuti",a+" minutit"],h:["ühe tunni","tund aega","üks tund"],hh:[a+" tunni",a+" tundi"],d:["ühe päeva","üks päev"],M:["kuu aja","kuu aega","üks kuu"],MM:[a+" kuu",a+" kuud"],y:["ühe aasta","aasta","üks aasta"],yy:[a+" aasta",a+" aastat"]};return b?e[c][2]?e[c][2]:e[c][1]:d?e[c][0]:e[c][1]}return a.defineLocale("et",{months:"jaanuar_veebruar_märts_aprill_mai_juuni_juuli_august_september_oktoober_november_detsember".split("_"),monthsShort:"jaan_veebr_märts_apr_mai_juuni_juuli_aug_sept_okt_nov_dets".split("_"),weekdays:"pühapäev_esmaspäev_teisipäev_kolmapäev_neljapäev_reede_laupäev".split("_"),weekdaysShort:"P_E_T_K_N_R_L".split("_"),weekdaysMin:"P_E_T_K_N_R_L".split("_"),longDateFormat:{LT:"H:mm",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[Täna,] LT",nextDay:"[Homme,] LT",nextWeek:"[Järgmine] dddd LT",lastDay:"[Eile,] LT",lastWeek:"[Eelmine] dddd LT",sameElse:"L"},relativeTime:{future:"%s pärast",past:"%s tagasi",s:b,m:b,mm:b,h:b,hh:b,d:b,dd:"%d päeva",M:b,MM:b,y:b,yy:b},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("eu",{months:"urtarrila_otsaila_martxoa_apirila_maiatza_ekaina_uztaila_abuztua_iraila_urria_azaroa_abendua".split("_"),monthsShort:"urt._ots._mar._api._mai._eka._uzt._abu._ira._urr._aza._abe.".split("_"),weekdays:"igandea_astelehena_asteartea_asteazkena_osteguna_ostirala_larunbata".split("_"),weekdaysShort:"ig._al._ar._az._og._ol._lr.".split("_"),weekdaysMin:"ig_al_ar_az_og_ol_lr".split("_"),longDateFormat:{LT:"HH:mm",L:"YYYY-MM-DD",LL:"YYYY[ko] MMMM[ren] D[a]",LLL:"YYYY[ko] MMMM[ren] D[a] LT",LLLL:"dddd, YYYY[ko] MMMM[ren] D[a] LT",l:"YYYY-M-D",ll:"YYYY[ko] MMM D[a]",lll:"YYYY[ko] MMM D[a] LT",llll:"ddd, YYYY[ko] MMM D[a] LT"},calendar:{sameDay:"[gaur] LT[etan]",nextDay:"[bihar] LT[etan]",nextWeek:"dddd LT[etan]",lastDay:"[atzo] LT[etan]",lastWeek:"[aurreko] dddd LT[etan]",sameElse:"L"},relativeTime:{future:"%s barru",past:"duela %s",s:"segundo batzuk",m:"minutu bat",mm:"%d minutu",h:"ordu bat",hh:"%d ordu",d:"egun bat",dd:"%d egun",M:"hilabete bat",MM:"%d hilabete",y:"urte bat",yy:"%d urte"},ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){var b={1:"۱",2:"۲",3:"۳",4:"۴",5:"۵",6:"۶",7:"۷",8:"۸",9:"۹",0:"۰"},c={"۱":"1","۲":"2","۳":"3","۴":"4","۵":"5","۶":"6","۷":"7","۸":"8","۹":"9","۰":"0"};
-return a.defineLocale("fa",{months:"ژانویه_فوریه_مارس_آوریل_مه_ژوئن_ژوئیه_اوت_سپتامبر_اکتبر_نوامبر_دسامبر".split("_"),monthsShort:"ژانویه_فوریه_مارس_آوریل_مه_ژوئن_ژوئیه_اوت_سپتامبر_اکتبر_نوامبر_دسامبر".split("_"),weekdays:"یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه".split("_"),weekdaysShort:"یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه".split("_"),weekdaysMin:"ی_د_س_چ_پ_ج_ش".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},meridiem:function(a){return 12>a?"قبل از ظهر":"بعد از ظهر"},calendar:{sameDay:"[امروز ساعت] LT",nextDay:"[فردا ساعت] LT",nextWeek:"dddd [ساعت] LT",lastDay:"[دیروز ساعت] LT",lastWeek:"dddd [پیش] [ساعت] LT",sameElse:"L"},relativeTime:{future:"در %s",past:"%s پیش",s:"چندین ثانیه",m:"یک دقیقه",mm:"%d دقیقه",h:"یک ساعت",hh:"%d ساعت",d:"یک روز",dd:"%d روز",M:"یک ماه",MM:"%d ماه",y:"یک سال",yy:"%d سال"},preparse:function(a){return a.replace(/[۰-۹]/g,function(a){return c[a]}).replace(/،/g,",")},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]}).replace(/,/g,"،")},ordinal:"%dم",week:{dow:6,doy:12}})}),function(a){a(rb)}(function(a){function b(a,b,d,e){var f="";switch(d){case"s":return e?"muutaman sekunnin":"muutama sekunti";case"m":return e?"minuutin":"minuutti";case"mm":f=e?"minuutin":"minuuttia";break;case"h":return e?"tunnin":"tunti";case"hh":f=e?"tunnin":"tuntia";break;case"d":return e?"päivän":"päivä";case"dd":f=e?"päivän":"päivää";break;case"M":return e?"kuukauden":"kuukausi";case"MM":f=e?"kuukauden":"kuukautta";break;case"y":return e?"vuoden":"vuosi";case"yy":f=e?"vuoden":"vuotta"}return f=c(a,e)+" "+f}function c(a,b){return 10>a?b?e[a]:d[a]:a}var d="nolla yksi kaksi kolme neljä viisi kuusi seitsemän kahdeksan yhdeksän".split(" "),e=["nolla","yhden","kahden","kolmen","neljän","viiden","kuuden",d[7],d[8],d[9]];return a.defineLocale("fi",{months:"tammikuu_helmikuu_maaliskuu_huhtikuu_toukokuu_kesäkuu_heinäkuu_elokuu_syyskuu_lokakuu_marraskuu_joulukuu".split("_"),monthsShort:"tammi_helmi_maalis_huhti_touko_kesä_heinä_elo_syys_loka_marras_joulu".split("_"),weekdays:"sunnuntai_maanantai_tiistai_keskiviikko_torstai_perjantai_lauantai".split("_"),weekdaysShort:"su_ma_ti_ke_to_pe_la".split("_"),weekdaysMin:"su_ma_ti_ke_to_pe_la".split("_"),longDateFormat:{LT:"HH.mm",L:"DD.MM.YYYY",LL:"Do MMMM[ta] YYYY",LLL:"Do MMMM[ta] YYYY, [klo] LT",LLLL:"dddd, Do MMMM[ta] YYYY, [klo] LT",l:"D.M.YYYY",ll:"Do MMM YYYY",lll:"Do MMM YYYY, [klo] LT",llll:"ddd, Do MMM YYYY, [klo] LT"},calendar:{sameDay:"[tänään] [klo] LT",nextDay:"[huomenna] [klo] LT",nextWeek:"dddd [klo] LT",lastDay:"[eilen] [klo] LT",lastWeek:"[viime] dddd[na] [klo] LT",sameElse:"L"},relativeTime:{future:"%s päästä",past:"%s sitten",s:b,m:b,mm:b,h:b,hh:b,d:b,dd:b,M:b,MM:b,y:b,yy:b},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("fo",{months:"januar_februar_mars_apríl_mai_juni_juli_august_september_oktober_november_desember".split("_"),monthsShort:"jan_feb_mar_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_"),weekdays:"sunnudagur_mánadagur_týsdagur_mikudagur_hósdagur_fríggjadagur_leygardagur".split("_"),weekdaysShort:"sun_mán_týs_mik_hós_frí_ley".split("_"),weekdaysMin:"su_má_tý_mi_hó_fr_le".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D. MMMM, YYYY LT"},calendar:{sameDay:"[Í dag kl.] LT",nextDay:"[Í morgin kl.] LT",nextWeek:"dddd [kl.] LT",lastDay:"[Í gjár kl.] LT",lastWeek:"[síðstu] dddd [kl] LT",sameElse:"L"},relativeTime:{future:"um %s",past:"%s síðani",s:"fá sekund",m:"ein minutt",mm:"%d minuttir",h:"ein tími",hh:"%d tímar",d:"ein dagur",dd:"%d dagar",M:"ein mánaði",MM:"%d mánaðir",y:"eitt ár",yy:"%d ár"},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("fr-ca",{months:"janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),monthsShort:"janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),weekdays:"dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),weekdaysShort:"dim._lun._mar._mer._jeu._ven._sam.".split("_"),weekdaysMin:"Di_Lu_Ma_Me_Je_Ve_Sa".split("_"),longDateFormat:{LT:"HH:mm",L:"YYYY-MM-DD",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[Aujourd'hui à] LT",nextDay:"[Demain à] LT",nextWeek:"dddd [à] LT",lastDay:"[Hier à] LT",lastWeek:"dddd [dernier à] LT",sameElse:"L"},relativeTime:{future:"dans %s",past:"il y a %s",s:"quelques secondes",m:"une minute",mm:"%d minutes",h:"une heure",hh:"%d heures",d:"un jour",dd:"%d jours",M:"un mois",MM:"%d mois",y:"un an",yy:"%d ans"},ordinal:function(a){return a+(1===a?"er":"")}})}),function(a){a(rb)}(function(a){return a.defineLocale("fr",{months:"janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),monthsShort:"janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),weekdays:"dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),weekdaysShort:"dim._lun._mar._mer._jeu._ven._sam.".split("_"),weekdaysMin:"Di_Lu_Ma_Me_Je_Ve_Sa".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[Aujourd'hui à] LT",nextDay:"[Demain à] LT",nextWeek:"dddd [à] LT",lastDay:"[Hier à] LT",lastWeek:"dddd [dernier à] LT",sameElse:"L"},relativeTime:{future:"dans %s",past:"il y a %s",s:"quelques secondes",m:"une minute",mm:"%d minutes",h:"une heure",hh:"%d heures",d:"un jour",dd:"%d jours",M:"un mois",MM:"%d mois",y:"un an",yy:"%d ans"},ordinal:function(a){return a+(1===a?"er":"")},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("gl",{months:"Xaneiro_Febreiro_Marzo_Abril_Maio_Xuño_Xullo_Agosto_Setembro_Outubro_Novembro_Decembro".split("_"),monthsShort:"Xan._Feb._Mar._Abr._Mai._Xuñ._Xul._Ago._Set._Out._Nov._Dec.".split("_"),weekdays:"Domingo_Luns_Martes_Mércores_Xoves_Venres_Sábado".split("_"),weekdaysShort:"Dom._Lun._Mar._Mér._Xov._Ven._Sáb.".split("_"),weekdaysMin:"Do_Lu_Ma_Mé_Xo_Ve_Sá".split("_"),longDateFormat:{LT:"H:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:function(){return"[hoxe "+(1!==this.hours()?"ás":"á")+"] LT"},nextDay:function(){return"[mañá "+(1!==this.hours()?"ás":"á")+"] LT"},nextWeek:function(){return"dddd ["+(1!==this.hours()?"ás":"a")+"] LT"},lastDay:function(){return"[onte "+(1!==this.hours()?"á":"a")+"] LT"},lastWeek:function(){return"[o] dddd [pasado "+(1!==this.hours()?"ás":"a")+"] LT"},sameElse:"L"},relativeTime:{future:function(a){return"uns segundos"===a?"nuns segundos":"en "+a},past:"hai %s",s:"uns segundos",m:"un minuto",mm:"%d minutos",h:"unha hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un ano",yy:"%d anos"},ordinal:"%dº",week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){return a.defineLocale("he",{months:"ינואר_פברואר_מרץ_אפריל_מאי_יוני_יולי_אוגוסט_ספטמבר_אוקטובר_נובמבר_דצמבר".split("_"),monthsShort:"ינו׳_פבר׳_מרץ_אפר׳_מאי_יוני_יולי_אוג׳_ספט׳_אוק׳_נוב׳_דצמ׳".split("_"),weekdays:"ראשון_שני_שלישי_רביעי_חמישי_שישי_שבת".split("_"),weekdaysShort:"א׳_ב׳_ג׳_ד׳_ה׳_ו׳_ש׳".split("_"),weekdaysMin:"א_ב_ג_ד_ה_ו_ש".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D [ב]MMMM YYYY",LLL:"D [ב]MMMM YYYY LT",LLLL:"dddd, D [ב]MMMM YYYY LT",l:"D/M/YYYY",ll:"D MMM YYYY",lll:"D MMM YYYY LT",llll:"ddd, D MMM YYYY LT"},calendar:{sameDay:"[היום ב־]LT",nextDay:"[מחר ב־]LT",nextWeek:"dddd [בשעה] LT",lastDay:"[אתמול ב־]LT",lastWeek:"[ביום] dddd [האחרון בשעה] LT",sameElse:"L"},relativeTime:{future:"בעוד %s",past:"לפני %s",s:"מספר שניות",m:"דקה",mm:"%d דקות",h:"שעה",hh:function(a){return 2===a?"שעתיים":a+" שעות"},d:"יום",dd:function(a){return 2===a?"יומיים":a+" ימים"},M:"חודש",MM:function(a){return 2===a?"חודשיים":a+" חודשים"},y:"שנה",yy:function(a){return 2===a?"שנתיים":a+" שנים"}}})}),function(a){a(rb)}(function(a){var b={1:"१",2:"२",3:"३",4:"४",5:"५",6:"६",7:"७",8:"८",9:"९",0:"०"},c={"१":"1","२":"2","३":"3","४":"4","५":"5","६":"6","७":"7","८":"8","९":"9","०":"0"};return a.defineLocale("hi",{months:"जनवरी_फ़रवरी_मार्च_अप्रैल_मई_जून_जुलाई_अगस्त_सितम्बर_अक्टूबर_नवम्बर_दिसम्बर".split("_"),monthsShort:"जन._फ़र._मार्च_अप्रै._मई_जून_जुल._अग._सित._अक्टू._नव._दिस.".split("_"),weekdays:"रविवार_सोमवार_मंगलवार_बुधवार_गुरूवार_शुक्रवार_शनिवार".split("_"),weekdaysShort:"रवि_सोम_मंगल_बुध_गुरू_शुक्र_शनि".split("_"),weekdaysMin:"र_सो_मं_बु_गु_शु_श".split("_"),longDateFormat:{LT:"A h:mm बजे",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, LT",LLLL:"dddd, D MMMM YYYY, LT"},calendar:{sameDay:"[आज] LT",nextDay:"[कल] LT",nextWeek:"dddd, LT",lastDay:"[कल] LT",lastWeek:"[पिछले] dddd, LT",sameElse:"L"},relativeTime:{future:"%s में",past:"%s पहले",s:"कुछ ही क्षण",m:"एक मिनट",mm:"%d मिनट",h:"एक घंटा",hh:"%d घंटे",d:"एक दिन",dd:"%d दिन",M:"एक महीने",MM:"%d महीने",y:"एक वर्ष",yy:"%d वर्ष"},preparse:function(a){return a.replace(/[१२३४५६७८९०]/g,function(a){return c[a]})},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]})},meridiem:function(a){return 4>a?"रात":10>a?"सुबह":17>a?"दोपहर":20>a?"शाम":"रात"},week:{dow:0,doy:6}})}),function(a){a(rb)}(function(a){function b(a,b,c){var d=a+" ";switch(c){case"m":return b?"jedna minuta":"jedne minute";case"mm":return d+=1===a?"minuta":2===a||3===a||4===a?"minute":"minuta";case"h":return b?"jedan sat":"jednog sata";case"hh":return d+=1===a?"sat":2===a||3===a||4===a?"sata":"sati";case"dd":return d+=1===a?"dan":"dana";case"MM":return d+=1===a?"mjesec":2===a||3===a||4===a?"mjeseca":"mjeseci";case"yy":return d+=1===a?"godina":2===a||3===a||4===a?"godine":"godina"}}return a.defineLocale("hr",{months:"sječanj_veljača_ožujak_travanj_svibanj_lipanj_srpanj_kolovoz_rujan_listopad_studeni_prosinac".split("_"),monthsShort:"sje._vel._ožu._tra._svi._lip._srp._kol._ruj._lis._stu._pro.".split("_"),weekdays:"nedjelja_ponedjeljak_utorak_srijeda_četvrtak_petak_subota".split("_"),weekdaysShort:"ned._pon._uto._sri._čet._pet._sub.".split("_"),weekdaysMin:"ne_po_ut_sr_če_pe_su".split("_"),longDateFormat:{LT:"H:mm",L:"DD. MM. YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[danas u] LT",nextDay:"[sutra u] LT",nextWeek:function(){switch(this.day()){case 0:return"[u] [nedjelju] [u] LT";case 3:return"[u] [srijedu] [u] LT";case 6:return"[u] [subotu] [u] LT";case 1:case 2:case 4:case 5:return"[u] dddd [u] LT"}},lastDay:"[jučer u] LT",lastWeek:function(){switch(this.day()){case 0:case 3:return"[prošlu] dddd [u] LT";case 6:return"[prošle] [subote] [u] LT";case 1:case 2:case 4:case 5:return"[prošli] dddd [u] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"prije %s",s:"par sekundi",m:b,mm:b,h:b,hh:b,d:"dan",dd:b,M:"mjesec",MM:b,y:"godinu",yy:b},ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){function b(a,b,c,d){var e=a;switch(c){case"s":return d||b?"néhány másodperc":"néhány másodperce";case"m":return"egy"+(d||b?" perc":" perce");case"mm":return e+(d||b?" perc":" perce");case"h":return"egy"+(d||b?" óra":" órája");case"hh":return e+(d||b?" óra":" órája");case"d":return"egy"+(d||b?" nap":" napja");case"dd":return e+(d||b?" nap":" napja");case"M":return"egy"+(d||b?" hónap":" hónapja");case"MM":return e+(d||b?" hónap":" hónapja");case"y":return"egy"+(d||b?" év":" éve");case"yy":return e+(d||b?" év":" éve")}return""}function c(a){return(a?"":"[múlt] ")+"["+d[this.day()]+"] LT[-kor]"}var d="vasárnap hétfőn kedden szerdán csütörtökön pénteken szombaton".split(" ");return a.defineLocale("hu",{months:"január_február_március_április_május_június_július_augusztus_szeptember_október_november_december".split("_"),monthsShort:"jan_feb_márc_ápr_máj_jún_júl_aug_szept_okt_nov_dec".split("_"),weekdays:"vasárnap_hétfő_kedd_szerda_csütörtök_péntek_szombat".split("_"),weekdaysShort:"vas_hét_kedd_sze_csüt_pén_szo".split("_"),weekdaysMin:"v_h_k_sze_cs_p_szo".split("_"),longDateFormat:{LT:"H:mm",L:"YYYY.MM.DD.",LL:"YYYY. MMMM D.",LLL:"YYYY. MMMM D., LT",LLLL:"YYYY. MMMM D., dddd LT"},meridiem:function(a,b,c){return 12>a?c===!0?"de":"DE":c===!0?"du":"DU"},calendar:{sameDay:"[ma] LT[-kor]",nextDay:"[holnap] LT[-kor]",nextWeek:function(){return c.call(this,!0)},lastDay:"[tegnap] LT[-kor]",lastWeek:function(){return c.call(this,!1)},sameElse:"L"},relativeTime:{future:"%s múlva",past:"%s",s:b,m:b,mm:b,h:b,hh:b,d:b,dd:b,M:b,MM:b,y:b,yy:b},ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){function b(a,b){var c={nominative:"հունվար_փետրվար_մարտ_ապրիլ_մայիս_հունիս_հուլիս_օգոստոս_սեպտեմբեր_հոկտեմբեր_նոյեմբեր_դեկտեմբեր".split("_"),accusative:"հունվարի_փետրվարի_մարտի_ապրիլի_մայիսի_հունիսի_հուլիսի_օգոստոսի_սեպտեմբերի_հոկտեմբերի_նոյեմբերի_դեկտեմբերի".split("_")},d=/D[oD]?(\[[^\[\]]*\]|\s+)+MMMM?/.test(b)?"accusative":"nominative";return c[d][a.month()]}function c(a){var b="հնվ_փտր_մրտ_ապր_մյս_հնս_հլս_օգս_սպտ_հկտ_նմբ_դկտ".split("_");return b[a.month()]}function d(a){var b="կիրակի_երկուշաբթի_երեքշաբթի_չորեքշաբթի_հինգշաբթի_ուրբաթ_շաբաթ".split("_");return b[a.day()]}return a.defineLocale("hy-am",{months:b,monthsShort:c,weekdays:d,weekdaysShort:"կրկ_երկ_երք_չրք_հնգ_ուրբ_շբթ".split("_"),weekdaysMin:"կրկ_երկ_երք_չրք_հնգ_ուրբ_շբթ".split("_"),longDateFormat:{LT:"HH:mm",L:"DD.MM.YYYY",LL:"D MMMM YYYY թ.",LLL:"D MMMM YYYY թ., LT",LLLL:"dddd, D MMMM YYYY թ., LT"},calendar:{sameDay:"[այսօր] LT",nextDay:"[վաղը] LT",lastDay:"[երեկ] LT",nextWeek:function(){return"dddd [օրը ժամը] LT"},lastWeek:function(){return"[անցած] dddd [օրը ժամը] LT"},sameElse:"L"},relativeTime:{future:"%s հետո",past:"%s առաջ",s:"մի քանի վայրկյան",m:"րոպե",mm:"%d րոպե",h:"ժամ",hh:"%d ժամ",d:"օր",dd:"%d օր",M:"ամիս",MM:"%d ամիս",y:"տարի",yy:"%d տարի"},meridiem:function(a){return 4>a?"գիշերվա":12>a?"առավոտվա":17>a?"ցերեկվա":"երեկոյան"},ordinal:function(a,b){switch(b){case"DDD":case"w":case"W":case"DDDo":return 1===a?a+"-ին":a+"-րդ";default:return a}},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){return a.defineLocale("id",{months:"Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_November_Desember".split("_"),monthsShort:"Jan_Feb_Mar_Apr_Mei_Jun_Jul_Ags_Sep_Okt_Nov_Des".split("_"),weekdays:"Minggu_Senin_Selasa_Rabu_Kamis_Jumat_Sabtu".split("_"),weekdaysShort:"Min_Sen_Sel_Rab_Kam_Jum_Sab".split("_"),weekdaysMin:"Mg_Sn_Sl_Rb_Km_Jm_Sb".split("_"),longDateFormat:{LT:"HH.mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY [pukul] LT",LLLL:"dddd, D MMMM YYYY [pukul] LT"},meridiem:function(a){return 11>a?"pagi":15>a?"siang":19>a?"sore":"malam"},calendar:{sameDay:"[Hari ini pukul] LT",nextDay:"[Besok pukul] LT",nextWeek:"dddd [pukul] LT",lastDay:"[Kemarin pukul] LT",lastWeek:"dddd [lalu pukul] LT",sameElse:"L"},relativeTime:{future:"dalam %s",past:"%s yang lalu",s:"beberapa detik",m:"semenit",mm:"%d menit",h:"sejam",hh:"%d jam",d:"sehari",dd:"%d hari",M:"sebulan",MM:"%d bulan",y:"setahun",yy:"%d tahun"},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){function b(a){return a%100===11?!0:a%10===1?!1:!0}function c(a,c,d,e){var f=a+" ";switch(d){case"s":return c||e?"nokkrar sekúndur":"nokkrum sekúndum";case"m":return c?"mínúta":"mínútu";case"mm":return b(a)?f+(c||e?"mínútur":"mínútum"):c?f+"mínúta":f+"mínútu";case"hh":return b(a)?f+(c||e?"klukkustundir":"klukkustundum"):f+"klukkustund";case"d":return c?"dagur":e?"dag":"degi";case"dd":return b(a)?c?f+"dagar":f+(e?"daga":"dögum"):c?f+"dagur":f+(e?"dag":"degi");case"M":return c?"mánuður":e?"mánuð":"mánuði";case"MM":return b(a)?c?f+"mánuðir":f+(e?"mánuði":"mánuðum"):c?f+"mánuður":f+(e?"mánuð":"mánuði");case"y":return c||e?"ár":"ári";case"yy":return b(a)?f+(c||e?"ár":"árum"):f+(c||e?"ár":"ári")}}return a.defineLocale("is",{months:"janúar_febrúar_mars_apríl_maí_júní_júlí_ágúst_september_október_nóvember_desember".split("_"),monthsShort:"jan_feb_mar_apr_maí_jún_júl_ágú_sep_okt_nóv_des".split("_"),weekdays:"sunnudagur_mánudagur_þriðjudagur_miðvikudagur_fimmtudagur_föstudagur_laugardagur".split("_"),weekdaysShort:"sun_mán_þri_mið_fim_fös_lau".split("_"),weekdaysMin:"Su_Má_Þr_Mi_Fi_Fö_La".split("_"),longDateFormat:{LT:"H:mm",L:"DD/MM/YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY [kl.] LT",LLLL:"dddd, D. MMMM YYYY [kl.] LT"},calendar:{sameDay:"[í dag kl.] LT",nextDay:"[á morgun kl.] LT",nextWeek:"dddd [kl.] LT",lastDay:"[í gær kl.] LT",lastWeek:"[síðasta] dddd [kl.] LT",sameElse:"L"},relativeTime:{future:"eftir %s",past:"fyrir %s síðan",s:c,m:c,mm:c,h:"klukkustund",hh:c,d:c,dd:c,M:c,MM:c,y:c,yy:c},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("it",{months:"gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre".split("_"),monthsShort:"gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic".split("_"),weekdays:"Domenica_Lunedì_Martedì_Mercoledì_Giovedì_Venerdì_Sabato".split("_"),weekdaysShort:"Dom_Lun_Mar_Mer_Gio_Ven_Sab".split("_"),weekdaysMin:"D_L_Ma_Me_G_V_S".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Oggi alle] LT",nextDay:"[Domani alle] LT",nextWeek:"dddd [alle] LT",lastDay:"[Ieri alle] LT",lastWeek:"[lo scorso] dddd [alle] LT",sameElse:"L"},relativeTime:{future:function(a){return(/^[0-9].+$/.test(a)?"tra":"in")+" "+a},past:"%s fa",s:"alcuni secondi",m:"un minuto",mm:"%d minuti",h:"un'ora",hh:"%d ore",d:"un giorno",dd:"%d giorni",M:"un mese",MM:"%d mesi",y:"un anno",yy:"%d anni"},ordinal:"%dº",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("ja",{months:"1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),monthsShort:"1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),weekdays:"日曜日_月曜日_火曜日_水曜日_木曜日_金曜日_土曜日".split("_"),weekdaysShort:"日_月_火_水_木_金_土".split("_"),weekdaysMin:"日_月_火_水_木_金_土".split("_"),longDateFormat:{LT:"Ah時m分",L:"YYYY/MM/DD",LL:"YYYY年M月D日",LLL:"YYYY年M月D日LT",LLLL:"YYYY年M月D日LT dddd"},meridiem:function(a){return 12>a?"午前":"午後"},calendar:{sameDay:"[今日] LT",nextDay:"[明日] LT",nextWeek:"[来週]dddd LT",lastDay:"[昨日] LT",lastWeek:"[前週]dddd LT",sameElse:"L"},relativeTime:{future:"%s後",past:"%s前",s:"数秒",m:"1分",mm:"%d分",h:"1時間",hh:"%d時間",d:"1日",dd:"%d日",M:"1ヶ月",MM:"%dヶ月",y:"1年",yy:"%d年"}})}),function(a){a(rb)}(function(a){function b(a,b){var c={nominative:"იანვარი_თებერვალი_მარტი_აპრილი_მაისი_ივნისი_ივლისი_აგვისტო_სექტემბერი_ოქტომბერი_ნოემბერი_დეკემბერი".split("_"),accusative:"იანვარს_თებერვალს_მარტს_აპრილის_მაისს_ივნისს_ივლისს_აგვისტს_სექტემბერს_ოქტომბერს_ნოემბერს_დეკემბერს".split("_")},d=/D[oD] *MMMM?/.test(b)?"accusative":"nominative";return c[d][a.month()]}function c(a,b){var c={nominative:"კვირა_ორშაბათი_სამშაბათი_ოთხშაბათი_ხუთშაბათი_პარასკევი_შაბათი".split("_"),accusative:"კვირას_ორშაბათს_სამშაბათს_ოთხშაბათს_ხუთშაბათს_პარასკევს_შაბათს".split("_")},d=/(წინა|შემდეგ)/.test(b)?"accusative":"nominative";return c[d][a.day()]}return a.defineLocale("ka",{months:b,monthsShort:"იან_თებ_მარ_აპრ_მაი_ივნ_ივლ_აგვ_სექ_ოქტ_ნოე_დეკ".split("_"),weekdays:c,weekdaysShort:"კვი_ორშ_სამ_ოთხ_ხუთ_პარ_შაბ".split("_"),weekdaysMin:"კვ_ორ_სა_ოთ_ხუ_პა_შა".split("_"),longDateFormat:{LT:"h:mm A",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[დღეს] LT[-ზე]",nextDay:"[ხვალ] LT[-ზე]",lastDay:"[გუშინ] LT[-ზე]",nextWeek:"[შემდეგ] dddd LT[-ზე]",lastWeek:"[წინა] dddd LT-ზე",sameElse:"L"},relativeTime:{future:function(a){return/(წამი|წუთი|საათი|წელი)/.test(a)?a.replace(/ი$/,"ში"):a+"ში"},past:function(a){return/(წამი|წუთი|საათი|დღე|თვე)/.test(a)?a.replace(/(ი|ე)$/,"ის წინ"):/წელი/.test(a)?a.replace(/წელი$/,"წლის წინ"):void 0},s:"რამდენიმე წამი",m:"წუთი",mm:"%d წუთი",h:"საათი",hh:"%d საათი",d:"დღე",dd:"%d დღე",M:"თვე",MM:"%d თვე",y:"წელი",yy:"%d წელი"},ordinal:function(a){return 0===a?a:1===a?a+"-ლი":20>a||100>=a&&a%20===0||a%100===0?"მე-"+a:a+"-ე"},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){return a.defineLocale("km",{months:"មករា_កុម្ភៈ_មិនា_មេសា_ឧសភា_មិថុនា_កក្កដា_សីហា_កញ្ញា_តុលា_វិច្ឆិកា_ធ្នូ".split("_"),monthsShort:"មករា_កុម្ភៈ_មិនា_មេសា_ឧសភា_មិថុនា_កក្កដា_សីហា_កញ្ញា_តុលា_វិច្ឆិកា_ធ្នូ".split("_"),weekdays:"អាទិត្យ_ច័ន្ទ_អង្គារ_ពុធ_ព្រហស្បតិ៍_សុក្រ_សៅរ៍".split("_"),weekdaysShort:"អាទិត្យ_ច័ន្ទ_អង្គារ_ពុធ_ព្រហស្បតិ៍_សុក្រ_សៅរ៍".split("_"),weekdaysMin:"អាទិត្យ_ច័ន្ទ_អង្គារ_ពុធ_ព្រហស្បតិ៍_សុក្រ_សៅរ៍".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[ថ្ងៃនៈ ម៉ោង] LT",nextDay:"[ស្អែក ម៉ោង] LT",nextWeek:"dddd [ម៉ោង] LT",lastDay:"[ម្សិលមិញ ម៉ោង] LT",lastWeek:"dddd [សប្តាហ៍មុន] [ម៉ោង] LT",sameElse:"L"},relativeTime:{future:"%sទៀត",past:"%sមុន",s:"ប៉ុន្មានវិនាទី",m:"មួយនាទី",mm:"%d នាទី",h:"មួយម៉ោង",hh:"%d ម៉ោង",d:"មួយថ្ងៃ",dd:"%d ថ្ងៃ",M:"មួយខែ",MM:"%d ខែ",y:"មួយឆ្នាំ",yy:"%d ឆ្នាំ"},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("ko",{months:"1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),monthsShort:"1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),weekdays:"일요일_월요일_화요일_수요일_목요일_금요일_토요일".split("_"),weekdaysShort:"일_월_화_수_목_금_토".split("_"),weekdaysMin:"일_월_화_수_목_금_토".split("_"),longDateFormat:{LT:"A h시 mm분",L:"YYYY.MM.DD",LL:"YYYY년 MMMM D일",LLL:"YYYY년 MMMM D일 LT",LLLL:"YYYY년 MMMM D일 dddd LT"},meridiem:function(a){return 12>a?"오전":"오후"},calendar:{sameDay:"오늘 LT",nextDay:"내일 LT",nextWeek:"dddd LT",lastDay:"어제 LT",lastWeek:"지난주 dddd LT",sameElse:"L"},relativeTime:{future:"%s 후",past:"%s 전",s:"몇초",ss:"%d초",m:"일분",mm:"%d분",h:"한시간",hh:"%d시간",d:"하루",dd:"%d일",M:"한달",MM:"%d달",y:"일년",yy:"%d년"},ordinal:"%d일",meridiemParse:/(오전|오후)/,isPM:function(a){return"오후"===a}})}),function(a){a(rb)}(function(a){function b(a,b,c){var d={m:["eng Minutt","enger Minutt"],h:["eng Stonn","enger Stonn"],d:["een Dag","engem Dag"],M:["ee Mount","engem Mount"],y:["ee Joer","engem Joer"]};return b?d[c][0]:d[c][1]}function c(a){var b=a.substr(0,a.indexOf(" "));return e(b)?"a "+a:"an "+a}function d(a){var b=a.substr(0,a.indexOf(" "));return e(b)?"viru "+a:"virun "+a}function e(a){if(a=parseInt(a,10),isNaN(a))return!1;if(0>a)return!0;if(10>a)return a>=4&&7>=a?!0:!1;if(100>a){var b=a%10,c=a/10;return e(0===b?c:b)}if(1e4>a){for(;a>=10;)a/=10;return e(a)}return a/=1e3,e(a)}return a.defineLocale("lb",{months:"Januar_Februar_Mäerz_Abrëll_Mee_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),monthsShort:"Jan._Febr._Mrz._Abr._Mee_Jun._Jul._Aug._Sept._Okt._Nov._Dez.".split("_"),weekdays:"Sonndeg_Méindeg_Dënschdeg_Mëttwoch_Donneschdeg_Freideg_Samschdeg".split("_"),weekdaysShort:"So._Mé._Dë._Më._Do._Fr._Sa.".split("_"),weekdaysMin:"So_Mé_Dë_Më_Do_Fr_Sa".split("_"),longDateFormat:{LT:"H:mm [Auer]",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[Haut um] LT",sameElse:"L",nextDay:"[Muer um] LT",nextWeek:"dddd [um] LT",lastDay:"[Gëschter um] LT",lastWeek:function(){switch(this.day()){case 2:case 4:return"[Leschten] dddd [um] LT";default:return"[Leschte] dddd [um] LT"}}},relativeTime:{future:c,past:d,s:"e puer Sekonnen",m:b,mm:"%d Minutten",h:b,hh:"%d Stonnen",d:b,dd:"%d Deeg",M:b,MM:"%d Méint",y:b,yy:"%d Joer"},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){function b(a,b,c,d){return b?"kelios sekundės":d?"kelių sekundžių":"kelias sekundes"}function c(a,b,c,d){return b?e(c)[0]:d?e(c)[1]:e(c)[2]}function d(a){return a%10===0||a>10&&20>a}function e(a){return h[a].split("_")}function f(a,b,f,g){var h=a+" ";return 1===a?h+c(a,b,f[0],g):b?h+(d(a)?e(f)[1]:e(f)[0]):g?h+e(f)[1]:h+(d(a)?e(f)[1]:e(f)[2])}function g(a,b){var c=-1===b.indexOf("dddd HH:mm"),d=i[a.day()];return c?d:d.substring(0,d.length-2)+"į"}var h={m:"minutė_minutės_minutę",mm:"minutės_minučių_minutes",h:"valanda_valandos_valandą",hh:"valandos_valandų_valandas",d:"diena_dienos_dieną",dd:"dienos_dienų_dienas",M:"mėnuo_mėnesio_mėnesį",MM:"mėnesiai_mėnesių_mėnesius",y:"metai_metų_metus",yy:"metai_metų_metus"},i="sekmadienis_pirmadienis_antradienis_trečiadienis_ketvirtadienis_penktadienis_šeštadienis".split("_");return a.defineLocale("lt",{months:"sausio_vasario_kovo_balandžio_gegužės_birželio_liepos_rugpjūčio_rugsėjo_spalio_lapkričio_gruodžio".split("_"),monthsShort:"sau_vas_kov_bal_geg_bir_lie_rgp_rgs_spa_lap_grd".split("_"),weekdays:g,weekdaysShort:"Sek_Pir_Ant_Tre_Ket_Pen_Šeš".split("_"),weekdaysMin:"S_P_A_T_K_Pn_Š".split("_"),longDateFormat:{LT:"HH:mm",L:"YYYY-MM-DD",LL:"YYYY [m.] MMMM D [d.]",LLL:"YYYY [m.] MMMM D [d.], LT [val.]",LLLL:"YYYY [m.] MMMM D [d.], dddd, LT [val.]",l:"YYYY-MM-DD",ll:"YYYY [m.] MMMM D [d.]",lll:"YYYY [m.] MMMM D [d.], LT [val.]",llll:"YYYY [m.] MMMM D [d.], ddd, LT [val.]"},calendar:{sameDay:"[Šiandien] LT",nextDay:"[Rytoj] LT",nextWeek:"dddd LT",lastDay:"[Vakar] LT",lastWeek:"[Praėjusį] dddd LT",sameElse:"L"},relativeTime:{future:"po %s",past:"prieš %s",s:b,m:c,mm:f,h:c,hh:f,d:c,dd:f,M:c,MM:f,y:c,yy:f},ordinal:function(a){return a+"-oji"},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){function b(a,b,c){var d=a.split("_");return c?b%10===1&&11!==b?d[2]:d[3]:b%10===1&&11!==b?d[0]:d[1]}function c(a,c,e){return a+" "+b(d[e],a,c)}var d={mm:"minūti_minūtes_minūte_minūtes",hh:"stundu_stundas_stunda_stundas",dd:"dienu_dienas_diena_dienas",MM:"mēnesi_mēnešus_mēnesis_mēneši",yy:"gadu_gadus_gads_gadi"};return a.defineLocale("lv",{months:"janvāris_februāris_marts_aprīlis_maijs_jūnijs_jūlijs_augusts_septembris_oktobris_novembris_decembris".split("_"),monthsShort:"jan_feb_mar_apr_mai_jūn_jūl_aug_sep_okt_nov_dec".split("_"),weekdays:"svētdiena_pirmdiena_otrdiena_trešdiena_ceturtdiena_piektdiena_sestdiena".split("_"),weekdaysShort:"Sv_P_O_T_C_Pk_S".split("_"),weekdaysMin:"Sv_P_O_T_C_Pk_S".split("_"),longDateFormat:{LT:"HH:mm",L:"DD.MM.YYYY",LL:"YYYY. [gada] D. MMMM",LLL:"YYYY. [gada] D. MMMM, LT",LLLL:"YYYY. [gada] D. MMMM, dddd, LT"},calendar:{sameDay:"[Šodien pulksten] LT",nextDay:"[Rīt pulksten] LT",nextWeek:"dddd [pulksten] LT",lastDay:"[Vakar pulksten] LT",lastWeek:"[Pagājušā] dddd [pulksten] LT",sameElse:"L"},relativeTime:{future:"%s vēlāk",past:"%s agrāk",s:"dažas sekundes",m:"minūti",mm:c,h:"stundu",hh:c,d:"dienu",dd:c,M:"mēnesi",MM:c,y:"gadu",yy:c},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("mk",{months:"јануари_февруари_март_април_мај_јуни_јули_август_септември_октомври_ноември_декември".split("_"),monthsShort:"јан_фев_мар_апр_мај_јун_јул_авг_сеп_окт_ное_дек".split("_"),weekdays:"недела_понеделник_вторник_среда_четврток_петок_сабота".split("_"),weekdaysShort:"нед_пон_вто_сре_чет_пет_саб".split("_"),weekdaysMin:"нe_пo_вт_ср_че_пе_сa".split("_"),longDateFormat:{LT:"H:mm",L:"D.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Денес во] LT",nextDay:"[Утре во] LT",nextWeek:"dddd [во] LT",lastDay:"[Вчера во] LT",lastWeek:function(){switch(this.day()){case 0:case 3:case 6:return"[Во изминатата] dddd [во] LT";case 1:case 2:case 4:case 5:return"[Во изминатиот] dddd [во] LT"}},sameElse:"L"},relativeTime:{future:"после %s",past:"пред %s",s:"неколку секунди",m:"минута",mm:"%d минути",h:"час",hh:"%d часа",d:"ден",dd:"%d дена",M:"месец",MM:"%d месеци",y:"година",yy:"%d години"},ordinal:function(a){var b=a%10,c=a%100;return 0===a?a+"-ев":0===c?a+"-ен":c>10&&20>c?a+"-ти":1===b?a+"-ви":2===b?a+"-ри":7===b||8===b?a+"-ми":a+"-ти"},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){return a.defineLocale("ml",{months:"ജനുവരി_ഫെബ്രുവരി_മാർച്ച്_ഏപ്രിൽ_മേയ്_ജൂൺ_ജൂലൈ_ഓഗസ്റ്റ്_സെപ്റ്റംബർ_ഒക്ടോബർ_നവംബർ_ഡിസംബർ".split("_"),monthsShort:"ജനു._ഫെബ്രു._മാർ._ഏപ്രി._മേയ്_ജൂൺ_ജൂലൈ._ഓഗ._സെപ്റ്റ._ഒക്ടോ._നവം._ഡിസം.".split("_"),weekdays:"ഞായറാഴ്ച_തിങ്കളാഴ്ച_ചൊവ്വാഴ്ച_ബുധനാഴ്ച_വ്യാഴാഴ്ച_വെള്ളിയാഴ്ച_ശനിയാഴ്ച".split("_"),weekdaysShort:"ഞായർ_തിങ്കൾ_ചൊവ്വ_ബുധൻ_വ്യാഴം_വെള്ളി_ശനി".split("_"),weekdaysMin:"ഞാ_തി_ചൊ_ബു_വ്യാ_വെ_ശ".split("_"),longDateFormat:{LT:"A h:mm -നു",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, LT",LLLL:"dddd, D MMMM YYYY, LT"},calendar:{sameDay:"[ഇന്ന്] LT",nextDay:"[നാളെ] LT",nextWeek:"dddd, LT",lastDay:"[ഇന്നലെ] LT",lastWeek:"[കഴിഞ്ഞ] dddd, LT",sameElse:"L"},relativeTime:{future:"%s കഴിഞ്ഞ്",past:"%s മുൻപ്",s:"അൽപ നിമിഷങ്ങൾ",m:"ഒരു മിനിറ്റ്",mm:"%d മിനിറ്റ്",h:"ഒരു മണിക്കൂർ",hh:"%d മണിക്കൂർ",d:"ഒരു ദിവസം",dd:"%d ദിവസം",M:"ഒരു മാസം",MM:"%d മാസം",y:"ഒരു വർഷം",yy:"%d വർഷം"},meridiem:function(a){return 4>a?"രാത്രി":12>a?"രാവിലെ":17>a?"ഉച്ച കഴിഞ്ഞ്":20>a?"വൈകുന്നേരം":"രാത്രി"}})}),function(a){a(rb)}(function(a){var b={1:"१",2:"२",3:"३",4:"४",5:"५",6:"६",7:"७",8:"८",9:"९",0:"०"},c={"१":"1","२":"2","३":"3","४":"4","५":"5","६":"6","७":"7","८":"8","९":"9","०":"0"};return a.defineLocale("mr",{months:"जानेवारी_फेब्रुवारी_मार्च_एप्रिल_मे_जून_जुलै_ऑगस्ट_सप्टेंबर_ऑक्टोबर_नोव्हेंबर_डिसेंबर".split("_"),monthsShort:"जाने._फेब्रु._मार्च._एप्रि._मे._जून._जुलै._ऑग._सप्टें._ऑक्टो._नोव्हें._डिसें.".split("_"),weekdays:"रविवार_सोमवार_मंगळवार_बुधवार_गुरूवार_शुक्रवार_शनिवार".split("_"),weekdaysShort:"रवि_सोम_मंगळ_बुध_गुरू_शुक्र_शनि".split("_"),weekdaysMin:"र_सो_मं_बु_गु_शु_श".split("_"),longDateFormat:{LT:"A h:mm वाजता",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, LT",LLLL:"dddd, D MMMM YYYY, LT"},calendar:{sameDay:"[आज] LT",nextDay:"[उद्या] LT",nextWeek:"dddd, LT",lastDay:"[काल] LT",lastWeek:"[मागील] dddd, LT",sameElse:"L"},relativeTime:{future:"%s नंतर",past:"%s पूर्वी",s:"सेकंद",m:"एक मिनिट",mm:"%d मिनिटे",h:"एक तास",hh:"%d तास",d:"एक दिवस",dd:"%d दिवस",M:"एक महिना",MM:"%d महिने",y:"एक वर्ष",yy:"%d वर्षे"},preparse:function(a){return a.replace(/[१२३४५६७८९०]/g,function(a){return c[a]})},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]})},meridiem:function(a){return 4>a?"रात्री":10>a?"सकाळी":17>a?"दुपारी":20>a?"सायंकाळी":"रात्री"},week:{dow:0,doy:6}})}),function(a){a(rb)}(function(a){return a.defineLocale("ms-my",{months:"Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember".split("_"),monthsShort:"Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogs_Sep_Okt_Nov_Dis".split("_"),weekdays:"Ahad_Isnin_Selasa_Rabu_Khamis_Jumaat_Sabtu".split("_"),weekdaysShort:"Ahd_Isn_Sel_Rab_Kha_Jum_Sab".split("_"),weekdaysMin:"Ah_Is_Sl_Rb_Km_Jm_Sb".split("_"),longDateFormat:{LT:"HH.mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY [pukul] LT",LLLL:"dddd, D MMMM YYYY [pukul] LT"},meridiem:function(a){return 11>a?"pagi":15>a?"tengahari":19>a?"petang":"malam"},calendar:{sameDay:"[Hari ini pukul] LT",nextDay:"[Esok pukul] LT",nextWeek:"dddd [pukul] LT",lastDay:"[Kelmarin pukul] LT",lastWeek:"dddd [lepas pukul] LT",sameElse:"L"},relativeTime:{future:"dalam %s",past:"%s yang lepas",s:"beberapa saat",m:"seminit",mm:"%d minit",h:"sejam",hh:"%d jam",d:"sehari",dd:"%d hari",M:"sebulan",MM:"%d bulan",y:"setahun",yy:"%d tahun"},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){var b={1:"၁",2:"၂",3:"၃",4:"၄",5:"၅",6:"၆",7:"၇",8:"၈",9:"၉",0:"၀"},c={"၁":"1","၂":"2","၃":"3","၄":"4","၅":"5","၆":"6","၇":"7","၈":"8","၉":"9","၀":"0"};return a.defineLocale("my",{months:"ဇန်နဝါရီ_ဖေဖော်ဝါရီ_မတ်_ဧပြီ_မေ_ဇွန်_ဇူလိုင်_သြဂုတ်_စက်တင်ဘာ_အောက်တိုဘာ_နိုဝင်ဘာ_ဒီဇင်ဘာ".split("_"),monthsShort:"ဇန်_ဖေ_မတ်_ပြီ_မေ_ဇွန်_လိုင်_သြ_စက်_အောက်_နို_ဒီ".split("_"),weekdays:"တနင်္ဂနွေ_တနင်္လာ_အင်္ဂါ_ဗုဒ္ဓဟူး_ကြာသပတေး_သောကြာ_စနေ".split("_"),weekdaysShort:"နွေ_လာ_င်္ဂါ_ဟူး_ကြာ_သော_နေ".split("_"),weekdaysMin:"နွေ_လာ_င်္ဂါ_ဟူး_ကြာ_သော_နေ".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[ယနေ.] LT [မှာ]",nextDay:"[မနက်ဖြန်] LT [မှာ]",nextWeek:"dddd LT [မှာ]",lastDay:"[မနေ.က] LT [မှာ]",lastWeek:"[ပြီးခဲ့သော] dddd LT [မှာ]",sameElse:"L"},relativeTime:{future:"လာမည့် %s မှာ",past:"လွန်ခဲ့သော %s က",s:"စက္ကန်.အနည်းငယ်",m:"တစ်မိနစ်",mm:"%d မိနစ်",h:"တစ်နာရီ",hh:"%d နာရီ",d:"တစ်ရက်",dd:"%d ရက်",M:"တစ်လ",MM:"%d လ",y:"တစ်နှစ်",yy:"%d နှစ်"},preparse:function(a){return a.replace(/[၁၂၃၄၅၆၇၈၉၀]/g,function(a){return c[a]})},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]})},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("nb",{months:"januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember".split("_"),monthsShort:"jan._feb._mars_april_mai_juni_juli_aug._sep._okt._nov._des.".split("_"),weekdays:"søndag_mandag_tirsdag_onsdag_torsdag_fredag_lørdag".split("_"),weekdaysShort:"sø._ma._ti._on._to._fr._lø.".split("_"),weekdaysMin:"sø_ma_ti_on_to_fr_lø".split("_"),longDateFormat:{LT:"H.mm",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY [kl.] LT",LLLL:"dddd D. MMMM YYYY [kl.] LT"},calendar:{sameDay:"[i dag kl.] LT",nextDay:"[i morgen kl.] LT",nextWeek:"dddd [kl.] LT",lastDay:"[i går kl.] LT",lastWeek:"[forrige] dddd [kl.] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"for %s siden",s:"noen sekunder",m:"ett minutt",mm:"%d minutter",h:"en time",hh:"%d timer",d:"en dag",dd:"%d dager",M:"en måned",MM:"%d måneder",y:"ett år",yy:"%d år"},ordinal:"%d.",week:{dow:1,doy:4}})
-}),function(a){a(rb)}(function(a){var b={1:"१",2:"२",3:"३",4:"४",5:"५",6:"६",7:"७",8:"८",9:"९",0:"०"},c={"१":"1","२":"2","३":"3","४":"4","५":"5","६":"6","७":"7","८":"8","९":"9","०":"0"};return a.defineLocale("ne",{months:"जनवरी_फेब्रुवरी_मार्च_अप्रिल_मई_जुन_जुलाई_अगष्ट_सेप्टेम्बर_अक्टोबर_नोभेम्बर_डिसेम्बर".split("_"),monthsShort:"जन._फेब्रु._मार्च_अप्रि._मई_जुन_जुलाई._अग._सेप्ट._अक्टो._नोभे._डिसे.".split("_"),weekdays:"आइतबार_सोमबार_मङ्गलबार_बुधबार_बिहिबार_शुक्रबार_शनिबार".split("_"),weekdaysShort:"आइत._सोम._मङ्गल._बुध._बिहि._शुक्र._शनि.".split("_"),weekdaysMin:"आइ._सो._मङ्_बु._बि._शु._श.".split("_"),longDateFormat:{LT:"Aको h:mm बजे",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, LT",LLLL:"dddd, D MMMM YYYY, LT"},preparse:function(a){return a.replace(/[१२३४५६७८९०]/g,function(a){return c[a]})},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]})},meridiem:function(a){return 3>a?"राती":10>a?"बिहान":15>a?"दिउँसो":18>a?"बेलुका":20>a?"साँझ":"राती"},calendar:{sameDay:"[आज] LT",nextDay:"[भोली] LT",nextWeek:"[आउँदो] dddd[,] LT",lastDay:"[हिजो] LT",lastWeek:"[गएको] dddd[,] LT",sameElse:"L"},relativeTime:{future:"%sमा",past:"%s अगाडी",s:"केही समय",m:"एक मिनेट",mm:"%d मिनेट",h:"एक घण्टा",hh:"%d घण्टा",d:"एक दिन",dd:"%d दिन",M:"एक महिना",MM:"%d महिना",y:"एक बर्ष",yy:"%d बर्ष"},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){var b="jan._feb._mrt._apr._mei_jun._jul._aug._sep._okt._nov._dec.".split("_"),c="jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec".split("_");return a.defineLocale("nl",{months:"januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december".split("_"),monthsShort:function(a,d){return/-MMM-/.test(d)?c[a.month()]:b[a.month()]},weekdays:"zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag".split("_"),weekdaysShort:"zo._ma._di._wo._do._vr._za.".split("_"),weekdaysMin:"Zo_Ma_Di_Wo_Do_Vr_Za".split("_"),longDateFormat:{LT:"HH:mm",L:"DD-MM-YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[vandaag om] LT",nextDay:"[morgen om] LT",nextWeek:"dddd [om] LT",lastDay:"[gisteren om] LT",lastWeek:"[afgelopen] dddd [om] LT",sameElse:"L"},relativeTime:{future:"over %s",past:"%s geleden",s:"een paar seconden",m:"één minuut",mm:"%d minuten",h:"één uur",hh:"%d uur",d:"één dag",dd:"%d dagen",M:"één maand",MM:"%d maanden",y:"één jaar",yy:"%d jaar"},ordinal:function(a){return a+(1===a||8===a||a>=20?"ste":"de")},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("nn",{months:"januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember".split("_"),monthsShort:"jan_feb_mar_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_"),weekdays:"sundag_måndag_tysdag_onsdag_torsdag_fredag_laurdag".split("_"),weekdaysShort:"sun_mån_tys_ons_tor_fre_lau".split("_"),weekdaysMin:"su_må_ty_on_to_fr_lø".split("_"),longDateFormat:{LT:"HH:mm",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[I dag klokka] LT",nextDay:"[I morgon klokka] LT",nextWeek:"dddd [klokka] LT",lastDay:"[I går klokka] LT",lastWeek:"[Føregåande] dddd [klokka] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"for %s sidan",s:"nokre sekund",m:"eit minutt",mm:"%d minutt",h:"ein time",hh:"%d timar",d:"ein dag",dd:"%d dagar",M:"ein månad",MM:"%d månader",y:"eit år",yy:"%d år"},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){function b(a){return 5>a%10&&a%10>1&&~~(a/10)%10!==1}function c(a,c,d){var e=a+" ";switch(d){case"m":return c?"minuta":"minutę";case"mm":return e+(b(a)?"minuty":"minut");case"h":return c?"godzina":"godzinę";case"hh":return e+(b(a)?"godziny":"godzin");case"MM":return e+(b(a)?"miesiące":"miesięcy");case"yy":return e+(b(a)?"lata":"lat")}}var d="styczeń_luty_marzec_kwiecień_maj_czerwiec_lipiec_sierpień_wrzesień_październik_listopad_grudzień".split("_"),e="stycznia_lutego_marca_kwietnia_maja_czerwca_lipca_sierpnia_września_października_listopada_grudnia".split("_");return a.defineLocale("pl",{months:function(a,b){return/D MMMM/.test(b)?e[a.month()]:d[a.month()]},monthsShort:"sty_lut_mar_kwi_maj_cze_lip_sie_wrz_paź_lis_gru".split("_"),weekdays:"niedziela_poniedziałek_wtorek_środa_czwartek_piątek_sobota".split("_"),weekdaysShort:"nie_pon_wt_śr_czw_pt_sb".split("_"),weekdaysMin:"N_Pn_Wt_Śr_Cz_Pt_So".split("_"),longDateFormat:{LT:"HH:mm",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Dziś o] LT",nextDay:"[Jutro o] LT",nextWeek:"[W] dddd [o] LT",lastDay:"[Wczoraj o] LT",lastWeek:function(){switch(this.day()){case 0:return"[W zeszłą niedzielę o] LT";case 3:return"[W zeszłą środę o] LT";case 6:return"[W zeszłą sobotę o] LT";default:return"[W zeszły] dddd [o] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"%s temu",s:"kilka sekund",m:c,mm:c,h:c,hh:c,d:"1 dzień",dd:"%d dni",M:"miesiąc",MM:c,y:"rok",yy:c},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("pt-br",{months:"janeiro_fevereiro_março_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro".split("_"),monthsShort:"jan_fev_mar_abr_mai_jun_jul_ago_set_out_nov_dez".split("_"),weekdays:"domingo_segunda-feira_terça-feira_quarta-feira_quinta-feira_sexta-feira_sábado".split("_"),weekdaysShort:"dom_seg_ter_qua_qui_sex_sáb".split("_"),weekdaysMin:"dom_2ª_3ª_4ª_5ª_6ª_sáb".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D [de] MMMM [de] YYYY",LLL:"D [de] MMMM [de] YYYY [às] LT",LLLL:"dddd, D [de] MMMM [de] YYYY [às] LT"},calendar:{sameDay:"[Hoje às] LT",nextDay:"[Amanhã às] LT",nextWeek:"dddd [às] LT",lastDay:"[Ontem às] LT",lastWeek:function(){return 0===this.day()||6===this.day()?"[Último] dddd [às] LT":"[Última] dddd [às] LT"},sameElse:"L"},relativeTime:{future:"em %s",past:"%s atrás",s:"segundos",m:"um minuto",mm:"%d minutos",h:"uma hora",hh:"%d horas",d:"um dia",dd:"%d dias",M:"um mês",MM:"%d meses",y:"um ano",yy:"%d anos"},ordinal:"%dº"})}),function(a){a(rb)}(function(a){return a.defineLocale("pt",{months:"janeiro_fevereiro_março_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro".split("_"),monthsShort:"jan_fev_mar_abr_mai_jun_jul_ago_set_out_nov_dez".split("_"),weekdays:"domingo_segunda-feira_terça-feira_quarta-feira_quinta-feira_sexta-feira_sábado".split("_"),weekdaysShort:"dom_seg_ter_qua_qui_sex_sáb".split("_"),weekdaysMin:"dom_2ª_3ª_4ª_5ª_6ª_sáb".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D [de] MMMM [de] YYYY",LLL:"D [de] MMMM [de] YYYY LT",LLLL:"dddd, D [de] MMMM [de] YYYY LT"},calendar:{sameDay:"[Hoje às] LT",nextDay:"[Amanhã às] LT",nextWeek:"dddd [às] LT",lastDay:"[Ontem às] LT",lastWeek:function(){return 0===this.day()||6===this.day()?"[Último] dddd [às] LT":"[Última] dddd [às] LT"},sameElse:"L"},relativeTime:{future:"em %s",past:"há %s",s:"segundos",m:"um minuto",mm:"%d minutos",h:"uma hora",hh:"%d horas",d:"um dia",dd:"%d dias",M:"um mês",MM:"%d meses",y:"um ano",yy:"%d anos"},ordinal:"%dº",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){function b(a,b,c){var d={mm:"minute",hh:"ore",dd:"zile",MM:"luni",yy:"ani"},e=" ";return(a%100>=20||a>=100&&a%100===0)&&(e=" de "),a+e+d[c]}return a.defineLocale("ro",{months:"ianuarie_februarie_martie_aprilie_mai_iunie_iulie_august_septembrie_octombrie_noiembrie_decembrie".split("_"),monthsShort:"ian._febr._mart._apr._mai_iun._iul._aug._sept._oct._nov._dec.".split("_"),weekdays:"duminică_luni_marți_miercuri_joi_vineri_sâmbătă".split("_"),weekdaysShort:"Dum_Lun_Mar_Mie_Joi_Vin_Sâm".split("_"),weekdaysMin:"Du_Lu_Ma_Mi_Jo_Vi_Sâ".split("_"),longDateFormat:{LT:"H:mm",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY H:mm",LLLL:"dddd, D MMMM YYYY H:mm"},calendar:{sameDay:"[azi la] LT",nextDay:"[mâine la] LT",nextWeek:"dddd [la] LT",lastDay:"[ieri la] LT",lastWeek:"[fosta] dddd [la] LT",sameElse:"L"},relativeTime:{future:"peste %s",past:"%s în urmă",s:"câteva secunde",m:"un minut",mm:b,h:"o oră",hh:b,d:"o zi",dd:b,M:"o lună",MM:b,y:"un an",yy:b},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){function b(a,b){var c=a.split("_");return b%10===1&&b%100!==11?c[0]:b%10>=2&&4>=b%10&&(10>b%100||b%100>=20)?c[1]:c[2]}function c(a,c,d){var e={mm:c?"минута_минуты_минут":"минуту_минуты_минут",hh:"час_часа_часов",dd:"день_дня_дней",MM:"месяц_месяца_месяцев",yy:"год_года_лет"};return"m"===d?c?"минута":"минуту":a+" "+b(e[d],+a)}function d(a,b){var c={nominative:"январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь".split("_"),accusative:"января_февраля_марта_апреля_мая_июня_июля_августа_сентября_октября_ноября_декабря".split("_")},d=/D[oD]?(\[[^\[\]]*\]|\s+)+MMMM?/.test(b)?"accusative":"nominative";return c[d][a.month()]}function e(a,b){var c={nominative:"янв_фев_мар_апр_май_июнь_июль_авг_сен_окт_ноя_дек".split("_"),accusative:"янв_фев_мар_апр_мая_июня_июля_авг_сен_окт_ноя_дек".split("_")},d=/D[oD]?(\[[^\[\]]*\]|\s+)+MMMM?/.test(b)?"accusative":"nominative";return c[d][a.month()]}function f(a,b){var c={nominative:"воскресенье_понедельник_вторник_среда_четверг_пятница_суббота".split("_"),accusative:"воскресенье_понедельник_вторник_среду_четверг_пятницу_субботу".split("_")},d=/\[ ?[Вв] ?(?:прошлую|следующую)? ?\] ?dddd/.test(b)?"accusative":"nominative";return c[d][a.day()]}return a.defineLocale("ru",{months:d,monthsShort:e,weekdays:f,weekdaysShort:"вс_пн_вт_ср_чт_пт_сб".split("_"),weekdaysMin:"вс_пн_вт_ср_чт_пт_сб".split("_"),monthsParse:[/^янв/i,/^фев/i,/^мар/i,/^апр/i,/^ма[й|я]/i,/^июн/i,/^июл/i,/^авг/i,/^сен/i,/^окт/i,/^ноя/i,/^дек/i],longDateFormat:{LT:"HH:mm",L:"DD.MM.YYYY",LL:"D MMMM YYYY г.",LLL:"D MMMM YYYY г., LT",LLLL:"dddd, D MMMM YYYY г., LT"},calendar:{sameDay:"[Сегодня в] LT",nextDay:"[Завтра в] LT",lastDay:"[Вчера в] LT",nextWeek:function(){return 2===this.day()?"[Во] dddd [в] LT":"[В] dddd [в] LT"},lastWeek:function(){switch(this.day()){case 0:return"[В прошлое] dddd [в] LT";case 1:case 2:case 4:return"[В прошлый] dddd [в] LT";case 3:case 5:case 6:return"[В прошлую] dddd [в] LT"}},sameElse:"L"},relativeTime:{future:"через %s",past:"%s назад",s:"несколько секунд",m:c,mm:c,h:"час",hh:c,d:"день",dd:c,M:"месяц",MM:c,y:"год",yy:c},meridiemParse:/ночи|утра|дня|вечера/i,isPM:function(a){return/^(дня|вечера)$/.test(a)},meridiem:function(a){return 4>a?"ночи":12>a?"утра":17>a?"дня":"вечера"},ordinal:function(a,b){switch(b){case"M":case"d":case"DDD":return a+"-й";case"D":return a+"-го";case"w":case"W":return a+"-я";default:return a}},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){function b(a){return a>1&&5>a}function c(a,c,d,e){var f=a+" ";switch(d){case"s":return c||e?"pár sekúnd":"pár sekundami";case"m":return c?"minúta":e?"minútu":"minútou";case"mm":return c||e?f+(b(a)?"minúty":"minút"):f+"minútami";break;case"h":return c?"hodina":e?"hodinu":"hodinou";case"hh":return c||e?f+(b(a)?"hodiny":"hodín"):f+"hodinami";break;case"d":return c||e?"deň":"dňom";case"dd":return c||e?f+(b(a)?"dni":"dní"):f+"dňami";break;case"M":return c||e?"mesiac":"mesiacom";case"MM":return c||e?f+(b(a)?"mesiace":"mesiacov"):f+"mesiacmi";break;case"y":return c||e?"rok":"rokom";case"yy":return c||e?f+(b(a)?"roky":"rokov"):f+"rokmi"}}var d="január_február_marec_apríl_máj_jún_júl_august_september_október_november_december".split("_"),e="jan_feb_mar_apr_máj_jún_júl_aug_sep_okt_nov_dec".split("_");return a.defineLocale("sk",{months:d,monthsShort:e,monthsParse:function(a,b){var c,d=[];for(c=0;12>c;c++)d[c]=new RegExp("^"+a[c]+"$|^"+b[c]+"$","i");return d}(d,e),weekdays:"nedeľa_pondelok_utorok_streda_štvrtok_piatok_sobota".split("_"),weekdaysShort:"ne_po_ut_st_št_pi_so".split("_"),weekdaysMin:"ne_po_ut_st_št_pi_so".split("_"),longDateFormat:{LT:"H:mm",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd D. MMMM YYYY LT"},calendar:{sameDay:"[dnes o] LT",nextDay:"[zajtra o] LT",nextWeek:function(){switch(this.day()){case 0:return"[v nedeľu o] LT";case 1:case 2:return"[v] dddd [o] LT";case 3:return"[v stredu o] LT";case 4:return"[vo štvrtok o] LT";case 5:return"[v piatok o] LT";case 6:return"[v sobotu o] LT"}},lastDay:"[včera o] LT",lastWeek:function(){switch(this.day()){case 0:return"[minulú nedeľu o] LT";case 1:case 2:return"[minulý] dddd [o] LT";case 3:return"[minulú stredu o] LT";case 4:case 5:return"[minulý] dddd [o] LT";case 6:return"[minulú sobotu o] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"pred %s",s:c,m:c,mm:c,h:c,hh:c,d:c,dd:c,M:c,MM:c,y:c,yy:c},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){function b(a,b,c){var d=a+" ";switch(c){case"m":return b?"ena minuta":"eno minuto";case"mm":return d+=1===a?"minuta":2===a?"minuti":3===a||4===a?"minute":"minut";case"h":return b?"ena ura":"eno uro";case"hh":return d+=1===a?"ura":2===a?"uri":3===a||4===a?"ure":"ur";case"dd":return d+=1===a?"dan":"dni";case"MM":return d+=1===a?"mesec":2===a?"meseca":3===a||4===a?"mesece":"mesecev";case"yy":return d+=1===a?"leto":2===a?"leti":3===a||4===a?"leta":"let"}}return a.defineLocale("sl",{months:"januar_februar_marec_april_maj_junij_julij_avgust_september_oktober_november_december".split("_"),monthsShort:"jan._feb._mar._apr._maj._jun._jul._avg._sep._okt._nov._dec.".split("_"),weekdays:"nedelja_ponedeljek_torek_sreda_četrtek_petek_sobota".split("_"),weekdaysShort:"ned._pon._tor._sre._čet._pet._sob.".split("_"),weekdaysMin:"ne_po_to_sr_če_pe_so".split("_"),longDateFormat:{LT:"H:mm",L:"DD. MM. YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[danes ob] LT",nextDay:"[jutri ob] LT",nextWeek:function(){switch(this.day()){case 0:return"[v] [nedeljo] [ob] LT";case 3:return"[v] [sredo] [ob] LT";case 6:return"[v] [soboto] [ob] LT";case 1:case 2:case 4:case 5:return"[v] dddd [ob] LT"}},lastDay:"[včeraj ob] LT",lastWeek:function(){switch(this.day()){case 0:case 3:case 6:return"[prejšnja] dddd [ob] LT";case 1:case 2:case 4:case 5:return"[prejšnji] dddd [ob] LT"}},sameElse:"L"},relativeTime:{future:"čez %s",past:"%s nazaj",s:"nekaj sekund",m:b,mm:b,h:b,hh:b,d:"en dan",dd:b,M:"en mesec",MM:b,y:"eno leto",yy:b},ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){return a.defineLocale("sq",{months:"Janar_Shkurt_Mars_Prill_Maj_Qershor_Korrik_Gusht_Shtator_Tetor_Nëntor_Dhjetor".split("_"),monthsShort:"Jan_Shk_Mar_Pri_Maj_Qer_Kor_Gus_Sht_Tet_Nën_Dhj".split("_"),weekdays:"E Diel_E Hënë_E Martë_E Mërkurë_E Enjte_E Premte_E Shtunë".split("_"),weekdaysShort:"Die_Hën_Mar_Mër_Enj_Pre_Sht".split("_"),weekdaysMin:"D_H_Ma_Më_E_P_Sh".split("_"),meridiem:function(a){return 12>a?"PD":"MD"},longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Sot në] LT",nextDay:"[Nesër në] LT",nextWeek:"dddd [në] LT",lastDay:"[Dje në] LT",lastWeek:"dddd [e kaluar në] LT",sameElse:"L"},relativeTime:{future:"në %s",past:"%s më parë",s:"disa sekonda",m:"një minutë",mm:"%d minuta",h:"një orë",hh:"%d orë",d:"një ditë",dd:"%d ditë",M:"një muaj",MM:"%d muaj",y:"një vit",yy:"%d vite"},ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){var b={words:{m:["један минут","једне минуте"],mm:["минут","минуте","минута"],h:["један сат","једног сата"],hh:["сат","сата","сати"],dd:["дан","дана","дана"],MM:["месец","месеца","месеци"],yy:["година","године","година"]},correctGrammaticalCase:function(a,b){return 1===a?b[0]:a>=2&&4>=a?b[1]:b[2]},translate:function(a,c,d){var e=b.words[d];return 1===d.length?c?e[0]:e[1]:a+" "+b.correctGrammaticalCase(a,e)}};return a.defineLocale("sr-cyrl",{months:["јануар","фебруар","март","април","мај","јун","јул","август","септембар","октобар","новембар","децембар"],monthsShort:["јан.","феб.","мар.","апр.","мај","јун","јул","авг.","сеп.","окт.","нов.","дец."],weekdays:["недеља","понедељак","уторак","среда","четвртак","петак","субота"],weekdaysShort:["нед.","пон.","уто.","сре.","чет.","пет.","суб."],weekdaysMin:["не","по","ут","ср","че","пе","су"],longDateFormat:{LT:"H:mm",L:"DD. MM. YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[данас у] LT",nextDay:"[сутра у] LT",nextWeek:function(){switch(this.day()){case 0:return"[у] [недељу] [у] LT";case 3:return"[у] [среду] [у] LT";case 6:return"[у] [суботу] [у] LT";case 1:case 2:case 4:case 5:return"[у] dddd [у] LT"}},lastDay:"[јуче у] LT",lastWeek:function(){var a=["[прошле] [недеље] [у] LT","[прошлог] [понедељка] [у] LT","[прошлог] [уторка] [у] LT","[прошле] [среде] [у] LT","[прошлог] [четвртка] [у] LT","[прошлог] [петка] [у] LT","[прошле] [суботе] [у] LT"];return a[this.day()]},sameElse:"L"},relativeTime:{future:"за %s",past:"пре %s",s:"неколико секунди",m:b.translate,mm:b.translate,h:b.translate,hh:b.translate,d:"дан",dd:b.translate,M:"месец",MM:b.translate,y:"годину",yy:b.translate},ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){var b={words:{m:["jedan minut","jedne minute"],mm:["minut","minute","minuta"],h:["jedan sat","jednog sata"],hh:["sat","sata","sati"],dd:["dan","dana","dana"],MM:["mesec","meseca","meseci"],yy:["godina","godine","godina"]},correctGrammaticalCase:function(a,b){return 1===a?b[0]:a>=2&&4>=a?b[1]:b[2]},translate:function(a,c,d){var e=b.words[d];return 1===d.length?c?e[0]:e[1]:a+" "+b.correctGrammaticalCase(a,e)}};return a.defineLocale("sr",{months:["januar","februar","mart","april","maj","jun","jul","avgust","septembar","oktobar","novembar","decembar"],monthsShort:["jan.","feb.","mar.","apr.","maj","jun","jul","avg.","sep.","okt.","nov.","dec."],weekdays:["nedelja","ponedeljak","utorak","sreda","četvrtak","petak","subota"],weekdaysShort:["ned.","pon.","uto.","sre.","čet.","pet.","sub."],weekdaysMin:["ne","po","ut","sr","če","pe","su"],longDateFormat:{LT:"H:mm",L:"DD. MM. YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[danas u] LT",nextDay:"[sutra u] LT",nextWeek:function(){switch(this.day()){case 0:return"[u] [nedelju] [u] LT";case 3:return"[u] [sredu] [u] LT";case 6:return"[u] [subotu] [u] LT";case 1:case 2:case 4:case 5:return"[u] dddd [u] LT"}},lastDay:"[juče u] LT",lastWeek:function(){var a=["[prošle] [nedelje] [u] LT","[prošlog] [ponedeljka] [u] LT","[prošlog] [utorka] [u] LT","[prošle] [srede] [u] LT","[prošlog] [četvrtka] [u] LT","[prošlog] [petka] [u] LT","[prošle] [subote] [u] LT"];return a[this.day()]},sameElse:"L"},relativeTime:{future:"za %s",past:"pre %s",s:"nekoliko sekundi",m:b.translate,mm:b.translate,h:b.translate,hh:b.translate,d:"dan",dd:b.translate,M:"mesec",MM:b.translate,y:"godinu",yy:b.translate},ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){return a.defineLocale("sv",{months:"januari_februari_mars_april_maj_juni_juli_augusti_september_oktober_november_december".split("_"),monthsShort:"jan_feb_mar_apr_maj_jun_jul_aug_sep_okt_nov_dec".split("_"),weekdays:"söndag_måndag_tisdag_onsdag_torsdag_fredag_lördag".split("_"),weekdaysShort:"sön_mån_tis_ons_tor_fre_lör".split("_"),weekdaysMin:"sö_må_ti_on_to_fr_lö".split("_"),longDateFormat:{LT:"HH:mm",L:"YYYY-MM-DD",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[Idag] LT",nextDay:"[Imorgon] LT",lastDay:"[Igår] LT",nextWeek:"dddd LT",lastWeek:"[Förra] dddd[en] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"för %s sedan",s:"några sekunder",m:"en minut",mm:"%d minuter",h:"en timme",hh:"%d timmar",d:"en dag",dd:"%d dagar",M:"en månad",MM:"%d månader",y:"ett år",yy:"%d år"},ordinal:function(a){var b=a%10,c=1===~~(a%100/10)?"e":1===b?"a":2===b?"a":3===b?"e":"e";return a+c},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("ta",{months:"ஜனவரி_பிப்ரவரி_மார்ச்_ஏப்ரல்_மே_ஜூன்_ஜூலை_ஆகஸ்ட்_செப்டெம்பர்_அக்டோபர்_நவம்பர்_டிசம்பர்".split("_"),monthsShort:"ஜனவரி_பிப்ரவரி_மார்ச்_ஏப்ரல்_மே_ஜூன்_ஜூலை_ஆகஸ்ட்_செப்டெம்பர்_அக்டோபர்_நவம்பர்_டிசம்பர்".split("_"),weekdays:"ஞாயிற்றுக்கிழமை_திங்கட்கிழமை_செவ்வாய்கிழமை_புதன்கிழமை_வியாழக்கிழமை_வெள்ளிக்கிழமை_சனிக்கிழமை".split("_"),weekdaysShort:"ஞாயிறு_திங்கள்_செவ்வாய்_புதன்_வியாழன்_வெள்ளி_சனி".split("_"),weekdaysMin:"ஞா_தி_செ_பு_வி_வெ_ச".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, LT",LLLL:"dddd, D MMMM YYYY, LT"},calendar:{sameDay:"[இன்று] LT",nextDay:"[நாளை] LT",nextWeek:"dddd, LT",lastDay:"[நேற்று] LT",lastWeek:"[கடந்த வாரம்] dddd, LT",sameElse:"L"},relativeTime:{future:"%s இல்",past:"%s முன்",s:"ஒரு சில விநாடிகள்",m:"ஒரு நிமிடம்",mm:"%d நிமிடங்கள்",h:"ஒரு மணி நேரம்",hh:"%d மணி நேரம்",d:"ஒரு நாள்",dd:"%d நாட்கள்",M:"ஒரு மாதம்",MM:"%d மாதங்கள்",y:"ஒரு வருடம்",yy:"%d ஆண்டுகள்"},ordinal:function(a){return a+"வது"},meridiem:function(a){return a>=6&&10>=a?" காலை":a>=10&&14>=a?" நண்பகல்":a>=14&&18>=a?" எற்பாடு":a>=18&&20>=a?" மாலை":a>=20&&24>=a?" இரவு":a>=0&&6>=a?" வைகறை":void 0},week:{dow:0,doy:6}})}),function(a){a(rb)}(function(a){return a.defineLocale("th",{months:"มกราคม_กุมภาพันธ์_มีนาคม_เมษายน_พฤษภาคม_มิถุนายน_กรกฎาคม_สิงหาคม_กันยายน_ตุลาคม_พฤศจิกายน_ธันวาคม".split("_"),monthsShort:"มกรา_กุมภา_มีนา_เมษา_พฤษภา_มิถุนา_กรกฎา_สิงหา_กันยา_ตุลา_พฤศจิกา_ธันวา".split("_"),weekdays:"อาทิตย์_จันทร์_อังคาร_พุธ_พฤหัสบดี_ศุกร์_เสาร์".split("_"),weekdaysShort:"อาทิตย์_จันทร์_อังคาร_พุธ_พฤหัส_ศุกร์_เสาร์".split("_"),weekdaysMin:"อา._จ._อ._พ._พฤ._ศ._ส.".split("_"),longDateFormat:{LT:"H นาฬิกา m นาที",L:"YYYY/MM/DD",LL:"D MMMM YYYY",LLL:"D MMMM YYYY เวลา LT",LLLL:"วันddddที่ D MMMM YYYY เวลา LT"},meridiem:function(a){return 12>a?"ก่อนเที่ยง":"หลังเที่ยง"},calendar:{sameDay:"[วันนี้ เวลา] LT",nextDay:"[พรุ่งนี้ เวลา] LT",nextWeek:"dddd[หน้า เวลา] LT",lastDay:"[เมื่อวานนี้ เวลา] LT",lastWeek:"[วัน]dddd[ที่แล้ว เวลา] LT",sameElse:"L"},relativeTime:{future:"อีก %s",past:"%sที่แล้ว",s:"ไม่กี่วินาที",m:"1 นาที",mm:"%d นาที",h:"1 ชั่วโมง",hh:"%d ชั่วโมง",d:"1 วัน",dd:"%d วัน",M:"1 เดือน",MM:"%d เดือน",y:"1 ปี",yy:"%d ปี"}})}),function(a){a(rb)}(function(a){return a.defineLocale("tl-ph",{months:"Enero_Pebrero_Marso_Abril_Mayo_Hunyo_Hulyo_Agosto_Setyembre_Oktubre_Nobyembre_Disyembre".split("_"),monthsShort:"Ene_Peb_Mar_Abr_May_Hun_Hul_Ago_Set_Okt_Nob_Dis".split("_"),weekdays:"Linggo_Lunes_Martes_Miyerkules_Huwebes_Biyernes_Sabado".split("_"),weekdaysShort:"Lin_Lun_Mar_Miy_Huw_Biy_Sab".split("_"),weekdaysMin:"Li_Lu_Ma_Mi_Hu_Bi_Sab".split("_"),longDateFormat:{LT:"HH:mm",L:"MM/D/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY LT",LLLL:"dddd, MMMM DD, YYYY LT"},calendar:{sameDay:"[Ngayon sa] LT",nextDay:"[Bukas sa] LT",nextWeek:"dddd [sa] LT",lastDay:"[Kahapon sa] LT",lastWeek:"dddd [huling linggo] LT",sameElse:"L"},relativeTime:{future:"sa loob ng %s",past:"%s ang nakalipas",s:"ilang segundo",m:"isang minuto",mm:"%d minuto",h:"isang oras",hh:"%d oras",d:"isang araw",dd:"%d araw",M:"isang buwan",MM:"%d buwan",y:"isang taon",yy:"%d taon"},ordinal:function(a){return a},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){var b={1:"'inci",5:"'inci",8:"'inci",70:"'inci",80:"'inci",2:"'nci",7:"'nci",20:"'nci",50:"'nci",3:"'üncü",4:"'üncü",100:"'üncü",6:"'ncı",9:"'uncu",10:"'uncu",30:"'uncu",60:"'ıncı",90:"'ıncı"};return a.defineLocale("tr",{months:"Ocak_Şubat_Mart_Nisan_Mayıs_Haziran_Temmuz_Ağustos_Eylül_Ekim_Kasım_Aralık".split("_"),monthsShort:"Oca_Şub_Mar_Nis_May_Haz_Tem_Ağu_Eyl_Eki_Kas_Ara".split("_"),weekdays:"Pazar_Pazartesi_Salı_Çarşamba_Perşembe_Cuma_Cumartesi".split("_"),weekdaysShort:"Paz_Pts_Sal_Çar_Per_Cum_Cts".split("_"),weekdaysMin:"Pz_Pt_Sa_Ça_Pe_Cu_Ct".split("_"),longDateFormat:{LT:"HH:mm",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[bugün saat] LT",nextDay:"[yarın saat] LT",nextWeek:"[haftaya] dddd [saat] LT",lastDay:"[dün] LT",lastWeek:"[geçen hafta] dddd [saat] LT",sameElse:"L"},relativeTime:{future:"%s sonra",past:"%s önce",s:"birkaç saniye",m:"bir dakika",mm:"%d dakika",h:"bir saat",hh:"%d saat",d:"bir gün",dd:"%d gün",M:"bir ay",MM:"%d ay",y:"bir yıl",yy:"%d yıl"},ordinal:function(a){if(0===a)return a+"'ıncı";var c=a%10,d=a%100-c,e=a>=100?100:null;return a+(b[c]||b[d]||b[e])},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){return a.defineLocale("tzm-latn",{months:"innayr_brˤayrˤ_marˤsˤ_ibrir_mayyw_ywnyw_ywlywz_ɣwšt_šwtanbir_ktˤwbrˤ_nwwanbir_dwjnbir".split("_"),monthsShort:"innayr_brˤayrˤ_marˤsˤ_ibrir_mayyw_ywnyw_ywlywz_ɣwšt_šwtanbir_ktˤwbrˤ_nwwanbir_dwjnbir".split("_"),weekdays:"asamas_aynas_asinas_akras_akwas_asimwas_asiḍyas".split("_"),weekdaysShort:"asamas_aynas_asinas_akras_akwas_asimwas_asiḍyas".split("_"),weekdaysMin:"asamas_aynas_asinas_akras_akwas_asimwas_asiḍyas".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[asdkh g] LT",nextDay:"[aska g] LT",nextWeek:"dddd [g] LT",lastDay:"[assant g] LT",lastWeek:"dddd [g] LT",sameElse:"L"},relativeTime:{future:"dadkh s yan %s",past:"yan %s",s:"imik",m:"minuḍ",mm:"%d minuḍ",h:"saɛa",hh:"%d tassaɛin",d:"ass",dd:"%d ossan",M:"ayowr",MM:"%d iyyirn",y:"asgas",yy:"%d isgasn"},week:{dow:6,doy:12}})}),function(a){a(rb)}(function(a){return a.defineLocale("tzm",{months:"ⵉⵏⵏⴰⵢⵔ_ⴱⵕⴰⵢⵕ_ⵎⴰⵕⵚ_ⵉⴱⵔⵉⵔ_ⵎⴰⵢⵢⵓ_ⵢⵓⵏⵢⵓ_ⵢⵓⵍⵢⵓⵣ_ⵖⵓⵛⵜ_ⵛⵓⵜⴰⵏⴱⵉⵔ_ⴽⵟⵓⴱⵕ_ⵏⵓⵡⴰⵏⴱⵉⵔ_ⴷⵓⵊⵏⴱⵉⵔ".split("_"),monthsShort:"ⵉⵏⵏⴰⵢⵔ_ⴱⵕⴰⵢⵕ_ⵎⴰⵕⵚ_ⵉⴱⵔⵉⵔ_ⵎⴰⵢⵢⵓ_ⵢⵓⵏⵢⵓ_ⵢⵓⵍⵢⵓⵣ_ⵖⵓⵛⵜ_ⵛⵓⵜⴰⵏⴱⵉⵔ_ⴽⵟⵓⴱⵕ_ⵏⵓⵡⴰⵏⴱⵉⵔ_ⴷⵓⵊⵏⴱⵉⵔ".split("_"),weekdays:"ⴰⵙⴰⵎⴰⵙ_ⴰⵢⵏⴰⵙ_ⴰⵙⵉⵏⴰⵙ_ⴰⴽⵔⴰⵙ_ⴰⴽⵡⴰⵙ_ⴰⵙⵉⵎⵡⴰⵙ_ⴰⵙⵉⴹⵢⴰⵙ".split("_"),weekdaysShort:"ⴰⵙⴰⵎⴰⵙ_ⴰⵢⵏⴰⵙ_ⴰⵙⵉⵏⴰⵙ_ⴰⴽⵔⴰⵙ_ⴰⴽⵡⴰⵙ_ⴰⵙⵉⵎⵡⴰⵙ_ⴰⵙⵉⴹⵢⴰⵙ".split("_"),weekdaysMin:"ⴰⵙⴰⵎⴰⵙ_ⴰⵢⵏⴰⵙ_ⴰⵙⵉⵏⴰⵙ_ⴰⴽⵔⴰⵙ_ⴰⴽⵡⴰⵙ_ⴰⵙⵉⵎⵡⴰⵙ_ⴰⵙⵉⴹⵢⴰⵙ".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[ⴰⵙⴷⵅ ⴴ] LT",nextDay:"[ⴰⵙⴽⴰ ⴴ] LT",nextWeek:"dddd [ⴴ] LT",lastDay:"[ⴰⵚⴰⵏⵜ ⴴ] LT",lastWeek:"dddd [ⴴ] LT",sameElse:"L"},relativeTime:{future:"ⴷⴰⴷⵅ ⵙ ⵢⴰⵏ %s",past:"ⵢⴰⵏ %s",s:"ⵉⵎⵉⴽ",m:"ⵎⵉⵏⵓⴺ",mm:"%d ⵎⵉⵏⵓⴺ",h:"ⵙⴰⵄⴰ",hh:"%d ⵜⴰⵙⵙⴰⵄⵉⵏ",d:"ⴰⵙⵙ",dd:"%d oⵙⵙⴰⵏ",M:"ⴰⵢoⵓⵔ",MM:"%d ⵉⵢⵢⵉⵔⵏ",y:"ⴰⵙⴳⴰⵙ",yy:"%d ⵉⵙⴳⴰⵙⵏ"},week:{dow:6,doy:12}})}),function(a){a(rb)}(function(a){function b(a,b){var c=a.split("_");return b%10===1&&b%100!==11?c[0]:b%10>=2&&4>=b%10&&(10>b%100||b%100>=20)?c[1]:c[2]}function c(a,c,d){var e={mm:"хвилина_хвилини_хвилин",hh:"година_години_годин",dd:"день_дні_днів",MM:"місяць_місяці_місяців",yy:"рік_роки_років"};return"m"===d?c?"хвилина":"хвилину":"h"===d?c?"година":"годину":a+" "+b(e[d],+a)}function d(a,b){var c={nominative:"січень_лютий_березень_квітень_травень_червень_липень_серпень_вересень_жовтень_листопад_грудень".split("_"),accusative:"січня_лютого_березня_квітня_травня_червня_липня_серпня_вересня_жовтня_листопада_грудня".split("_")},d=/D[oD]? *MMMM?/.test(b)?"accusative":"nominative";return c[d][a.month()]}function e(a,b){var c={nominative:"неділя_понеділок_вівторок_середа_четвер_п’ятниця_субота".split("_"),accusative:"неділю_понеділок_вівторок_середу_четвер_п’ятницю_суботу".split("_"),genitive:"неділі_понеділка_вівторка_середи_четверга_п’ятниці_суботи".split("_")},d=/(\[[ВвУу]\]) ?dddd/.test(b)?"accusative":/\[?(?:минулої|наступної)? ?\] ?dddd/.test(b)?"genitive":"nominative";return c[d][a.day()]}function f(a){return function(){return a+"о"+(11===this.hours()?"б":"")+"] LT"}}return a.defineLocale("uk",{months:d,monthsShort:"січ_лют_бер_квіт_трав_черв_лип_серп_вер_жовт_лист_груд".split("_"),weekdays:e,weekdaysShort:"нд_пн_вт_ср_чт_пт_сб".split("_"),weekdaysMin:"нд_пн_вт_ср_чт_пт_сб".split("_"),longDateFormat:{LT:"HH:mm",L:"DD.MM.YYYY",LL:"D MMMM YYYY р.",LLL:"D MMMM YYYY р., LT",LLLL:"dddd, D MMMM YYYY р., LT"},calendar:{sameDay:f("[Сьогодні "),nextDay:f("[Завтра "),lastDay:f("[Вчора "),nextWeek:f("[У] dddd ["),lastWeek:function(){switch(this.day()){case 0:case 3:case 5:case 6:return f("[Минулої] dddd [").call(this);case 1:case 2:case 4:return f("[Минулого] dddd [").call(this)}},sameElse:"L"},relativeTime:{future:"за %s",past:"%s тому",s:"декілька секунд",m:c,mm:c,h:"годину",hh:c,d:"день",dd:c,M:"місяць",MM:c,y:"рік",yy:c},meridiem:function(a){return 4>a?"ночі":12>a?"ранку":17>a?"дня":"вечора"},ordinal:function(a,b){switch(b){case"M":case"d":case"DDD":case"w":case"W":return a+"-й";case"D":return a+"-го";default:return a}},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){return a.defineLocale("uz",{months:"январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь".split("_"),monthsShort:"янв_фев_мар_апр_май_июн_июл_авг_сен_окт_ноя_дек".split("_"),weekdays:"Якшанба_Душанба_Сешанба_Чоршанба_Пайшанба_Жума_Шанба".split("_"),weekdaysShort:"Якш_Душ_Сеш_Чор_Пай_Жум_Шан".split("_"),weekdaysMin:"Як_Ду_Се_Чо_Па_Жу_Ша".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"D MMMM YYYY, dddd LT"},calendar:{sameDay:"[Бугун соат] LT [да]",nextDay:"[Эртага] LT [да]",nextWeek:"dddd [куни соат] LT [да]",lastDay:"[Кеча соат] LT [да]",lastWeek:"[Утган] dddd [куни соат] LT [да]",sameElse:"L"},relativeTime:{future:"Якин %s ичида",past:"Бир неча %s олдин",s:"фурсат",m:"бир дакика",mm:"%d дакика",h:"бир соат",hh:"%d соат",d:"бир кун",dd:"%d кун",M:"бир ой",MM:"%d ой",y:"бир йил",yy:"%d йил"},week:{dow:1,doy:7}})}),function(a){a(rb)}(function(a){return a.defineLocale("vi",{months:"tháng 1_tháng 2_tháng 3_tháng 4_tháng 5_tháng 6_tháng 7_tháng 8_tháng 9_tháng 10_tháng 11_tháng 12".split("_"),monthsShort:"Th01_Th02_Th03_Th04_Th05_Th06_Th07_Th08_Th09_Th10_Th11_Th12".split("_"),weekdays:"chủ nhật_thứ hai_thứ ba_thứ tư_thứ năm_thứ sáu_thứ bảy".split("_"),weekdaysShort:"CN_T2_T3_T4_T5_T6_T7".split("_"),weekdaysMin:"CN_T2_T3_T4_T5_T6_T7".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM [năm] YYYY",LLL:"D MMMM [năm] YYYY LT",LLLL:"dddd, D MMMM [năm] YYYY LT",l:"DD/M/YYYY",ll:"D MMM YYYY",lll:"D MMM YYYY LT",llll:"ddd, D MMM YYYY LT"},calendar:{sameDay:"[Hôm nay lúc] LT",nextDay:"[Ngày mai lúc] LT",nextWeek:"dddd [tuần tới lúc] LT",lastDay:"[Hôm qua lúc] LT",lastWeek:"dddd [tuần rồi lúc] LT",sameElse:"L"},relativeTime:{future:"%s tới",past:"%s trước",s:"vài giây",m:"một phút",mm:"%d phút",h:"một giờ",hh:"%d giờ",d:"một ngày",dd:"%d ngày",M:"một tháng",MM:"%d tháng",y:"một năm",yy:"%d năm"},ordinal:function(a){return a},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("zh-cn",{months:"一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月".split("_"),monthsShort:"1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),weekdays:"星期日_星期一_星期二_星期三_星期四_星期五_星期六".split("_"),weekdaysShort:"周日_周一_周二_周三_周四_周五_周六".split("_"),weekdaysMin:"日_一_二_三_四_五_六".split("_"),longDateFormat:{LT:"Ah点mm",L:"YYYY-MM-DD",LL:"YYYY年MMMD日",LLL:"YYYY年MMMD日LT",LLLL:"YYYY年MMMD日ddddLT",l:"YYYY-MM-DD",ll:"YYYY年MMMD日",lll:"YYYY年MMMD日LT",llll:"YYYY年MMMD日ddddLT"},meridiem:function(a,b){var c=100*a+b;return 600>c?"凌晨":900>c?"早上":1130>c?"上午":1230>c?"中午":1800>c?"下午":"晚上"},calendar:{sameDay:function(){return 0===this.minutes()?"[今天]Ah[点整]":"[今天]LT"},nextDay:function(){return 0===this.minutes()?"[明天]Ah[点整]":"[明天]LT"},lastDay:function(){return 0===this.minutes()?"[昨天]Ah[点整]":"[昨天]LT"},nextWeek:function(){var b,c;return b=a().startOf("week"),c=this.unix()-b.unix()>=604800?"[下]":"[本]",0===this.minutes()?c+"dddAh点整":c+"dddAh点mm"},lastWeek:function(){var b,c;return b=a().startOf("week"),c=this.unix()<b.unix()?"[上]":"[本]",0===this.minutes()?c+"dddAh点整":c+"dddAh点mm"},sameElse:"LL"},ordinal:function(a,b){switch(b){case"d":case"D":case"DDD":return a+"日";case"M":return a+"月";case"w":case"W":return a+"周";default:return a}},relativeTime:{future:"%s内",past:"%s前",s:"几秒",m:"1分钟",mm:"%d分钟",h:"1小时",hh:"%d小时",d:"1天",dd:"%d天",M:"1个月",MM:"%d个月",y:"1年",yy:"%d年"},week:{dow:1,doy:4}})}),function(a){a(rb)}(function(a){return a.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月".split("_"),monthsShort:"1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),weekdays:"星期日_星期一_星期二_星期三_星期四_星期五_星期六".split("_"),weekdaysShort:"週日_週一_週二_週三_週四_週五_週六".split("_"),weekdaysMin:"日_一_二_三_四_五_六".split("_"),longDateFormat:{LT:"Ah點mm",L:"YYYY年MMMD日",LL:"YYYY年MMMD日",LLL:"YYYY年MMMD日LT",LLLL:"YYYY年MMMD日ddddLT",l:"YYYY年MMMD日",ll:"YYYY年MMMD日",lll:"YYYY年MMMD日LT",llll:"YYYY年MMMD日ddddLT"},meridiem:function(a,b){var c=100*a+b;return 900>c?"早上":1130>c?"上午":1230>c?"中午":1800>c?"下午":"晚上"},calendar:{sameDay:"[今天]LT",nextDay:"[明天]LT",nextWeek:"[下]ddddLT",lastDay:"[昨天]LT",lastWeek:"[上]ddddLT",sameElse:"L"},ordinal:function(a,b){switch(b){case"d":case"D":case"DDD":return a+"日";
-case"M":return a+"月";case"w":case"W":return a+"週";default:return a}},relativeTime:{future:"%s內",past:"%s前",s:"幾秒",m:"一分鐘",mm:"%d分鐘",h:"一小時",hh:"%d小時",d:"一天",dd:"%d天",M:"一個月",MM:"%d個月",y:"一年",yy:"%d年"}})}),rb.locale("en"),Gb?module.exports=rb:"function"==typeof define&&define.amd?(define("moment",function(a,b,c){return c.config&&c.config()&&c.config().noGlobal===!0&&(vb.moment=sb),rb}),qb(!0)):qb()}).call(this);
-
-/**
- * Copyright (c) 2007-2012 Ariel Flesler - aflesler(at)gmail(dot)com | http://flesler.blogspot.com
- * Dual licensed under MIT and GPL.
- * @author Ariel Flesler
- * @version 1.4.3.1
- */
-(function($){var h=$.scrollTo=function(a,b,c){$(window).scrollTo(a,b,c)};h.defaults={axis:'xy',duration:parseFloat($.fn.jquery)>=1.3?0:1,limit:true};h.window=function(a){return $(window)._scrollable()};$.fn._scrollable=function(){return this.map(function(){var a=this,isWin=!a.nodeName||$.inArray(a.nodeName.toLowerCase(),['iframe','#document','html','body'])!=-1;if(!isWin)return a;var b=(a.contentWindow||a).document||a.ownerDocument||a;return/webkit/i.test(navigator.userAgent)||b.compatMode=='BackCompat'?b.body:b.documentElement})};$.fn.scrollTo=function(e,f,g){if(typeof f=='object'){g=f;f=0}if(typeof g=='function')g={onAfter:g};if(e=='max')e=9e9;g=$.extend({},h.defaults,g);f=f||g.duration;g.queue=g.queue&&g.axis.length>1;if(g.queue)f/=2;g.offset=both(g.offset);g.over=both(g.over);return this._scrollable().each(function(){if(e==null)return;var d=this,$elem=$(d),targ=e,toff,attr={},win=$elem.is('html,body');switch(typeof targ){case'number':case'string':if(/^([+-]=)?\d+(\.\d+)?(px|%)?$/.test(targ)){targ=both(targ);break}targ=$(targ,this);if(!targ.length)return;case'object':if(targ.is||targ.style)toff=(targ=$(targ)).offset()}$.each(g.axis.split(''),function(i,a){var b=a=='x'?'Left':'Top',pos=b.toLowerCase(),key='scroll'+b,old=d[key],max=h.max(d,a);if(toff){attr[key]=toff[pos]+(win?0:old-$elem.offset()[pos]);if(g.margin){attr[key]-=parseInt(targ.css('margin'+b))||0;attr[key]-=parseInt(targ.css('border'+b+'Width'))||0}attr[key]+=g.offset[pos]||0;if(g.over[pos])attr[key]+=targ[a=='x'?'width':'height']()*g.over[pos]}else{var c=targ[pos];attr[key]=c.slice&&c.slice(-1)=='%'?parseFloat(c)/100*max:c}if(g.limit&&/^\d+$/.test(attr[key]))attr[key]=attr[key]<=0?0:Math.min(attr[key],max);if(!i&&g.queue){if(old!=attr[key])animate(g.onAfterFirst);delete attr[key]}});animate(g.onAfter);function animate(a){$elem.animate(attr,f,g.easing,a&&function(){a.call(this,e,g)})}}).end()};h.max=function(a,b){var c=b=='x'?'Width':'Height',scroll='scroll'+c;if(!$(a).is('html,body'))return a[scroll]-$(a)[c.toLowerCase()]();var d='client'+c,html=a.ownerDocument.documentElement,body=a.ownerDocument.body;return Math.max(html[scroll],body[scroll])-Math.min(html[d],body[d])};function both(a){return typeof a=='object'?a:{top:a,left:a}}})(jQuery);
-
-/**
-|------------------------------------------|
-| MelonHTML5 - Timeline                    |
-|------------------------------------------|
-| @author:  Lee Le (lee@melonhtml5.com)    |
-| @version: 2.00 (7th Feb 2014)            |
-| @website: www.melonhtml5.com             |
-|------------------------------------------|
+/*
+    TimelineJS - ver. 2.33.1 - 2014-06-24
+    Copyright (c) 2012-2013 Northwestern University
+    a project of the Northwestern University Knight Lab, originally created by Zach Wise
+    https://github.com/NUKnightLab/TimelineJS
+    This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+    If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
-// moment.locale("zh-cn");
-moment.lang("zh-cn");
-String.prototype.parseURL = function() {
-    return this.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g, function(url) {
-        return url.link(url);
-    });
+
+/* **********************************************
+     Begin VMM.js
+********************************************** */
+
+/**
+	* VéritéCo JS Core
+	* Designed and built by Zach Wise at VéritéCo zach@verite.co
+
+	* This Source Code Form is subject to the terms of the Mozilla Public
+	* License, v. 2.0. If a copy of the MPL was not distributed with this
+	* file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+*/  
+
+
+/*	Simple JavaScript Inheritance
+	By John Resig http://ejohn.org/
+	MIT Licensed.
+================================================== */
+(function() {
+	var initializing = false,
+	fnTest = /xyz/.test(function() {
+		xyz;
+		}) ? /\b_super\b/: /.*/;
+		// The base Class implementation (does nothing)
+	this.Class = function() {};
+
+    // Create a new Class that inherits from this class
+	Class.extend = function(prop) {
+		var _super = this.prototype;
+
+        // Instantiate a base class (but only create the instance,
+        // don't run the init constructor)
+		initializing = true;
+		var prototype = new this();
+		initializing = false;
+
+        // Copy the properties over onto the new prototype
+		for (var name in prop) {
+            // Check if we're overwriting an existing function
+			prototype[name] = typeof prop[name] == "function" &&
+			typeof _super[name] == "function" && fnTest.test(prop[name]) ?
+			(function(name, fn) {
+				return function() {
+					var tmp = this._super;
+
+					// Add a new ._super() method that is the same method
+					// but on the super-class
+					this._super = _super[name];
+
+					// The method only need to be bound temporarily, so we
+					// remove it when we're done executing
+					var ret = fn.apply(this, arguments);
+					this._super = tmp;
+
+					return ret;
+				};
+			})(name, prop[name]) :
+			prop[name];
+		}
+
+		// The dummy class constructor
+		function Class() {
+			// All construction is actually done in the init method
+			if (!initializing && this.init)
+			this.init.apply(this, arguments);
+		}
+
+		// Populate our constructed prototype object
+		Class.prototype = prototype;
+
+		// Enforce the constructor to be what we expect
+		Class.prototype.constructor = Class;
+
+		// And make this class extendable
+		Class.extend = arguments.callee;
+
+		return Class;
+    };
+})();
+
+/*	Access to the Global Object
+	access the global object without hard-coding the identifier window
+================================================== */
+var global = (function () {
+   return this || (1,eval)('this');
+}());
+
+/* VMM
+================================================== */
+if (typeof VMM == 'undefined') {
+	
+	/* Main Scope Container
+	================================================== */
+	//var VMM = {};
+	var VMM = Class.extend({});
+	
+	/* Debug
+	================================================== */
+	VMM.debug = true;
+	
+	/* Master Config
+	================================================== */
+	
+	VMM.master_config = ({
+		
+		init: function() {
+			return this;
+		},
+		
+		sizes: {
+			api: {
+				width:			0,
+				height:			0
+			}
+		},
+		
+		vp:				"Pellentesque nibh felis, eleifend id, commodo in, interdum vitae, leo",
+		
+		api_keys_master: {
+			flickr:		"RAIvxHY4hE/Elm5cieh4X5ptMyDpj7MYIxziGxi0WGCcy1s+yr7rKQ==",
+			//google:		"jwNGnYw4hE9lmAez4ll0QD+jo6SKBJFknkopLS4FrSAuGfIwyj57AusuR0s8dAo=",
+			google:		"uQKadH1VMlCsp560gN2aOiMz4evWkl1s34yryl3F/9FJOsn+/948CbBUvKLN46U=",
+			twitter:	""
+		},
+		
+		timers: {
+			api:			7000
+		},
+		
+		api:	{
+			pushques:		[]
+			
+		},
+		
+		twitter: {
+			active:			false,
+			array:			[],
+			api_loaded:		false,
+			que:			[]
+		},
+		
+		flickr: {
+			active:			false,
+			array:			[],
+			api_loaded:		false,
+			que:			[]
+		},
+		
+		youtube: {
+			active:			false,
+			array:			[],
+			api_loaded:		false,
+			que:			[]
+		},
+		
+		vimeo: {
+			active:			false,
+			array:			[],
+			api_loaded:		false,
+			que:			[]
+		},
+		
+		vine: {
+			active:			false,
+			array:			[],
+			api_loaded:		false,
+			que:			[]
+		},
+		
+		webthumb: {
+			active:			false,
+			array:			[],
+			api_loaded:		false,
+			que:			[]
+		},
+		
+		googlemaps: {
+			active:			false,
+			map_active:		false,
+			places_active:	false,
+			array:			[],
+			api_loaded:		false,
+			que:			[]
+		},
+		
+		googledocs: {
+			active:			false,
+			array:			[],
+			api_loaded:		false,
+			que:			[]
+		},
+		
+		googleplus: {
+			active:			false,
+			array:			[],
+			api_loaded:		false,
+			que:			[]
+		},
+		
+		wikipedia: {
+			active:			false,
+			array:			[],
+			api_loaded:		false,
+			que:			[],
+			tries:			0
+		},
+		
+		soundcloud: {
+			active:			false,
+			array:			[],
+			api_loaded:		false,
+			que:			[]
+		}
+		
+	}).init();
+	
+	//VMM.createElement(tag, value, cName, attrs, styles);
+	VMM.createElement = function(tag, value, cName, attrs, styles) {
+		
+		var ce = "";
+		
+		if (tag != null && tag != "") {
+			
+			// TAG
+			ce += "<" + tag;
+			if (cName != null && cName != "") {
+				ce += " class='" + cName + "'";
+			};
+			
+			if (attrs != null && attrs != "") {
+				ce += " " + attrs;
+			};
+			
+			if (styles != null && styles != "") {
+				ce += " style='" + styles + "'";
+			};
+			
+			ce += ">";
+			
+			if (value != null && value != "") {
+				ce += value;
+			}
+			
+			// CLOSE TAG
+			ce = ce + "</" + tag + ">";
+		}
+		
+		return ce;
+		
+    };
+
+	VMM.createMediaElement = function(media, caption, credit) {
+		
+		var ce = "";
+		
+		var _valid = false;
+		
+		ce += "<div class='media'>";
+		
+		if (media != null && media != "") {
+			
+			valid = true;
+			
+			ce += "<img src='" + media + "'>";
+			
+			// CREDIT
+			if (credit != null && credit != "") {
+				ce += VMM.createElement("div", credit, "credit");
+			}
+			
+			// CAPTION
+			if (caption != null && caption != "") {
+				ce += VMM.createElement("div", caption, "caption");
+			}
+
+		}
+		
+		ce += "</div>";
+		
+		return ce;
+		
+    };
+
+	// Hide URL Bar for iOS and Android by Scott Jehl
+	// https://gist.github.com/1183357
+
+	VMM.hideUrlBar = function () {
+		var win = window,
+			doc = win.document;
+
+		// If there's a hash, or addEventListener is undefined, stop here
+		if( !location.hash || !win.addEventListener ){
+
+			//scroll to 1
+			window.scrollTo( 0, 1 );
+			var scrollTop = 1,
+
+			//reset to 0 on bodyready, if needed
+			bodycheck = setInterval(function(){
+				if( doc.body ){
+					clearInterval( bodycheck );
+					scrollTop = "scrollTop" in doc.body ? doc.body.scrollTop : 1;
+					win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
+				}	
+			}, 15 );
+
+			win.addEventListener( "load", function(){
+				setTimeout(function(){
+					//reset to hide addr bar at onload
+					win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
+				}, 0);
+			}, false );
+		}
+	};
+	
+
+}
+
+/* Trace (console.log)
+================================================== */
+function trace( msg ) {
+	if (VMM.debug) {
+		if (window.console) {
+			console.log(msg);
+		} else if ( typeof( jsTrace ) != 'undefined' ) {
+			jsTrace.send( msg );
+		} else {
+			//alert(msg);
+		}
+	}
+}
+
+/* Extending Date to include Week
+================================================== */
+Date.prototype.getWeek = function() {
+	var onejan = new Date(this.getFullYear(),0,1);
+	return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
+}
+
+/* Extending Date to include Day of Year
+================================================== */
+Date.prototype.getDayOfYear = function() {
+	var onejan = new Date(this.getFullYear(),0,1);
+	return Math.ceil((this - onejan) / 86400000);
+}
+
+/* A MORE SPECIFIC TYPEOF();
+//	http://rolandog.com/archives/2007/01/18/typeof-a-more-specific-typeof/
+================================================== */
+// type.of()
+var is={
+	Null:function(a){return a===null;},
+	Undefined:function(a){return a===undefined;},
+	nt:function(a){return(a===null||a===undefined);},
+	Function:function(a){return(typeof(a)==="function")?a.constructor.toString().match(/Function/)!==null:false;},
+	String:function(a){return(typeof(a)==="string")?true:(typeof(a)==="object")?a.constructor.toString().match(/string/i)!==null:false;},
+	Array:function(a){return(typeof(a)==="object")?a.constructor.toString().match(/array/i)!==null||a.length!==undefined:false;},
+	Boolean:function(a){return(typeof(a)==="boolean")?true:(typeof(a)==="object")?a.constructor.toString().match(/boolean/i)!==null:false;},
+	Date:function(a){return(typeof(a)==="date")?true:(typeof(a)==="object")?a.constructor.toString().match(/date/i)!==null:false;},
+	HTML:function(a){return(typeof(a)==="object")?a.constructor.toString().match(/html/i)!==null:false;},
+	Number:function(a){return(typeof(a)==="number")?true:(typeof(a)==="object")?a.constructor.toString().match(/Number/)!==null:false;},
+	Object:function(a){return(typeof(a)==="object")?a.constructor.toString().match(/object/i)!==null:false;},
+	RegExp:function(a){return(typeof(a)==="function")?a.constructor.toString().match(/regexp/i)!==null:false;}
+};
+var type={
+	of:function(a){
+		for(var i in is){
+			if(is[i](a)){
+				return i.toLowerCase();
+			}
+		}
+	}
 };
 
-String.prototype.parseHashtag = function() {
-    return this.replace(/[#]+[A-Za-z0-9-_]+/g, function(t) {
-        var tag = t.replace("#","%23")
-        return t.link("//twitter.com/search?q=" + tag);
-    });
+
+
+
+
+/* **********************************************
+     Begin VMM.Library.js
+********************************************** */
+
+/*	* LIBRARY ABSTRACTION
+================================================== */
+if(typeof VMM != 'undefined') {
+	
+	VMM.smoothScrollTo = function(elem, duration, ease) {
+		if( typeof( jQuery ) != 'undefined' ){
+			var _ease		= "easein",
+				_duration	= 1000;
+		
+			if (duration != null) {
+				if (duration < 1) {
+					_duration = 1;
+				} else {
+					_duration = Math.round(duration);
+				}
+				
+			}
+			
+			if (ease != null && ease != "") {
+				_ease = ease;
+			}
+			
+			if (jQuery(window).scrollTop() != VMM.Lib.offset(elem).top) {
+				VMM.Lib.animate('html,body', _duration, _ease, {scrollTop: VMM.Lib.offset(elem).top})
+			}
+			
+		}
+		
+	};
+	
+	VMM.attachElement = function(element, content) {
+		if( typeof( jQuery ) != 'undefined' ){
+			jQuery(element).html(content);
+		}
+		
+	};
+	
+	VMM.appendElement = function(element, content) {
+		
+		if( typeof( jQuery ) != 'undefined' ){
+			jQuery(element).append(content);
+		}
+		
+	};
+	
+	VMM.getHTML = function(element) {
+		var e;
+		if( typeof( jQuery ) != 'undefined' ){
+			e = jQuery(element).html();
+			return e;
+		}
+		
+	};
+	
+	VMM.getElement = function(element, p) {
+		var e;
+		if( typeof( jQuery ) != 'undefined' ){
+			if (p) {
+				e = jQuery(element).parent().get(0);
+				
+			} else {
+				e = jQuery(element).get(0);
+			}
+			return e;
+		}
+		
+	};
+	
+	VMM.bindEvent = function(element, the_handler, the_event_type, event_data) {
+		var e;
+		var _event_type = "click";
+		var _event_data = {};
+		
+		if (the_event_type != null && the_event_type != "") {
+			_event_type = the_event_type;
+		}
+		
+		if (_event_data != null && _event_data != "") {
+			_event_data = event_data;
+		}
+		
+		if( typeof( jQuery ) != 'undefined' ){
+			jQuery(element).bind(_event_type, _event_data, the_handler);
+			
+			//return e;
+		}
+		
+	};
+	
+	VMM.unbindEvent = function(element, the_handler, the_event_type) {
+		var e;
+		var _event_type = "click";
+		var _event_data = {};
+		
+		if (the_event_type != null && the_event_type != "") {
+			_event_type = the_event_type;
+		}
+		
+		if( typeof( jQuery ) != 'undefined' ){
+			jQuery(element).unbind(_event_type, the_handler);
+			
+			//return e;
+		}
+		
+	};
+	
+	VMM.fireEvent = function(element, the_event_type, the_data) {
+		var e;
+		var _event_type = "click";
+		var _data = [];
+		
+		if (the_event_type != null && the_event_type != "") {
+			_event_type = the_event_type;
+		}
+		if (the_data != null && the_data != "") {
+			_data = the_data;
+		}
+		
+		if( typeof( jQuery ) != 'undefined' ){
+			jQuery(element).trigger(_event_type, _data);
+			
+			//return e;
+		}
+		
+	};
+	
+	VMM.getJSON = function(url, data, callback) {
+		if( typeof( jQuery ) != 'undefined' ){
+			jQuery.ajaxSetup({
+			     timeout: 3000
+			});
+			/* CHECK FOR IE
+			================================================== */
+			if ( VMM.Browser.browser == "Explorer" && parseInt(VMM.Browser.version, 10) >= 7 && window.XDomainRequest) {
+				trace("IE JSON");
+				var ie_url = url;
+				if (ie_url.match('^http://')){
+					return jQuery.getJSON(ie_url, data, callback);
+				} else if (ie_url.match('^https://')) {
+					ie_url = ie_url.replace("https://","http://");
+					return jQuery.getJSON(ie_url, data, callback);
+				} else {
+					return jQuery.getJSON(url, data, callback);
+				}
+				
+			} else {
+				return jQuery.getJSON(url, data, callback);
+
+			}
+		}
+	}
+	
+	VMM.parseJSON = function(the_json) {
+		if( typeof( jQuery ) != 'undefined' ){
+			return jQuery.parseJSON(the_json);
+		}
+	}
+	
+	// ADD ELEMENT AND RETURN IT
+	VMM.appendAndGetElement = function(append_to_element, tag, cName, content) {
+		var e,
+			_tag		= "<div>",
+			_class		= "",
+			_content	= "",
+			_id			= "";
+		
+		if (tag != null && tag != "") {
+			_tag = tag;
+		}
+		
+		if (cName != null && cName != "") {
+			_class = cName;
+		}
+		
+		if (content != null && content != "") {
+			_content = content;
+		}
+		
+		if( typeof( jQuery ) != 'undefined' ){
+			
+			e = jQuery(tag);
+			
+			e.addClass(_class);
+			e.html(_content);
+			
+			jQuery(append_to_element).append(e);
+			
+		}
+		
+		return e;
+		
+	};
+	
+	VMM.Lib = {
+		
+		init: function() {
+			return this;
+		},
+		
+		hide: function(element, duration) {
+			if (duration != null && duration != "") {
+				if( typeof( jQuery ) != 'undefined' ){
+					jQuery(element).hide(duration);
+				}
+			} else {
+				if( typeof( jQuery ) != 'undefined' ){
+					jQuery(element).hide();
+				}
+			}
+			
+		},
+		
+		remove: function(element) {
+			if( typeof( jQuery ) != 'undefined' ){
+				jQuery(element).remove();
+			}
+		},
+		
+		detach: function(element) {
+			if( typeof( jQuery ) != 'undefined' ){
+				jQuery(element).detach();
+			}
+		},
+		
+		append: function(element, value) {
+			if( typeof( jQuery ) != 'undefined' ){
+				jQuery(element).append(value);
+			}
+		},
+		
+		prepend: function(element, value) {
+			if( typeof( jQuery ) != 'undefined' ){
+				jQuery(element).prepend(value);
+			}
+		},
+		
+		show: function(element, duration) {
+			if (duration != null && duration != "") {
+				if( typeof( jQuery ) != 'undefined' ){
+					jQuery(element).show(duration);
+				}
+			} else {
+				if( typeof( jQuery ) != 'undefined' ){
+					jQuery(element).show();
+				}
+			}
+			
+		},
+		
+		load: function(element, callback_function, event_data) {
+			var _event_data = {elem:element}; // return element by default
+			if (_event_data != null && _event_data != "") {
+				_event_data = event_data;
+			}
+			if( typeof( jQuery ) != 'undefined' ){
+				jQuery(element).load(_event_data, callback_function);
+			}
+		},
+		
+		addClass: function(element, cName) {
+			if( typeof( jQuery ) != 'undefined' ){
+				jQuery(element).addClass(cName);
+			}
+		},
+		
+		removeClass: function(element, cName) {
+			if( typeof( jQuery ) != 'undefined' ){
+				jQuery(element).removeClass(cName);
+			}
+		},
+		
+		attr: function(element, aName, value) {
+			if (value != null && value != "") {
+				if( typeof( jQuery ) != 'undefined' ){
+					jQuery(element).attr(aName, value);
+				}
+			} else {
+				if( typeof( jQuery ) != 'undefined' ){
+					return jQuery(element).attr(aName);
+				}
+			}
+		},
+		
+		prop: function(element, aName, value) {
+			if (typeof jQuery == 'undefined' || !/[1-9]\.[3-9].[1-9]/.test(jQuery.fn.jquery)) {
+			    VMM.Lib.attribute(element, aName, value);
+			} else {
+				jQuery(element).prop(aName, value);
+			}
+		},
+		
+		attribute: function(element, aName, value) {
+			
+			if (value != null && value != "") {
+				if( typeof( jQuery ) != 'undefined' ){
+					jQuery(element).attr(aName, value);
+				}
+			} else {
+				if( typeof( jQuery ) != 'undefined' ){
+					return jQuery(element).attr(aName);
+				}
+			}
+		},
+		
+		visible: function(element, show) {
+			if (show != null) {
+				if( typeof( jQuery ) != 'undefined' ){
+					if (show) {
+						jQuery(element).show(0);
+					} else {
+						jQuery(element).hide(0);
+					}
+				}
+			} else {
+				if( typeof( jQuery ) != 'undefined' ){
+					if ( jQuery(element).is(':visible')){
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+		},
+		
+		css: function(element, prop, value) {
+
+			if (value != null && value != "") {
+				if( typeof( jQuery ) != 'undefined' ){
+					jQuery(element).css(prop, value);
+				}
+			} else {
+				if( typeof( jQuery ) != 'undefined' ){
+					return jQuery(element).css(prop);
+				}
+			}
+		},
+		
+		cssmultiple: function(element, propval) {
+
+			if( typeof( jQuery ) != 'undefined' ){
+				return jQuery(element).css(propval);
+			}
+		},
+		
+		offset: function(element) {
+			var p;
+			if( typeof( jQuery ) != 'undefined' ){
+				p = jQuery(element).offset();
+			}
+			return p;
+		},
+		
+		position: function(element) {
+			var p;
+			if( typeof( jQuery ) != 'undefined' ){
+				p = jQuery(element).position();
+			}
+			return p;
+		},
+		
+		width: function(element, s) {
+			if (s != null && s != "") {
+				if( typeof( jQuery ) != 'undefined' ){
+					jQuery(element).width(s);
+				}
+			} else {
+				if( typeof( jQuery ) != 'undefined' ){
+					return jQuery(element).width();
+				}
+			}
+		},
+		
+		height: function(element, s) {
+			if (s != null && s != "") {
+				if( typeof( jQuery ) != 'undefined' ){
+					jQuery(element).height(s);
+				}
+			} else {
+				if( typeof( jQuery ) != 'undefined' ){
+					return jQuery(element).height();
+				}
+			}
+		},
+		
+		toggleClass: function(element, cName) {
+			if( typeof( jQuery ) != 'undefined' ){
+				jQuery(element).toggleClass(cName);
+			}
+		},
+		
+		each:function(element, return_function) {
+			if( typeof( jQuery ) != 'undefined' ){
+				jQuery(element).each(return_function);
+			}
+			
+		},
+		
+		html: function(element, str) {
+			var e;
+			if( typeof( jQuery ) != 'undefined' ){
+				e = jQuery(element).html();
+				return e;
+			}
+			
+			if (str != null && str != "") {
+				if( typeof( jQuery ) != 'undefined' ){
+					jQuery(element).html(str);
+				}
+			} else {
+				var e;
+				if( typeof( jQuery ) != 'undefined' ){
+					e = jQuery(element).html();
+					return e;
+				}
+			}
+
+		},
+		
+		find: function(element, selec) {
+			if( typeof( jQuery ) != 'undefined' ){
+				return jQuery(element).find(selec);
+			}
+		},
+		
+		stop: function(element) {
+			if( typeof( jQuery ) != 'undefined' ){
+				jQuery(element).stop();
+			}
+		},
+		
+		delay_animate: function(delay, element, duration, ease, att, callback_function) {
+			if (VMM.Browser.device == "mobile" || VMM.Browser.device == "tablet") {
+				var _tdd		= Math.round((duration/1500)*10)/10,
+					__duration	= _tdd + 's';
+					
+				VMM.Lib.css(element, '-webkit-transition', 'all '+ __duration + ' ease');
+				VMM.Lib.css(element, '-moz-transition', 'all '+ __duration + ' ease');
+				VMM.Lib.css(element, '-o-transition', 'all '+ __duration + ' ease');
+				VMM.Lib.css(element, '-ms-transition', 'all '+ __duration + ' ease');
+				VMM.Lib.css(element, 'transition', 'all '+ __duration + ' ease');
+				VMM.Lib.cssmultiple(element, _att);
+			} else {
+				if( typeof( jQuery ) != 'undefined' ){
+					jQuery(element).delay(delay).animate(att, {duration:duration, easing:ease} );
+				}
+			}
+			
+		},
+		
+		animate: function(element, duration, ease, att, que, callback_function) {
+			
+			var _ease		= "easein",
+				_que		= false,
+				_duration	= 1000,
+				_att		= {};
+			
+			if (duration != null) {
+				if (duration < 1) {
+					_duration = 1;
+				} else {
+					_duration = Math.round(duration);
+				}
+				
+			}
+			
+			if (ease != null && ease != "") {
+				_ease = ease;
+			}
+			
+			if (que != null && que != "") {
+				_que = que;
+			}
+			
+			
+			if (att != null) {
+				_att = att
+			} else {
+				_att = {opacity: 0}
+			}
+			
+			
+			if (VMM.Browser.device == "mobile" || VMM.Browser.device == "tablet") {
+				
+				var _tdd		= Math.round((_duration/1500)*10)/10,
+					__duration	= _tdd + 's';
+					
+				_ease = " cubic-bezier(0.33, 0.66, 0.66, 1)";
+				//_ease = " ease-in-out";
+				for (x in _att) {
+					if (Object.prototype.hasOwnProperty.call(_att, x)) {
+						trace(x + " to " + _att[x]);
+						VMM.Lib.css(element, '-webkit-transition',  x + ' ' + __duration + _ease);
+						VMM.Lib.css(element, '-moz-transition', x + ' ' + __duration + _ease);
+						VMM.Lib.css(element, '-o-transition', x + ' ' + __duration + _ease);
+						VMM.Lib.css(element, '-ms-transition', x + ' ' + __duration + _ease);
+						VMM.Lib.css(element, 'transition', x + ' ' + __duration + _ease);
+					}
+				}
+				
+				VMM.Lib.cssmultiple(element, _att);
+				
+			} else {
+				if( typeof( jQuery ) != 'undefined' ){
+					if (callback_function != null && callback_function != "") {
+						jQuery(element).animate(_att, {queue:_que, duration:_duration, easing:_ease, complete:callback_function} );
+					} else {
+						jQuery(element).animate(_att, {queue:_que, duration:_duration, easing:_ease} );
+					}
+				}
+			}
+			
+		}
+		
+	}
+}
+
+if( typeof( jQuery ) != 'undefined' ){
+	
+	/*	XDR AJAX EXTENTION FOR jQuery
+		https://github.com/jaubourg/ajaxHooks/blob/master/src/ajax/xdr.js
+	================================================== */
+	(function( jQuery ) {
+		if ( window.XDomainRequest ) {
+			jQuery.ajaxTransport(function( s ) {
+				if ( s.crossDomain && s.async ) {
+					if ( s.timeout ) {
+						s.xdrTimeout = s.timeout;
+						delete s.timeout;
+					}
+					var xdr;
+					return {
+						send: function( _, complete ) {
+							function callback( status, statusText, responses, responseHeaders ) {
+								xdr.onload = xdr.onerror = xdr.ontimeout = jQuery.noop;
+								xdr = undefined;
+								complete( status, statusText, responses, responseHeaders );
+							}
+							xdr = new XDomainRequest();
+							xdr.open( s.type, s.url );
+							xdr.onload = function() {
+								callback( 200, "OK", { text: xdr.responseText }, "Content-Type: " + xdr.contentType );
+							};
+							xdr.onerror = function() {
+								callback( 404, "Not Found" );
+							};
+							if ( s.xdrTimeout ) {
+								xdr.ontimeout = function() {
+									callback( 0, "timeout" );
+								};
+								xdr.timeout = s.xdrTimeout;
+							}
+							xdr.send( ( s.hasContent && s.data ) || null );
+						},
+						abort: function() {
+							if ( xdr ) {
+								xdr.onerror = jQuery.noop();
+								xdr.abort();
+							}
+						}
+					};
+				}
+			});
+		}
+	})( jQuery );
+	
+	/*	jQuery Easing v1.3
+		http://gsgd.co.uk/sandbox/jquery/easing/
+	================================================== */
+	jQuery.easing['jswing'] = jQuery.easing['swing'];
+
+	jQuery.extend( jQuery.easing, {
+		def: 'easeOutQuad',
+		swing: function (x, t, b, c, d) {
+			//alert(jQuery.easing.default);
+			return jQuery.easing[jQuery.easing.def](x, t, b, c, d);
+		},
+		easeInExpo: function (x, t, b, c, d) {
+			return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b;
+		},
+		easeOutExpo: function (x, t, b, c, d) {
+			return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
+		},
+		easeInOutExpo: function (x, t, b, c, d) {
+			if (t==0) return b;
+			if (t==d) return b+c;
+			if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
+			return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
+		},
+		easeInQuad: function (x, t, b, c, d) {
+			return c*(t/=d)*t + b;
+		},
+		easeOutQuad: function (x, t, b, c, d) {
+			return -c *(t/=d)*(t-2) + b;
+		},
+		easeInOutQuad: function (x, t, b, c, d) {
+			if ((t/=d/2) < 1) return c/2*t*t + b;
+			return -c/2 * ((--t)*(t-2) - 1) + b;
+		}
+	});
+}
+
+
+/* **********************************************
+     Begin VMM.Browser.js
+********************************************** */
+
+/*	* DEVICE AND BROWSER DETECTION
+================================================== */
+if(typeof VMM != 'undefined' && typeof VMM.Browser == 'undefined') {
+	
+	VMM.Browser = {
+		init: function () {
+			this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+			this.version = this.searchVersion(navigator.userAgent)
+				|| this.searchVersion(navigator.appVersion)
+				|| "an unknown version";
+			this.tridentVersion = this.searchTridentVersion(navigator.userAgent);
+			this.OS = this.searchString(this.dataOS) || "an unknown OS";
+			this.device = this.searchDevice(navigator.userAgent);
+			this.orientation = this.searchOrientation(window.orientation);
+		},
+		searchOrientation: function(orientation) {
+			var orient = "";
+			if ( orientation == 0  || orientation == 180) {  
+				orient = "portrait";
+			} else if ( orientation == 90 || orientation == -90) {  
+				orient = "landscape";
+			} else {
+				orient = "normal";
+			}
+			return orient;
+		},
+		searchDevice: function(d) {
+			var device = "";
+			if (d.match(/Android/i) || d.match(/iPhone|iPod/i)) {
+				device = "mobile";
+			} else if (d.match(/iPad/i)) {
+				device = "tablet";
+			} else if (d.match(/BlackBerry/i) || d.match(/IEMobile/i)) {
+				device = "other mobile";
+			} else {
+				device = "desktop";
+			}
+			return device;
+		},
+		searchString: function (data) {
+			for (var i=0;i<data.length;i++)	{
+				var dataString	= data[i].string,
+					dataProp	= data[i].prop;
+					
+				this.versionSearchString = data[i].versionSearch || data[i].identity;
+				
+				if (dataString) {
+					if (dataString.indexOf(data[i].subString) != -1) {
+						return data[i].identity;
+					}
+				} else if (dataProp) {
+					return data[i].identity;
+				}
+			}
+		},
+		searchVersion: function (dataString) {
+			var index = dataString.indexOf(this.versionSearchString);
+			if (index == -1) return;
+			return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+		},
+		searchTridentVersion: function (dataString) {
+		    var index = dataString.indexOf("Trident/");
+		    if (index == -1) return 0;
+		    return parseFloat(dataString.substring(index + 8));
+		},
+		dataBrowser: [
+			{
+				string: navigator.userAgent,
+				subString: "Chrome",
+				identity: "Chrome"
+			},
+			{ 	string: navigator.userAgent,
+				subString: "OmniWeb",
+				versionSearch: "OmniWeb/",
+				identity: "OmniWeb"
+			},
+			{
+				string: navigator.vendor,
+				subString: "Apple",
+				identity: "Safari",
+				versionSearch: "Version"
+			},
+			{
+				prop: window.opera,
+				identity: "Opera",
+				versionSearch: "Version"
+			},
+			{
+				string: navigator.vendor,
+				subString: "iCab",
+				identity: "iCab"
+			},
+			{
+				string: navigator.vendor,
+				subString: "KDE",
+				identity: "Konqueror"
+			},
+			{
+				string: navigator.userAgent,
+				subString: "Firefox",
+				identity: "Firefox"
+			},
+			{
+				string: navigator.vendor,
+				subString: "Camino",
+				identity: "Camino"
+			},
+			{		// for newer Netscapes (6+)
+				string: navigator.userAgent,
+				subString: "Netscape",
+				identity: "Netscape"
+			},
+			{
+				string: navigator.userAgent,
+				subString: "MSIE",
+				identity: "Explorer",
+				versionSearch: "MSIE"
+			},
+			{
+				string: navigator.userAgent,
+				subString: "Gecko",
+				identity: "Mozilla",
+				versionSearch: "rv"
+			},
+			{ 		// for older Netscapes (4-)
+				string: navigator.userAgent,
+				subString: "Mozilla",
+				identity: "Netscape",
+				versionSearch: "Mozilla"
+			}
+		],
+		dataOS : [
+			{
+				string: navigator.platform,
+				subString: "Win",
+				identity: "Windows"
+			},
+			{
+				string: navigator.platform,
+				subString: "Mac",
+				identity: "Mac"
+			},
+			{
+				string: navigator.userAgent,
+				subString: "iPhone",
+				identity: "iPhone/iPod"
+		    },
+			{
+				string: navigator.userAgent,
+				subString: "iPad",
+				identity: "iPad"
+		    },
+			{
+				string: navigator.platform,
+				subString: "Linux",
+				identity: "Linux"
+			}
+		]
+
+	}
+	VMM.Browser.init();
+}
+
+/* **********************************************
+     Begin VMM.FileExtention.js
+********************************************** */
+
+/*	* File Extention
+================================================== */
+if(typeof VMM != 'undefined' && typeof VMM.FileExtention == 'undefined') {
+	VMM.FileExtention = {
+		googleDocType: function(url) {
+			var fileName			= url.replace(/\s\s*$/, ''),
+				fileExtension		= "",
+				validFileExtensions = ["DOC","DOCX","XLS","XLSX","PPT","PPTX","PDF","PAGES","AI","PSD","TIFF","DXF","SVG","EPS","PS","TTF","XPS","ZIP","RAR"],
+				flag				= false;
+				
+			fileExtension = fileName.substr(fileName.length - 5, 5);
+			
+			for (var i = 0; i < validFileExtensions.length; i++) {
+				if (fileExtension.toLowerCase().match(validFileExtensions[i].toString().toLowerCase()) || fileName.match("docs.google.com") ) {
+					flag = true;
+				}
+			}
+			return flag;
+		}
+	}
+}
+
+/* **********************************************
+     Begin VMM.Date.js
+********************************************** */
+
+/*	* Utilities and Useful Functions
+================================================== */
+if(typeof VMM != 'undefined' && typeof VMM.Date == 'undefined') {
+	
+	VMM.Date = ({
+		
+		init: function() {
+			return this;
+		},
+		
+		dateformats: {
+			year: "yyyy",
+			month_short: "mmm",
+			month: "mmmm yyyy",
+			full_short: "mmm d",
+			full: "mmmm d',' yyyy",
+			time_short: "h:MM:ss TT",
+			time_no_seconds_short: "h:MM TT",
+			time_no_seconds_small_date: "h:MM TT'<br/><small>'mmmm d',' yyyy'</small>'",
+			full_long: "mmm d',' yyyy 'at' hh:MM TT",
+			full_long_small_date: "hh:MM TT'<br/><small>mmm d',' yyyy'</small>'"
+		},
+			
+		month: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+		month_abbr: ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."],
+		day: ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+		day_abbr: ["Sun.", "Mon.", "Tues.", "Wed.", "Thurs.", "Fri.", "Sat."],
+		hour: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+		hour_suffix: ["am"],
+			
+		//B.C.
+		bc_format: {
+			year: "yyyy",
+			month_short: "mmm",
+			month: "mmmm yyyy",
+			full_short: "mmm d",
+			full: "mmmm d',' yyyy",
+			time_no_seconds_short: "h:MM TT",
+			time_no_seconds_small_date: "dddd', 'h:MM TT'<br/><small>'mmmm d',' yyyy'</small>'",
+			full_long: "dddd',' mmm d',' yyyy 'at' hh:MM TT",
+			full_long_small_date: "hh:MM TT'<br/><small>'dddd',' mmm d',' yyyy'</small>'"
+		},
+			
+		setLanguage: function(lang) {
+			trace("SET DATE LANGUAGE");
+			VMM.Date.dateformats		=	lang.dateformats;	
+			VMM.Date.month				=	lang.date.month;
+			VMM.Date.month_abbr			=	lang.date.month_abbr;
+			VMM.Date.day				=	lang.date.day;
+			VMM.Date.day_abbr			=	lang.date.day_abbr;
+			dateFormat.i18n.dayNames	=	lang.date.day_abbr.concat(lang.date.day);
+			dateFormat.i18n.monthNames	=	lang.date.month_abbr.concat(lang.date.month);
+		},
+			
+		parse: function(d, precision) {
+			"use strict";
+			var date,
+				date_array,
+				time_array,
+				time_parse,
+				p = {
+					year: 			false,
+					month: 			false,
+					day: 			false,
+					hour: 			false,
+					minute: 		false,
+					second: 		false,
+					millisecond: 	false
+				};
+				
+			if (type.of(d) == "date") {
+				trace("DEBUG THIS, ITs A DATE");
+				date = d;
+			} else {
+				date = new Date(0, 0, 1, 0, 0, 0, 0);
+				
+				if ( d.match(/,/gi) ) {
+					date_array = d.split(",");
+					for(var i = 0; i < date_array.length; i++) {
+						date_array[i] = parseInt(date_array[i], 10);
+					}
+					if (date_array[0]) {	
+						date.setFullYear(date_array[0]);
+						p.year = true;
+					}
+					if (date_array[1]) {
+						date.setMonth(date_array[1] - 1);
+						p.month = true;
+					}
+					if (date_array[2]) {
+						date.setDate(date_array[2]);
+						p.day = true;
+					}
+					if (date_array[3]) {
+						date.setHours(date_array[3]);
+						p.hour = true;
+					}
+					if (date_array[4]) {
+						date.setMinutes(date_array[4]);
+						p.minute = true;
+					}
+					if (date_array[5]) {
+						date.setSeconds(date_array[5]);
+						if (date_array[5] >= 1) {
+							p.second = true;
+						}
+					}
+					if (date_array[6]) {
+						date.setMilliseconds(date_array[6]);
+						if (date_array[6] >= 1) {
+							p.millisecond = true;
+						}
+					}
+				} else if (d.match("/")) {
+					if (d.match(" ")) {
+						
+						time_parse = d.split(" ");
+						if (d.match(":")) {
+							time_array = time_parse[1].split(":");
+							if (time_array[0] >= 0 ) {
+								date.setHours(time_array[0]);
+								p.hour = true;
+							}
+							if (time_array[1] >= 0) {
+								date.setMinutes(time_array[1]);
+								p.minute = true;
+							}
+							if (time_array[2] >= 0) {
+								date.setSeconds(time_array[2]);
+								p.second = true;
+							}
+							if (time_array[3] >= 0) {
+								date.setMilliseconds(time_array[3]);
+								p.millisecond = true;
+							}
+						}
+						date_array = time_parse[0].split("/");
+					} else {
+						date_array = d.split("/");
+					}
+					if (date_array[2]) {
+						date.setFullYear(date_array[2]);
+						p.year = true;
+					}
+					if (date_array[0] >= 0) {
+						date.setMonth(date_array[0] - 1);
+						p.month = true;
+					}
+					if (date_array[1] >= 0) {
+						if (date_array[1].length > 2) {
+							date.setFullYear(date_array[1]);
+							p.year = true;
+						} else {
+							date.setDate(date_array[1]);
+							p.day = true;
+						}
+					}
+				} else if (d.match("now")) {
+					var now = new Date();	
+									
+					date.setFullYear(now.getFullYear());
+					p.year = true;
+					
+					date.setMonth(now.getMonth());
+					p.month = true;
+					
+					date.setDate(now.getDate());
+					p.day = true;
+					
+					if (d.match("hours")) {
+						date.setHours(now.getHours());
+						p.hour = true;
+					}
+					if (d.match("minutes")) {
+						date.setHours(now.getHours());
+						date.setMinutes(now.getMinutes());
+						p.hour = true;
+						p.minute = true;
+					}
+					if (d.match("seconds")) {
+						date.setHours(now.getHours());
+						date.setMinutes(now.getMinutes());
+						date.setSeconds(now.getSeconds());
+						p.hour = true;
+						p.minute = true;
+						p.second = true;
+					}
+					if (d.match("milliseconds")) {
+						date.setHours(now.getHours());
+						date.setMinutes(now.getMinutes());
+						date.setSeconds(now.getSeconds());
+						date.setMilliseconds(now.getMilliseconds());
+						p.hour = true;
+						p.minute = true;
+						p.second = true;
+						p.millisecond = true;
+					}
+				} else if (d.length <= 8) {
+					p.year = true;
+					date.setFullYear(parseInt(d, 10));
+					date.setMonth(0);
+					date.setDate(1);
+					date.setHours(0);
+					date.setMinutes(0);
+					date.setSeconds(0);
+					date.setMilliseconds(0);
+				} else if (d.match("T")) {
+					if (navigator.userAgent.match(/MSIE\s(?!9.0)/)) {
+					    // IE 8 < Won't accept dates with a "-" in them.
+						time_parse = d.split("T");
+						if (d.match(":")) {
+							time_array = time_parse[1].split(":");
+							if (time_array[0] >= 1) {
+								date.setHours(time_array[0]);
+								p.hour = true;
+							}
+							if (time_array[1] >= 1) {
+								date.setMinutes(time_array[1]);
+								p.minute = true;
+							}
+							if (time_array[2] >= 1) {
+								date.setSeconds(time_array[2]);
+								if (time_array[2] >= 1) {
+									p.second = true;
+								}
+							}
+							if (time_array[3] >= 1) {
+								date.setMilliseconds(time_array[3]);
+								if (time_array[3] >= 1) {
+									p.millisecond = true;
+								}
+							}
+						}
+						date_array = time_parse[0].split("-");
+						if (date_array[0]) {
+							date.setFullYear(date_array[0]);
+							p.year = true;
+						}
+						if (date_array[1] >= 0) {
+							date.setMonth(date_array[1] - 1);
+							p.month = true;
+						}
+						if (date_array[2] >= 0) {
+							date.setDate(date_array[2]);
+							p.day = true;
+						}
+						
+					} else {
+						date = new Date(Date.parse(d));
+						p.year = true;
+						p.month = true;
+						p.day = true;
+						p.hour = true;
+						p.minute = true;
+						if (date.getSeconds() >= 1) {
+							p.second = true;
+						}
+						if (date.getMilliseconds() >= 1) {
+							p.millisecond = true;
+						}
+					}
+				} else {
+					date = new Date(
+						parseInt(d.slice(0,4), 10), 
+						parseInt(d.slice(4,6), 10) - 1, 
+						parseInt(d.slice(6,8), 10), 
+						parseInt(d.slice(8,10), 10), 
+						parseInt(d.slice(10,12), 10)
+					);
+					p.year = true;
+					p.month = true;
+					p.day = true;
+					p.hour = true;
+					p.minute = true;
+					if (date.getSeconds() >= 1) {
+						p.second = true;
+					}
+					if (date.getMilliseconds() >= 1) {
+						p.millisecond = true;
+					}
+					
+				}
+				
+			}
+			
+			if (precision != null && precision != "") {
+				return {
+					date: 		date,
+					precision: 	p
+				};
+			} else {
+				return date;
+			}
+		},
+		
+		
+			
+		prettyDate: function(d, is_abbr, p, d2) {
+			var _date,
+				_date2,
+				format,
+				bc_check,
+				is_pair = false,
+				bc_original,
+				bc_number,
+				bc_string;
+				
+			if (d2 != null && d2 != "" && typeof d2 != 'undefined') {
+				is_pair = true;
+				trace("D2 " + d2);
+			}
+			
+			
+			if (type.of(d) == "date") {
+				
+				if (type.of(p) == "object") {
+					if (p.millisecond || p.second && d.getSeconds() >= 1) {
+						// YEAR MONTH DAY HOUR MINUTE
+						if (is_abbr){
+							format = VMM.Date.dateformats.time_short; 
+						} else {
+							format = VMM.Date.dateformats.time_short;
+						}
+					} else if (p.minute) {
+						// YEAR MONTH DAY HOUR MINUTE
+						if (is_abbr){
+							format = VMM.Date.dateformats.time_no_seconds_short; 
+						} else {
+							format = VMM.Date.dateformats.time_no_seconds_small_date;
+						}
+					} else if (p.hour) {
+						// YEAR MONTH DAY HOUR
+						if (is_abbr) {
+							format = VMM.Date.dateformats.time_no_seconds_short;
+						} else {
+							format = VMM.Date.dateformats.time_no_seconds_small_date;
+						}
+					} else if (p.day) {
+						// YEAR MONTH DAY
+						if (is_abbr) {
+							format = VMM.Date.dateformats.full_short;
+						} else {
+							format = VMM.Date.dateformats.full;
+						}
+					} else if (p.month) {
+						// YEAR MONTH
+						if (is_abbr) {
+							format = VMM.Date.dateformats.month_short;
+						} else {
+							format = VMM.Date.dateformats.month;
+						}
+					} else if (p.year) {
+						format = VMM.Date.dateformats.year;
+					} else {
+						format = VMM.Date.dateformats.year;
+					}
+					
+				} else {
+					
+					if (d.getMonth() === 0 && d.getDate() == 1 && d.getHours() === 0 && d.getMinutes() === 0 ) {
+						// YEAR ONLY
+						format = VMM.Date.dateformats.year;
+					} else if (d.getDate() <= 1 && d.getHours() === 0 && d.getMinutes() === 0) {
+						// YEAR MONTH
+						if (is_abbr) {
+							format = VMM.Date.dateformats.month_short;
+						} else {
+							format = VMM.Date.dateformats.month;
+						}
+					} else if (d.getHours() === 0 && d.getMinutes() === 0) {
+						// YEAR MONTH DAY
+						if (is_abbr) {
+							format = VMM.Date.dateformats.full_short;
+						} else {
+							format = VMM.Date.dateformats.full;
+						}
+					} else  if (d.getMinutes() === 0) {
+						// YEAR MONTH DAY HOUR
+						if (is_abbr) {
+							format = VMM.Date.dateformats.time_no_seconds_short;
+						} else {
+							format = VMM.Date.dateformats.time_no_seconds_small_date;
+						}
+					} else {
+						// YEAR MONTH DAY HOUR MINUTE
+						if (is_abbr){
+							format = VMM.Date.dateformats.time_no_seconds_short; 
+						} else {
+							format = VMM.Date.dateformats.full_long; 
+						}
+					}
+				}
+				
+				_date = dateFormat(d, format, false);
+				//_date = "Jan"
+				bc_check = _date.split(" ");
+					
+				// BC TIME SUPPORT
+				for(var i = 0; i < bc_check.length; i++) {
+					if ( parseInt(bc_check[i], 10) < 0 ) {
+						trace("YEAR IS BC");
+						bc_original	= bc_check[i];
+						bc_number	= Math.abs( parseInt(bc_check[i], 10) );
+						bc_string	= bc_number.toString() + " B.C.";
+						_date		= _date.replace(bc_original, bc_string);
+					}
+				}
+					
+					
+				if (is_pair) {
+					_date2 = dateFormat(d2, format, false);
+					bc_check = _date2.split(" ");
+					// BC TIME SUPPORT
+					for(var j = 0; j < bc_check.length; j++) {
+						if ( parseInt(bc_check[j], 10) < 0 ) {
+							trace("YEAR IS BC");
+							bc_original	= bc_check[j];
+							bc_number	= Math.abs( parseInt(bc_check[j], 10) );
+							bc_string	= bc_number.toString() + " B.C.";
+							_date2			= _date2.replace(bc_original, bc_string);
+						}
+					}
+						
+				}
+			} else {
+				trace("NOT A VALID DATE?");
+				trace(d);
+			}
+				
+			if (is_pair) {
+				return _date + " &mdash; " + _date2;
+			} else {
+				return _date;
+			}
+		}
+		
+	}).init();
+	
+	/*
+	 * Date Format 1.2.3
+	 * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
+	 * MIT license
+	 *
+	 * Includes enhancements by Scott Trenda <scott.trenda.net>
+	 * and Kris Kowal <cixar.com/~kris.kowal/>
+	 *
+	 * Accepts a date, a mask, or a date and a mask.
+	 * Returns a formatted version of the given date.
+	 * The date defaults to the current date/time.
+	 * The mask defaults to dateFormat.masks.default.
+	 */
+
+	var dateFormat = function () {
+		var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[WLloSZ]|"[^"]*"|'[^']*'/g,
+			timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+			timezoneClip = /[^-+\dA-Z]/g,
+			pad = function (val, len) {
+				val = String(val);
+				len = len || 2;
+				while (val.length < len) val = "0" + val;
+				return val;
+			};
+
+		// Regexes and supporting functions are cached through closure
+		return function (date, mask, utc) {
+			var dF = dateFormat;
+
+			// You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+			if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+				mask = date;
+				date = undefined;
+			}
+
+			// Passing date through Date applies Date.parse, if necessary
+			// Caused problems in IE
+			// date = date ? new Date(date) : new Date;
+			if (isNaN(date)) {
+				trace("invalid date " + date);
+				//return "";
+			} 
+
+			mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+
+			// Allow setting the utc argument via the mask
+			if (mask.slice(0, 4) == "UTC:") {
+				mask = mask.slice(4);
+				utc = true;
+			}
+
+			var	_ = utc ? "getUTC" : "get",
+				d = date[_ + "Date"](),
+				D = date[_ + "Day"](),
+				m = date[_ + "Month"](),
+				y = date[_ + "FullYear"](),
+				H = date[_ + "Hours"](),
+				M = date[_ + "Minutes"](),
+				s = date[_ + "Seconds"](),
+				L = date[_ + "Milliseconds"](),
+				W = date.getWeek(),
+				o = utc ? 0 : date.getTimezoneOffset(),
+				flags = {
+					d:    d,
+					dd:   pad(d),
+					ddd:  dF.i18n.dayNames[D],
+					dddd: dF.i18n.dayNames[D + 7],
+					m:    m + 1,
+					mm:   pad(m + 1),
+					mmm:  dF.i18n.monthNames[m],
+					mmmm: dF.i18n.monthNames[m + 12],
+					yy:   String(y).slice(2),
+					yyyy: y,
+					h:    H % 12 || 12,
+					hh:   pad(H % 12 || 12),
+					H:    H,
+					HH:   pad(H),
+					M:    M,
+					MM:   pad(M),
+					s:    s,
+					ss:   pad(s),
+					l:    pad(L, 3),
+					L:    pad(L > 99 ? Math.round(L / 10) : L),
+					t:    H < 12 ? "a"  : "p",
+					tt:   H < 12 ? "am" : "pm",
+					T:    H < 12 ? "A"  : "P",
+					TT:   H < 12 ? "AM" : "PM",
+					Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+					o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+					S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10],
+					W: 	W
+				};
+
+			return mask.replace(token, function ($0) {
+				return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+			});
+		};
+	}();
+
+	// Some common format strings
+	dateFormat.masks = {
+		"default":      "ddd mmm dd yyyy HH:MM:ss",
+		shortDate:      "m/d/yy",
+		mediumDate:     "mmm d, yyyy",
+		longDate:       "mmmm d, yyyy",
+		fullDate:       "dddd, mmmm d, yyyy",
+		shortTime:      "h:MM TT",
+		mediumTime:     "h:MM:ss TT",
+		longTime:       "h:MM:ss TT Z",
+		isoDate:        "yyyy-mm-dd",
+		isoTime:        "HH:MM:ss",
+		isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+		isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+	};
+
+	// Internationalization strings
+	dateFormat.i18n = {
+		dayNames: [
+			"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+			"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+		],
+		monthNames: [
+			"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+			"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+		]
+	};
+
+	// For convenience...
+	Date.prototype.format = function (mask, utc) {
+		return dateFormat(this, mask, utc);
+	};
+	
+}
+
+/* **********************************************
+     Begin VMM.Util.js
+********************************************** */
+
+/*	* Utilities and Useful Functions
+================================================== */
+if(typeof VMM != 'undefined' && typeof VMM.Util == 'undefined') {
+	
+	VMM.Util = ({
+		
+		init: function() {
+			return this;
+		},
+		
+		removeRange: function(array, from, to) { // rather than change Array.prototype; Thanks Jeff McWhirter for nudge
+  			var rest = array.slice((to || from) + 1 || array.length);
+  			array.length = from < 0 ? array.length + from : from;
+  			return array.push.apply(array, rest);
+		},
+
+		/*	* CORRECT PROTOCOL (DOES NOT WORK)
+		================================================== */
+		correctProtocol: function(url) {
+			var loc = (window.parent.location.protocol).toString(),
+				prefix = "",
+				the_url = url.split("://", 2);
+			
+			if (loc.match("http")) {
+				prefix = loc;
+			} else {
+				prefix = "https";
+			}
+			
+			return prefix + "://" + the_url[1];
+			
+		},
+		
+		/*	* MERGE CONFIG
+		================================================== */
+		mergeConfig: function(config_main, config_to_merge) {
+			var x;
+			for (x in config_to_merge) {
+				if (Object.prototype.hasOwnProperty.call(config_to_merge, x)) {
+					config_main[x] = config_to_merge[x];
+				}
+			}
+			return config_main;
+		},
+		
+		/*	* GET OBJECT ATTRIBUTE BY INDEX
+		================================================== */
+		getObjectAttributeByIndex: function(obj, index) {
+			if(typeof obj != 'undefined') {
+				var i = 0;
+				for (var attr in obj){
+					if (index === i){
+						return obj[attr];
+					}
+					i++;
+				}
+				return "";
+			} else {
+				return "";
+			}
+			
+		},
+		
+		/*	* ORDINAL
+		================================================== */
+		ordinal: function(n) {
+		    return ["th","st","nd","rd"][(!( ((n%10) >3) || (Math.floor(n%100/10)==1)) ) * (n%10)]; 
+		},
+		
+		/*	* RANDOM BETWEEN
+		================================================== */
+		//VMM.Util.randomBetween(1, 3)
+		randomBetween: function(min, max) {
+			return Math.floor(Math.random() * (max - min + 1) + min);
+		},
+		
+		/*	* AVERAGE
+			* http://jsfromhell.com/array/average
+			* var x = VMM.Util.average([2, 3, 4]);
+			* VMM.Util.average([2, 3, 4]).mean
+		================================================== */
+		average: function(a) {
+		    var r = {mean: 0, variance: 0, deviation: 0}, t = a.length;
+		    for(var m, s = 0, l = t; l--; s += a[l]);
+		    for(m = r.mean = s / t, l = t, s = 0; l--; s += Math.pow(a[l] - m, 2));
+		    return r.deviation = Math.sqrt(r.variance = s / t), r;
+		},
+		
+		/*	* CUSTOM SORT
+		================================================== */
+		customSort: function(a, b) {
+			var a1= a, b1= b;
+			if(a1== b1) return 0;
+			return a1> b1? 1: -1;
+		},
+		
+		/*	* Remove Duplicates from Array
+		================================================== */
+		deDupeArray: function(arr) {
+			var i,
+				len=arr.length,
+				out=[],
+				obj={};
+
+			for (i=0;i<len;i++) {
+				obj[arr[i]]=0;
+			}
+			for (i in obj) {
+				out.push(i);
+			}
+			return out;
+		},
+		
+		/*	* Returns a word count number
+		================================================== */
+		wordCount: function(s) {
+			var fullStr = s + " ";
+			var initial_whitespace_rExp = /^[^A-Za-z0-9\'\-]+/gi;
+			var left_trimmedStr = fullStr.replace(initial_whitespace_rExp, "");
+			var non_alphanumerics_rExp = /[^A-Za-z0-9\'\-]+/gi;
+			var cleanedStr = left_trimmedStr.replace(non_alphanumerics_rExp, " ");
+			var splitString = cleanedStr.split(" ");
+			var word_count = splitString.length -1;
+			if (fullStr.length <2) {
+				word_count = 0;
+			}
+			return word_count;
+		},
+		
+		ratio: {
+			fit: function(w, h, ratio_w, ratio_h) {
+				//VMM.Util.ratio.fit(w, h, ratio_w, ratio_h).width;
+				var _fit = {width:0,height:0};
+				// TRY WIDTH FIRST
+				_fit.width = w;
+				//_fit.height = Math.round((h / ratio_h) * ratio_w);
+				_fit.height = Math.round((w / ratio_w) * ratio_h);
+				if (_fit.height > h) {
+					_fit.height = h;
+					//_fit.width = Math.round((w / ratio_w) * ratio_h);
+					_fit.width = Math.round((h / ratio_h) * ratio_w);
+					
+					if (_fit.width > w) {
+						trace("FIT: DIDN'T FIT!!! ")
+					}
+				}
+				
+				return _fit;
+				
+			},
+			r16_9: function(w,h) {
+				//VMM.Util.ratio.r16_9(w, h) // Returns corresponding number
+				if (w !== null && w !== "") {
+					return Math.round((h / 16) * 9);
+				} else if (h !== null && h !== "") {
+					return Math.round((w / 9) * 16);
+				}
+			},
+			r4_3: function(w,h) {
+				if (w !== null && w !== "") {
+					return Math.round((h / 4) * 3);
+				} else if (h !== null && h !== "") {
+					return Math.round((w / 3) * 4);
+				}
+			}
+		},
+		
+		doubledigit: function(n) {
+			return (n < 10 ? '0' : '') + n;
+		},
+		
+		/*	* Returns a truncated segement of a long string of between min and max words. If possible, ends on a period (otherwise goes to max).
+		================================================== */
+		truncateWords: function(s, min, max) {
+			
+			if (!min) min = 30;
+			if (!max) max = min;
+			
+			var initial_whitespace_rExp = /^[^A-Za-z0-9\'\-]+/gi;
+			var left_trimmedStr = s.replace(initial_whitespace_rExp, "");
+			var words = left_trimmedStr.split(" ");
+			
+			var result = [];
+			
+			min = Math.min(words.length, min);
+			max = Math.min(words.length, max);
+			
+			for (var i = 0; i<min; i++) {
+				result.push(words[i]);
+			}		
+			
+			for (var j = min; i<max; i++) {
+				var word = words[i];
+				
+				result.push(word);
+				
+				if (word.charAt(word.length-1) == '.') {
+					break;
+				}
+			}		
+			
+			return (result.join(' '));
+		},
+		
+		/*	* Turns plain text links into real links
+		================================================== */
+		linkify: function(text,targets,is_touch) {
+			
+			// http://, https://, ftp://
+			var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
+
+			// www. sans http:// or https://
+			var pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+
+			// Email addresses
+			var emailAddressPattern = /(([a-zA-Z0-9_\-\.]+)@[a-zA-Z_]+?(?:\.[a-zA-Z]{2,6}))+/gim;
+			
+
+			return text
+				.replace(urlPattern, "<a target='_blank' href='$&' onclick='void(0)'>$&</a>")
+				.replace(pseudoUrlPattern, "$1<a target='_blank' onclick='void(0)' href='http://$2'>$2</a>")
+				.replace(emailAddressPattern, "<a target='_blank' onclick='void(0)' href='mailto:$1'>$1</a>");
+		},
+		
+		linkify_with_twitter: function(text,targets,is_touch) {
+			
+			// http://, https://, ftp://
+			var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
+			var url_pattern = /(\()((?:ht|f)tps?:\/\/[a-z0-9\-._~!$&'()*+,;=:\/?#[\]@%]+)(\))|(\[)((?:ht|f)tps?:\/\/[a-z0-9\-._~!$&'()*+,;=:\/?#[\]@%]+)(\])|(\{)((?:ht|f)tps?:\/\/[a-z0-9\-._~!$&'()*+,;=:\/?#[\]@%]+)(\})|(<|&(?:lt|#60|#x3c);)((?:ht|f)tps?:\/\/[a-z0-9\-._~!$&'()*+,;=:\/?#[\]@%]+)(>|&(?:gt|#62|#x3e);)|((?:^|[^=\s'"\]])\s*['"]?|[^=\s]\s+)(\b(?:ht|f)tps?:\/\/[a-z0-9\-._~!$'()*+,;=:\/?#[\]@%]+(?:(?!&(?:gt|#0*62|#x0*3e);|&(?:amp|apos|quot|#0*3[49]|#x0*2[27]);[.!&',:?;]?(?:[^a-z0-9\-._~!$&'()*+,;=:\/?#[\]@%]|$))&[a-z0-9\-._~!$'()*+,;=:\/?#[\]@%]*)*[a-z0-9\-_~$()*+=\/#[\]@%])/img;
+			var url_replace = '$1$4$7$10$13<a href="$2$5$8$11$14" target="_blank" class="hyphenate">$2$5$8$11$14</a>$3$6$9$12';
+			
+			// www. sans http:// or https://
+			var pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+			function replaceURLWithHTMLLinks(text) {
+			    var exp = /(\b(https?|ftp|file):\/\/([-A-Z0-9+&@#%?=~_|!:,.;]*)([-A-Z0-9+&@#%?\/=~_|!:,.;]*)[-A-Z0-9+&@#\/%=~_|])/ig;
+			    return text.replace(exp, "<a href='$1' target='_blank'>$3</a>");
+			}
+			// Email addresses
+			var emailAddressPattern = /(([a-zA-Z0-9_\-\.]+)@[a-zA-Z_]+?(?:\.[a-zA-Z]{2,6}))+/gim;
+			
+			//var twitterHandlePattern = /(@([\w]+))/g;
+			var twitterHandlePattern = /\B@([\w-]+)/gm;
+			var twitterSearchPattern = /(#([\w]+))/g;
+
+			return text
+				//.replace(urlPattern, "<a target='_blank' href='$&' onclick='void(0)'>$&</a>")
+				.replace(url_pattern, url_replace)
+				.replace(pseudoUrlPattern, "$1<a target='_blank' class='hyphenate' onclick='void(0)' href='http://$2'>$2</a>")
+				.replace(emailAddressPattern, "<a target='_blank' onclick='void(0)' href='mailto:$1'>$1</a>")
+				.replace(twitterHandlePattern, "<a href='http://twitter.com/$1' target='_blank' onclick='void(0)'>@$1</a>");
+				
+				// TURN THIS BACK ON TO AUTOMAGICALLY LINK HASHTAGS TO TWITTER SEARCH
+				//.replace(twitterSearchPattern, "<a href='http://twitter.com/search?q=%23$2' target='_blank' 'void(0)'>$1</a>");
+		},
+		
+		linkify_wikipedia: function(text) {
+			
+			var urlPattern = /<i[^>]*>(.*?)<\/i>/gim;
+			return text
+				.replace(urlPattern, "<a target='_blank' href='http://en.wikipedia.org/wiki/$&' onclick='void(0)'>$&</a>")
+				.replace(/<i\b[^>]*>/gim, "")
+				.replace(/<\/i>/gim, "")
+				.replace(/<b\b[^>]*>/gim, "")
+				.replace(/<\/b>/gim, "");
+		},
+		
+		/*	* Turns plain text links into real links
+		================================================== */
+		// VMM.Util.unlinkify();
+		unlinkify: function(text) {
+			if(!text) return text;
+			text = text.replace(/<a\b[^>]*>/i,"");
+			text = text.replace(/<\/a>/i, "");
+			return text;
+		},
+		
+		untagify: function(text) {
+			if (!text) {
+				return text;
+			}
+			text = text.replace(/<\/?\s*\w.*?>/g,"");
+			return text;
+		},
+		
+		/*	* TK
+		================================================== */
+		nl2br: function(text) {
+			return text.replace(/(\r\n|[\r\n]|\\n|\\r)/g,"<br/>");
+		},
+		
+		/*	* Generate a Unique ID
+		================================================== */
+		// VMM.Util.unique_ID(size);
+		unique_ID: function(size) {
+			
+			var getRandomNumber = function(range) {
+				return Math.floor(Math.random() * range);
+			};
+
+			var getRandomChar = function() {
+				var chars = "abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ";
+				return chars.substr( getRandomNumber(62), 1 );
+			};
+
+			var randomID = function(size) {
+				var str = "";
+				for(var i = 0; i < size; i++) {
+					str += getRandomChar();
+				}
+				return str;
+			};
+			
+			return randomID(size);
+		},
+		/*	* Tells you if a number is even or not
+		================================================== */
+		// VMM.Util.isEven(n)
+		isEven: function(n){
+			return (n%2 === 0) ? true : false;
+		},
+		/*	* Get URL Variables
+		================================================== */
+		//	var somestring = VMM.Util.getUrlVars(str_url)["varname"];
+		getUrlVars: function(string) {
+			
+			var str = string.toString();
+			
+			if (str.match('&#038;')) { 
+				str = str.replace("&#038;", "&");
+			} else if (str.match('&#38;')) {
+				str = str.replace("&#38;", "&");
+			} else if (str.match('&amp;')) {
+				str = str.replace("&amp;", "&");
+			}
+			
+			var vars = [], hash;
+			var hashes = str.slice(str.indexOf('?') + 1).split('&');
+			for(var i = 0; i < hashes.length; i++) {
+				hash = hashes[i].split('=');
+				vars.push(hash[0]);
+				vars[hash[0]] = hash[1];
+			}
+			
+			
+			return vars;
+		},
+
+		/*	* Cleans up strings to become real HTML
+		================================================== */
+		toHTML: function(text) {
+			
+			text = this.nl2br(text);
+			text = this.linkify(text);
+			
+			return text.replace(/\s\s/g,"&nbsp;&nbsp;");
+		},
+		
+		/*	* Returns text strings as CamelCase
+		================================================== */
+		toCamelCase: function(s,forceLowerCase) {
+			
+			if(forceLowerCase !== false) forceLowerCase = true;
+			
+			var sps = ((forceLowerCase) ? s.toLowerCase() : s).split(" ");
+			
+			for(var i=0; i<sps.length; i++) {
+				
+				sps[i] = sps[i].substr(0,1).toUpperCase() + sps[i].substr(1);
+			}
+			
+			return sps.join(" ");
+		},
+		
+		/*	* Replaces dumb quote marks with smart ones
+		================================================== */
+		properQuotes: function(str) {
+			return str.replace(/\"([^\"]*)\"/gi,"&#8220;$1&#8221;");
+		},
+		/*	* Add Commas to numbers
+		================================================== */
+		niceNumber: function(nStr){
+			nStr += '';
+			x = nStr.split('.');
+			x1 = x[0];
+			x2 = x.length > 1 ? '.' + x[1] : '';
+			var rgx = /(\d+)(\d{3})/;
+			while (rgx.test(x1)) {
+				x1 = x1.replace(rgx, '$1' + ',' + '$2');
+			}
+			return x1 + x2;
+		},
+		/*	* Transform text to Title Case
+		================================================== */
+		toTitleCase: function(t){
+			if ( VMM.Browser.browser == "Explorer" && parseInt(VMM.Browser.version, 10) >= 7) {
+				return t.replace("_", "%20");
+			} else {
+				var __TitleCase = {
+					__smallWords: ['a', 'an', 'and', 'as', 'at', 'but','by', 'en', 'for', 'if', 'in', 'of', 'on', 'or','the', 'to', 'v[.]?', 'via', 'vs[.]?'],
+
+					init: function() {
+						this.__smallRE = this.__smallWords.join('|');
+						this.__lowerCaseWordsRE = new RegExp('\\b(' + this.__smallRE + ')\\b', 'gi');
+						this.__firstWordRE = new RegExp('^([^a-zA-Z0-9 \\r\\n\\t]*)(' + this.__smallRE + ')\\b', 'gi');
+						this.__lastWordRE = new RegExp('\\b(' + this.__smallRE + ')([^a-zA-Z0-9 \\r\\n\\t]*)$', 'gi');
+					},
+
+					toTitleCase: function(string) {
+						var line = '';
+
+						var split = string.split(/([:.;?!][ ]|(?:[ ]|^)["“])/);
+
+						for (var i = 0; i < split.length; ++i) {
+							var s = split[i];
+
+							s = s.replace(/\b([a-zA-Z][a-z.'’]*)\b/g,this.__titleCaseDottedWordReplacer);
+
+			 				// lowercase the list of small words
+							s = s.replace(this.__lowerCaseWordsRE, this.__lowerReplacer);
+
+							// if the first word in the title is a small word then capitalize it
+							s = s.replace(this.__firstWordRE, this.__firstToUpperCase);
+
+							// if the last word in the title is a small word, then capitalize it
+							s = s.replace(this.__lastWordRE, this.__firstToUpperCase);
+
+							line += s;
+						}
+
+						// special cases
+						line = line.replace(/ V(s?)\. /g, ' v$1. ');
+						line = line.replace(/(['’])S\b/g, '$1s');
+						line = line.replace(/\b(AT&T|Q&A)\b/ig, this.__upperReplacer);
+
+						return line;
+					},
+
+					__titleCaseDottedWordReplacer: function (w) {
+						return (w.match(/[a-zA-Z][.][a-zA-Z]/)) ? w : __TitleCase.__firstToUpperCase(w);
+					},
+
+					__lowerReplacer: function (w) { return w.toLowerCase() },
+
+					__upperReplacer: function (w) { return w.toUpperCase() },
+
+					__firstToUpperCase: function (w) {
+						var split = w.split(/(^[^a-zA-Z0-9]*[a-zA-Z0-9])(.*)$/);
+						if (split[1]) {
+							split[1] = split[1].toUpperCase();
+						}
+					
+						return split.join('');
+					
+					
+					}
+				};
+
+				__TitleCase.init();
+			
+				t = t.replace(/_/g," ");
+				t = __TitleCase.toTitleCase(t);
+			
+				return t;
+				
+			}
+			
+		}
+		
+	}).init();
+}
+
+
+/* **********************************************
+     Begin LazyLoad.js
+********************************************** */
+
+/*jslint browser: true, eqeqeq: true, bitwise: true, newcap: true, immed: true, regexp: false */
+
+/*
+LazyLoad makes it easy and painless to lazily load one or more external
+JavaScript or CSS files on demand either during or after the rendering of a web
+page.
+
+Supported browsers include Firefox 2+, IE6+, Safari 3+ (including Mobile
+Safari), Google Chrome, and Opera 9+. Other browsers may or may not work and
+are not officially supported.
+
+Visit https://github.com/rgrove/lazyload/ for more info.
+
+Copyright (c) 2011 Ryan Grove <ryan@wonko.com>
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the 'Software'), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+@module lazyload
+@class LazyLoad
+@static
+@version 2.0.3 (git)
+*/
+
+LazyLoad = (function (doc) {
+  // -- Private Variables ------------------------------------------------------
+
+  // User agent and feature test information.
+  var env,
+
+  // Reference to the <head> element (populated lazily).
+  head,
+
+  // Requests currently in progress, if any.
+  pending = {},
+
+  // Number of times we've polled to check whether a pending stylesheet has
+  // finished loading. If this gets too high, we're probably stalled.
+  pollCount = 0,
+
+  // Queued requests.
+  queue = {css: [], js: []},
+
+  // Reference to the browser's list of stylesheets.
+  styleSheets = doc.styleSheets;
+
+  // -- Private Methods --------------------------------------------------------
+
+  /**
+  Creates and returns an HTML element with the specified name and attributes.
+
+  @method createNode
+  @param {String} name element name
+  @param {Object} attrs name/value mapping of element attributes
+  @return {HTMLElement}
+  @private
+  */
+  function createNode(name, attrs) {
+    var node = doc.createElement(name), attr;
+
+    for (attr in attrs) {
+      if (attrs.hasOwnProperty(attr)) {
+        node.setAttribute(attr, attrs[attr]);
+      }
+    }
+
+    return node;
+  }
+
+  /**
+  Called when the current pending resource of the specified type has finished
+  loading. Executes the associated callback (if any) and loads the next
+  resource in the queue.
+
+  @method finish
+  @param {String} type resource type ('css' or 'js')
+  @private
+  */
+  function finish(type) {
+    var p = pending[type],
+        callback,
+        urls;
+
+    if (p) {
+      callback = p.callback;
+      urls     = p.urls;
+
+      urls.shift();
+      pollCount = 0;
+
+      // If this is the last of the pending URLs, execute the callback and
+      // start the next request in the queue (if any).
+      if (!urls.length) {
+        callback && callback.call(p.context, p.obj);
+        pending[type] = null;
+        queue[type].length && load(type);
+      }
+    }
+  }
+
+  /**
+  Populates the <code>env</code> variable with user agent and feature test
+  information.
+
+  @method getEnv
+  @private
+  */
+  function getEnv() {
+    var ua = navigator.userAgent;
+
+    env = {
+      // True if this browser supports disabling async mode on dynamically
+      // created script nodes. See
+      // http://wiki.whatwg.org/wiki/Dynamic_Script_Execution_Order
+      async: doc.createElement('script').async === true
+    };
+
+    (env.webkit = /AppleWebKit\//.test(ua))
+      || (env.ie = /MSIE/.test(ua))
+      || (env.opera = /Opera/.test(ua))
+      || (env.gecko = /Gecko\//.test(ua))
+      || (env.unknown = true);
+  }
+
+  /**
+  Loads the specified resources, or the next resource of the specified type
+  in the queue if no resources are specified. If a resource of the specified
+  type is already being loaded, the new request will be queued until the
+  first request has been finished.
+
+  When an array of resource URLs is specified, those URLs will be loaded in
+  parallel if it is possible to do so while preserving execution order. All
+  browsers support parallel loading of CSS, but only Firefox and Opera
+  support parallel loading of scripts. In other browsers, scripts will be
+  queued and loaded one at a time to ensure correct execution order.
+
+  @method load
+  @param {String} type resource type ('css' or 'js')
+  @param {String|Array} urls (optional) URL or array of URLs to load
+  @param {Function} callback (optional) callback function to execute when the
+    resource is loaded
+  @param {Object} obj (optional) object to pass to the callback function
+  @param {Object} context (optional) if provided, the callback function will
+    be executed in this object's context
+  @private
+  */
+  function load(type, urls, callback, obj, context) {
+    var _finish = function () { finish(type); },
+        isCSS   = type === 'css',
+        nodes   = [],
+        i, len, node, p, pendingUrls, url;
+
+    env || getEnv();
+
+    if (urls) {
+      // If urls is a string, wrap it in an array. Otherwise assume it's an
+      // array and create a copy of it so modifications won't be made to the
+      // original.
+      urls = typeof urls === 'string' ? [urls] : urls.concat();
+
+      // Create a request object for each URL. If multiple URLs are specified,
+      // the callback will only be executed after all URLs have been loaded.
+      //
+      // Sadly, Firefox and Opera are the only browsers capable of loading
+      // scripts in parallel while preserving execution order. In all other
+      // browsers, scripts must be loaded sequentially.
+      //
+      // All browsers respect CSS specificity based on the order of the link
+      // elements in the DOM, regardless of the order in which the stylesheets
+      // are actually downloaded.
+      if (isCSS || env.async || env.gecko || env.opera) {
+        // Load in parallel.
+        queue[type].push({
+          urls    : urls,
+          callback: callback,
+          obj     : obj,
+          context : context
+        });
+      } else {
+        // Load sequentially.
+        for (i = 0, len = urls.length; i < len; ++i) {
+          queue[type].push({
+            urls    : [urls[i]],
+            callback: i === len - 1 ? callback : null, // callback is only added to the last URL
+            obj     : obj,
+            context : context
+          });
+        }
+      }
+    }
+
+    // If a previous load request of this type is currently in progress, we'll
+    // wait our turn. Otherwise, grab the next item in the queue.
+    if (pending[type] || !(p = pending[type] = queue[type].shift())) {
+      return;
+    }
+
+    head || (head = doc.head || doc.getElementsByTagName('head')[0]);
+    pendingUrls = p.urls;
+
+    for (i = 0, len = pendingUrls.length; i < len; ++i) {
+      url = pendingUrls[i];
+
+      if (isCSS) {
+          node = env.gecko ? createNode('style') : createNode('link', {
+            href: url,
+            rel : 'stylesheet'
+          });
+      } else {
+        node = createNode('script', {src: url});
+        node.async = false;
+      }
+
+      node.className = 'lazyload';
+      node.setAttribute('charset', 'utf-8');
+
+      if (env.ie && !isCSS) {
+        node.onreadystatechange = function () {
+          if (/loaded|complete/.test(node.readyState)) {
+            node.onreadystatechange = null;
+            _finish();
+          }
+        };
+      } else if (isCSS && (env.gecko || env.webkit)) {
+        // Gecko and WebKit don't support the onload event on link nodes.
+        if (env.webkit) {
+          // In WebKit, we can poll for changes to document.styleSheets to
+          // figure out when stylesheets have loaded.
+          p.urls[i] = node.href; // resolve relative URLs (or polling won't work)
+          pollWebKit();
+        } else {
+          // In Gecko, we can import the requested URL into a <style> node and
+          // poll for the existence of node.sheet.cssRules. Props to Zach
+          // Leatherman for calling my attention to this technique.
+          node.innerHTML = '@import "' + url + '";';
+          pollGecko(node);
+        }
+      } else {
+        node.onload = node.onerror = _finish;
+      }
+
+      nodes.push(node);
+    }
+
+    for (i = 0, len = nodes.length; i < len; ++i) {
+      head.appendChild(nodes[i]);
+    }
+  }
+
+  /**
+  Begins polling to determine when the specified stylesheet has finished loading
+  in Gecko. Polling stops when all pending stylesheets have loaded or after 10
+  seconds (to prevent stalls).
+
+  Thanks to Zach Leatherman for calling my attention to the @import-based
+  cross-domain technique used here, and to Oleg Slobodskoi for an earlier
+  same-domain implementation. See Zach's blog for more details:
+  http://www.zachleat.com/web/2010/07/29/load-css-dynamically/
+
+  @method pollGecko
+  @param {HTMLElement} node Style node to poll.
+  @private
+  */
+  function pollGecko(node) {
+    var hasRules;
+
+    try {
+      // We don't really need to store this value or ever refer to it again, but
+      // if we don't store it, Closure Compiler assumes the code is useless and
+      // removes it.
+      hasRules = !!node.sheet.cssRules;
+    } catch (ex) {
+      // An exception means the stylesheet is still loading.
+      pollCount += 1;
+
+      if (pollCount < 200) {
+        setTimeout(function () { pollGecko(node); }, 50);
+      } else {
+        // We've been polling for 10 seconds and nothing's happened. Stop
+        // polling and finish the pending requests to avoid blocking further
+        // requests.
+        hasRules && finish('css');
+      }
+
+      return;
+    }
+
+    // If we get here, the stylesheet has loaded.
+    finish('css');
+  }
+
+  /**
+  Begins polling to determine when pending stylesheets have finished loading
+  in WebKit. Polling stops when all pending stylesheets have loaded or after 10
+  seconds (to prevent stalls).
+
+  @method pollWebKit
+  @private
+  */
+  function pollWebKit() {
+    var css = pending.css, i;
+
+    if (css) {
+      i = styleSheets.length;
+
+      // Look for a stylesheet matching the pending URL.
+      while (--i >= 0) {
+        if (styleSheets[i].href === css.urls[0]) {
+          finish('css');
+          break;
+        }
+      }
+
+      pollCount += 1;
+
+      if (css) {
+        if (pollCount < 200) {
+          setTimeout(pollWebKit, 50);
+        } else {
+          // We've been polling for 10 seconds and nothing's happened, which may
+          // indicate that the stylesheet has been removed from the document
+          // before it had a chance to load. Stop polling and finish the pending
+          // request to prevent blocking further requests.
+          finish('css');
+        }
+      }
+    }
+  }
+
+  return {
+
+    /**
+    Requests the specified CSS URL or URLs and executes the specified
+    callback (if any) when they have finished loading. If an array of URLs is
+    specified, the stylesheets will be loaded in parallel and the callback
+    will be executed after all stylesheets have finished loading.
+
+    @method css
+    @param {String|Array} urls CSS URL or array of CSS URLs to load
+    @param {Function} callback (optional) callback function to execute when
+      the specified stylesheets are loaded
+    @param {Object} obj (optional) object to pass to the callback function
+    @param {Object} context (optional) if provided, the callback function
+      will be executed in this object's context
+    @static
+    */
+    css: function (urls, callback, obj, context) {
+      load('css', urls, callback, obj, context);
+    },
+
+    /**
+    Requests the specified JavaScript URL or URLs and executes the specified
+    callback (if any) when they have finished loading. If an array of URLs is
+    specified and the browser supports it, the scripts will be loaded in
+    parallel and the callback will be executed after all scripts have
+    finished loading.
+
+    Currently, only Firefox and Opera support parallel loading of scripts while
+    preserving execution order. In other browsers, scripts will be
+    queued and loaded one at a time to ensure correct execution order.
+
+    @method js
+    @param {String|Array} urls JS URL or array of JS URLs to load
+    @param {Function} callback (optional) callback function to execute when
+      the specified scripts are loaded
+    @param {Object} obj (optional) object to pass to the callback function
+    @param {Object} context (optional) if provided, the callback function
+      will be executed in this object's context
+    @static
+    */
+    js: function (urls, callback, obj, context) {
+      load('js', urls, callback, obj, context);
+    }
+
+  };
+})(this.document);
+
+
+/* **********************************************
+     Begin VMM.LoadLib.js
+********************************************** */
+
+/*
+	LoadLib
+	Designed and built by Zach Wise digitalartwork.net
+*/
+
+/*	* CodeKit Import
+	* http://incident57.com/codekit/
+================================================== */
+// @codekit-prepend "../Library/LazyLoad.js";
+
+LoadLib = (function (doc) {
+	var loaded	= [];
+	
+	function isLoaded(url) {
+		
+		var i			= 0,
+			has_loaded	= false;
+		
+		for (i = 0; i < loaded.length; i++) {
+			if (loaded[i] == url) {
+				has_loaded = true;
+			}
+		}
+		
+		if (has_loaded) {
+			return true;
+		} else {
+			loaded.push(url);
+			return false;
+		}
+		
+	}
+	
+	return {
+		
+		css: function (urls, callback, obj, context) {
+			if (!isLoaded(urls)) {
+				LazyLoad.css(urls, callback, obj, context);
+			}
+		},
+
+		js: function (urls, callback, obj, context) {
+			if (!isLoaded(urls)) {
+				LazyLoad.js(urls, callback, obj, context);
+			}
+		}
+    };
+	
+})(this.document);
+
+
+/* **********************************************
+     Begin VMM.Language.js
+********************************************** */
+
+/* DEFAULT LANGUAGE 
+================================================== */
+if(typeof VMM != 'undefined' && typeof VMM.Language == 'undefined') {
+	VMM.Language = {
+		lang: "en",
+		api: {
+			wikipedia: "en"
+		},
+		date: {
+			month: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+			month_abbr: ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."],
+			day: ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+			day_abbr: ["Sun.","Mon.", "Tues.", "Wed.", "Thurs.", "Fri.", "Sat."]
+		}, 
+		dateformats: {
+			year: "yyyy",
+			month_short: "mmm",
+			month: "mmmm yyyy",
+			full_short: "mmm d",
+			full: "mmmm d',' yyyy",
+			time_short: "h:MM:ss TT",
+			time_no_seconds_short: "h:MM TT",
+			time_no_seconds_small_date: "h:MM TT'<br/><small>'mmmm d',' yyyy'</small>'",
+			full_long: "mmm d',' yyyy 'at' h:MM TT",
+			full_long_small_date: "h:MM TT'<br/><small>mmm d',' yyyy'</small>'"
+		},
+		messages: {
+			loading_timeline: "Loading Timeline... ",
+			return_to_title: "Return to Title",
+			expand_timeline: "Expand Timeline",
+			contract_timeline: "Contract Timeline",
+			wikipedia: "From Wikipedia, the free encyclopedia",
+			loading_content: "Loading Content",
+			loading: "Loading"
+		}
+	}
 };
 
-function Timeline(element, data, undefined) {
-    var SELF = this;
-    var BODY = $(document.body);
+/* **********************************************
+     Begin VMM.Core.js
+********************************************** */
 
-    this._container = null;  // cached DOM
-    this._spine     = null;  // cached DOM
-    this._overlay   = null;  // cached DOM
-    this._lightbox  = null;  // cached DOM
+/* VeriteCo Core
+================================================== */
 
-    this._original_data = data ? $.extend(true, [], data) : [];  // a copy of the original data
-    this._data          = [];  // main data
+/*	* CodeKit Import
+	* http://incident57.com/codekit/
+================================================== */
+// @codekit-prepend "VMM.js";
+// @codekit-prepend "VMM.Library.js";
+// @codekit-prepend "VMM.Browser.js";
+// @codekit-prepend "VMM.FileExtention.js";
+// @codekit-prepend "VMM.Date.js";
+// @codekit-prepend "VMM.Util.js";
+// @codekit-prepend "VMM.LoadLib.js";
+// @codekit-prepend "VMM.Language.js";
 
-    this._responsive = false; // in responsive mode?
 
-    this._options = {
-        first_separator:     false,          // display the first separator?
-        separator:           'year',         // year, month, month_year, null
-        columnMode:          'dual',         // dual, left, right, center
-        order:               'desc',         // "asc", "desc",
-        responsive_width:    null,           // swith to responsive mode when window width is smaller than the width
-        animation:           true,           // animate on page load?
-        lightbox:            true,           // use lightbox?
-        max:                 null,           // maximum number of elements
-        loadmore:            0,              // load more data. Set to 5 to load 5 additional data each time
-        facebookAccessToken: null,           // facebook access token  "https://graph.facebook.com/oauth/access_token?client_id={app-id}&client_secret={app-secret}&grant_type=client_credentials"
-        facebookPageId:      null,           // facebook page id
-        twitterSearchKey:    null,           // twitter search key
-        onSearchSuccess:     null,           // XHR search success handler
-        onSearchError:       null            // XHR search error handler
-    };
 
-    this._years  = [];
-    this._months = [];
+/* **********************************************
+     Begin VMM.ExternalAPI.js
+********************************************** */
 
-    //add wangning
-    this._days = [];
+/* External API
+================================================== */
+if(typeof VMM != 'undefined' && typeof VMM.ExternalAPI == 'undefined') {
+	
+	VMM.ExternalAPI = ({
+		
+		keys: {
+			google:				"",
+			flickr:				"",
+			twitter:			""
+		},
+		
+		keys_master: {
+			vp:			"Pellentesque nibh felis, eleifend id, commodo in, interdum vitae, leo",
+			flickr:		"RAIvxHY4hE/Elm5cieh4X5ptMyDpj7MYIxziGxi0WGCcy1s+yr7rKQ==",
+			google:		"jwNGnYw4hE9lmAez4ll0QD+jo6SKBJFknkopLS4FrSAuGfIwyj57AusuR0s8dAo=",
+			twitter:	""
+		},
+		
+		init: function() {
+			return this;
+		},
+		
+		setKeys: function(d) {
+			VMM.ExternalAPI.keys	= d;
+		},
+		
+		pushQues: function() {
+			
+			if (VMM.master_config.googlemaps.active) {
+				VMM.ExternalAPI.googlemaps.pushQue();
+			}
+			if (VMM.master_config.youtube.active) {
+				VMM.ExternalAPI.youtube.pushQue();
+			}
+			if (VMM.master_config.soundcloud.active) {
+				VMM.ExternalAPI.soundcloud.pushQue();
+			}
+			if (VMM.master_config.googledocs.active) {
+				VMM.ExternalAPI.googledocs.pushQue();
+			}
+			if (VMM.master_config.googleplus.active) {
+				VMM.ExternalAPI.googleplus.pushQue();
+			}
+			if (VMM.master_config.wikipedia.active) {
+				VMM.ExternalAPI.wikipedia.pushQue();
+			}
+			if (VMM.master_config.vimeo.active) {
+				VMM.ExternalAPI.vimeo.pushQue();
+			}
+			if (VMM.master_config.vine.active) {
+				VMM.ExternalAPI.vine.pushQue();
+			}
+			if (VMM.master_config.twitter.active) {
+				VMM.ExternalAPI.twitter.pushQue();
+			}
+			if (VMM.master_config.flickr.active) {
+				VMM.ExternalAPI.flickr.pushQue();
+			}
+			if (VMM.master_config.webthumb.active) {
+				VMM.ExternalAPI.webthumb.pushQue();
+			}
+		},
+		
+		twitter: {
+			tweetArray: [],
+			
+			get: function(m) {
+				var tweet = {mid: m.id, id: m.uid};
+				VMM.master_config.twitter.que.push(tweet);
+				VMM.master_config.twitter.active = true;
+				//VMM.master_config.api.pushques.push(VMM.ExternalAPI.twitter.pushQue);
+				
+			},
+			
+			create: function(tweet, callback) {
+				
+				var id				= tweet.mid.toString(),
+					error_obj		= { twitterid: tweet.mid },
+					the_url			= "//api.twitter.com/1/statuses/show.json?id=" + tweet.mid + "&include_entities=true&callback=?";
+					//twitter_timeout	= setTimeout(VMM.ExternalAPI.twitter.errorTimeOut, VMM.master_config.timers.api, tweet),
+					//callback_timeout= setTimeout(callback, VMM.master_config.timers.api, tweet);
+				
+				VMM.ExternalAPI.twitter.getOEmbed(tweet, callback);
+				
+				/*
+				// Disabled thanks to twitter's new api
+				
+				VMM.getJSON(the_url, function(d) {
+					var id		= d.id_str,
+						twit	= "<blockquote><p>",
+						td		= VMM.Util.linkify_with_twitter(d.text, "_blank");
+					
+					//	TWEET CONTENT	
+					twit += td;
+					twit += "</p></blockquote>";
+					
+					//	TWEET MEDIA
+					if (typeof d.entities.media != 'undefined') {
+						if (d.entities.media[0].type == "photo") {
+							//twit += "<img src=' " + d.entities.media[0].media_url + "'  alt=''>"
+						}
+					}
+					
+					//	TWEET AUTHOR
+					twit += "<div class='vcard author'>";
+					twit += "<a class='screen-name url' href='https://twitter.com/" + d.user.screen_name + "' data-screen-name='" + d.user.screen_name + "' target='_blank'>";
+					twit += "<span class='avatar'><img src=' " + d.user.profile_image_url + "'  alt=''></span>";
+					twit += "<span class='fn'>" + d.user.name + "</span>";
+					twit += "<span class='nickname'>@" + d.user.screen_name + "<span class='thumbnail-inline'></span></span>";
+					twit += "</a>";
+					twit += "</div>";
+				
+					
+				
+					VMM.attachElement("#"+tweet.id.toString(), twit );
+					VMM.attachElement("#text_thumb_"+tweet.id.toString(), d.text );
+					VMM.attachElement("#marker_content_" + tweet.id.toString(), d.text );
+					
+				})
+				.error(function(jqXHR, textStatus, errorThrown) {
+					trace("TWITTER error");
+					trace("TWITTER ERROR: " + textStatus + " " + jqXHR.responseText);
+					VMM.attachElement("#"+tweet.id, VMM.MediaElement.loadingmessage("ERROR LOADING TWEET " + tweet.mid) );
+				})
+				.success(function(d) {
+					clearTimeout(twitter_timeout);
+					clearTimeout(callback_timeout);
+					callback();
+				});
+				
+				*/
+			},
+			
+			errorTimeOut: function(tweet) {
+				trace("TWITTER JSON ERROR TIMEOUT " + tweet.mid);
+				VMM.attachElement("#"+tweet.id.toString(), VMM.MediaElement.loadingmessage("Still waiting on Twitter: " + tweet.mid) );
+				// CHECK RATE STATUS
+				VMM.getJSON("//api.twitter.com/1/account/rate_limit_status.json", function(d) {
+					trace("REMAINING TWITTER API CALLS " + d.remaining_hits);
+					trace("TWITTER RATE LIMIT WILL RESET AT " + d.reset_time);
+					var mes = "";
+					if (d.remaining_hits == 0) {
+						mes		= 	"<p>You've reached the maximum number of tweets you can load in an hour.</p>";
+						mes 	+=	"<p>You can view tweets again starting at: <br/>" + d.reset_time + "</p>";
+					} else {
+						mes		=	"<p>Still waiting on Twitter. " + tweet.mid + "</p>";
+						//mes 	= 	"<p>Tweet " + id + " was not found.</p>";
+					}
+					VMM.attachElement("#"+tweet.id.toString(), VMM.MediaElement.loadingmessage(mes) );
+				});
+				
+			},
+			
+			errorTimeOutOembed: function(tweet) {
+				trace("TWITTER JSON ERROR TIMEOUT " + tweet.mid);
+				VMM.attachElement("#"+tweet.id.toString(), VMM.MediaElement.loadingmessage("Still waiting on Twitter: " + tweet.mid) );
+			},
+			
+			pushQue: function() {
+				if (VMM.master_config.twitter.que.length > 0) {
+					VMM.ExternalAPI.twitter.create(VMM.master_config.twitter.que[0], VMM.ExternalAPI.twitter.pushQue);
+					VMM.Util.removeRange(VMM.master_config.twitter.que,0);
+				}
+			},
+						
+			getOEmbed: function(tweet, callback) {
+				
+				var the_url = "//api.twitter.com/1/statuses/oembed.json?id=" + tweet.mid + "&omit_script=true&include_entities=true&callback=?",
+					twitter_timeout	= setTimeout(VMM.ExternalAPI.twitter.errorTimeOutOembed, VMM.master_config.timers.api, tweet);
+					//callback_timeout= setTimeout(callback, VMM.master_config.timers.api, tweet);
+				
+				VMM.getJSON(the_url, function(d) {
+					var twit	= "",
+						tuser	= "";
+					
+					
+					//	TWEET CONTENT
+					twit += d.html.split("<\/p>\&mdash;")[0] + "</p></blockquote>";
+					tuser = d.author_url.split("twitter.com\/")[1];
+					
+					
+					//	TWEET AUTHOR
+					twit += "<div class='vcard author'>";
+					twit += "<a class='screen-name url' href='" + d.author_url + "' target='_blank'>";
+					twit += "<span class='avatar'></span>";
+					twit += "<span class='fn'>" + d.author_name + "</span>";
+					twit += "<span class='nickname'>@" + tuser + "<span class='thumbnail-inline'></span></span>";
+					twit += "</a>";
+					twit += "</div>";
+					
+					VMM.attachElement("#"+tweet.id.toString(), twit );
+					VMM.attachElement("#text_thumb_"+tweet.id.toString(), d.html );
+					VMM.attachElement("#marker_content_" + tweet.id.toString(), d.html );
+				})
+				.error(function(jqXHR, textStatus, errorThrown) {
+					trace("TWITTER error");
+					trace("TWITTER ERROR: " + textStatus + " " + jqXHR.responseText);
+					clearTimeout(twitter_timeout);
+					//clearTimeout(callback_timeout);
+					VMM.attachElement("#"+tweet.id, VMM.MediaElement.loadingmessage("ERROR LOADING TWEET " + tweet.mid) );
+				})
+				.success(function(d) {
+					clearTimeout(twitter_timeout);
+					// clearTimeout(callback_timeout);
+					callback();
+				});
+				
+			},
+			
+			getHTML: function(id) {
+				//var the_url = document.location.protocol + "//api.twitter.com/1/statuses/oembed.json?id=" + id+ "&callback=?";
+				var the_url = "//api.twitter.com/1/statuses/oembed.json?id=" + id+ "&omit_script=true&include_entities=true&callback=?";
+				VMM.getJSON(the_url, VMM.ExternalAPI.twitter.onJSONLoaded);
+			},
+			
+			onJSONLoaded: function(d) {
+				trace("TWITTER JSON LOADED");
+				var id = d.id;
+				VMM.attachElement("#"+id, VMM.Util.linkify_with_twitter(d.html) );
+			},
+			
+			parseTwitterDate: function(d) {
+				var date = new Date(Date.parse(d));
+				/*
+				var t = d.replace(/(\d{1,2}[:]\d{2}[:]\d{2}) (.*)/, '$2 $1');
+				t = t.replace(/(\+\S+) (.*)/, '$2 $1');
+				var date = new Date(Date.parse(t)).toLocaleDateString();
+				var time = new Date(Date.parse(t)).toLocaleTimeString();
+				*/
+				return date;
+			},
+			
+			prettyParseTwitterDate: function(d) {
+				var date = new Date(Date.parse(d));
+				return VMM.Date.prettyDate(date, true);
+			},
+			
+			getTweets: function(tweets) {
+				var tweetArray = [];
+				var number_of_tweets = tweets.length;
+				
+				for(var i = 0; i < tweets.length; i++) {
+					
+					var twitter_id = "";
+					
+					
+					/* FIND THE TWITTER ID
+					================================================== */
+					if (tweets[i].tweet.match("status\/")) {
+						twitter_id = tweets[i].tweet.split("status\/")[1];
+					} else if (tweets[i].tweet.match("statuses\/")) {
+						twitter_id = tweets[i].tweet.split("statuses\/")[1];
+					} else {
+						twitter_id = "";
+					}
+					
+					/* FETCH THE DATA
+					================================================== */
+					var the_url = "//api.twitter.com/1/statuses/show.json?id=" + twitter_id + "&include_entities=true&callback=?";
+					VMM.getJSON(the_url, function(d) {
+						
+						var tweet = {}
+						/* FORMAT RESPONSE
+						================================================== */
+						var twit = "<div class='twitter'><blockquote><p>";
+						var td = VMM.Util.linkify_with_twitter(d.text, "_blank");
+						twit += td;
+						twit += "</p>";
+						
+						twit += "— " + d.user.name + " (<a href='https://twitter.com/" + d.user.screen_name + "'>@" + d.user.screen_name + "</a>) <a href='https://twitter.com/" + d.user.screen_name + "/status/" + d.id + "'>" + VMM.ExternalAPI.twitter.prettyParseTwitterDate(d.created_at) + " </a></blockquote></div>";
+						
+						tweet.content = twit;
+						tweet.raw = d;
+						
+						tweetArray.push(tweet);
+						
+						
+						/* CHECK IF THATS ALL OF THEM
+						================================================== */
+						if (tweetArray.length == number_of_tweets) {
+							var the_tweets = {tweetdata: tweetArray}
+							VMM.fireEvent(global, "TWEETSLOADED", the_tweets);
+						}
+					})
+					.success(function() { trace("second success"); })
+					.error(function() { trace("error"); })
+					.complete(function() { trace("complete"); });
+					
+				}
+					
+				
+			},
+			
+			getTweetSearch: function(tweets, number_of_tweets) {
+				var _number_of_tweets = 40;
+				if (number_of_tweets != null && number_of_tweets != "") {
+					_number_of_tweets = number_of_tweets;
+				}
+				
+				var the_url = "//search.twitter.com/search.json?q=" + tweets + "&rpp=" + _number_of_tweets + "&include_entities=true&result_type=mixed";
+				var tweetArray = [];
+				VMM.getJSON(the_url, function(d) {
+					
+					/* FORMAT RESPONSE
+					================================================== */
+					for(var i = 0; i < d.results.length; i++) {
+						var tweet = {}
+						var twit = "<div class='twitter'><blockquote><p>";
+						var td = VMM.Util.linkify_with_twitter(d.results[i].text, "_blank");
+						twit += td;
+						twit += "</p>";
+						twit += "— " + d.results[i].from_user_name + " (<a href='https://twitter.com/" + d.results[i].from_user + "'>@" + d.results[i].from_user + "</a>) <a href='https://twitter.com/" + d.results[i].from_user + "/status/" + d.id + "'>" + VMM.ExternalAPI.twitter.prettyParseTwitterDate(d.results[i].created_at) + " </a></blockquote></div>";
+						tweet.content = twit;
+						tweet.raw = d.results[i];
+						tweetArray.push(tweet);
+					}
+					var the_tweets = {tweetdata: tweetArray}
+					VMM.fireEvent(global, "TWEETSLOADED", the_tweets);
+				});
+				
+			},
+			
+			prettyHTML: function(id, secondary) {
+				var id = id.toString();
+				var error_obj = {
+					twitterid: id
+				};
+				var the_url = "//api.twitter.com/1/statuses/show.json?id=" + id + "&include_entities=true&callback=?";
+				var twitter_timeout = setTimeout(VMM.ExternalAPI.twitter.errorTimeOut, VMM.master_config.timers.api, id);
+				
+				VMM.getJSON(the_url, VMM.ExternalAPI.twitter.formatJSON)
+					.error(function(jqXHR, textStatus, errorThrown) {
+						trace("TWITTER error");
+						trace("TWITTER ERROR: " + textStatus + " " + jqXHR.responseText);
+						VMM.attachElement("#twitter_"+id, "<p>ERROR LOADING TWEET " + id + "</p>" );
+					})
+					.success(function(d) {
+						clearTimeout(twitter_timeout);
+						if (secondary) {
+							VMM.ExternalAPI.twitter.secondaryMedia(d);
+						}
+					});
+			},
+			
+			
+			
+			formatJSON: function(d) {
+				var id = d.id_str;
+				
+				var twit = "<blockquote><p>";
+				var td = VMM.Util.linkify_with_twitter(d.text, "_blank");
+				//td = td.replace(/(@([\w]+))/g,"<a href='http://twitter.com/$2' target='_blank'>$1</a>");
+				//td = td.replace(/(#([\w]+))/g,"<a href='http://twitter.com/#search?q=%23$2' target='_blank'>$1</a>");
+				twit += td;
+				twit += "</p></blockquote>";
+				//twit += " <a href='https://twitter.com/" + d.user.screen_name + "/status/" + d.id_str + "' target='_blank' alt='link to original tweet' title='link to original tweet'>" + "<span class='created-at'></span>" + " </a>";
+				
+				twit += "<div class='vcard author'>";
+				twit += "<a class='screen-name url' href='https://twitter.com/" + d.user.screen_name + "' data-screen-name='" + d.user.screen_name + "' target='_blank'>";
+				twit += "<span class='avatar'><img src=' " + d.user.profile_image_url + "'  alt=''></span>";
+				twit += "<span class='fn'>" + d.user.name + "</span>";
+				twit += "<span class='nickname'>@" + d.user.screen_name + "<span class='thumbnail-inline'></span></span>";
+				twit += "</a>";
+				twit += "</div>";
+				
+				if (typeof d.entities.media != 'undefined') {
+					if (d.entities.media[0].type == "photo") {
+						twit += "<img src=' " + d.entities.media[0].media_url + "'  alt=''>"
+					}
+				}
+				
+				VMM.attachElement("#twitter_"+id.toString(), twit );
+				VMM.attachElement("#text_thumb_"+id.toString(), d.text );
+				
+			}
+			
+			
+		},
+		
+		googlemaps: {
+			
+			maptype: "TERRAIN", // see also below for default if this is a google type
+			
+			setMapType: function(d) {
+				if (d != "") {
+					VMM.ExternalAPI.googlemaps.maptype = d;
+				}
+			},
+			
+			get: function(m) {
+				var timer, 
+					api_key,
+					map_url;
+				
+				m.vars = VMM.Util.getUrlVars(m.id);
+				
+				if (VMM.ExternalAPI.keys.google != "") {
+					api_key = VMM.ExternalAPI.keys.google;
+				} else {
+					api_key = Aes.Ctr.decrypt(VMM.ExternalAPI.keys_master.google, VMM.ExternalAPI.keys_master.vp, 256);
+				}
+				
+				
+				/*
+					Investigating a google map api change on the latest release that causes custom map types to stop working
+					http://stackoverflow.com/questions/13486271/google-map-markermanager-cannot-call-method-substr-of-undefined
+					soulution is to use api ver 3.9
+				*/
+				map_url = "//maps.googleapis.com/maps/api/js?key=" + api_key + "&v=3.9&libraries=places&sensor=false&callback=VMM.ExternalAPI.googlemaps.onMapAPIReady";
+				
+				if (VMM.master_config.googlemaps.active) {
+					VMM.master_config.googlemaps.que.push(m);
+				} else {
+					VMM.master_config.googlemaps.que.push(m);
+					
+					if (VMM.master_config.googlemaps.api_loaded) {
+						
+					} else {
+						LoadLib.js(map_url, function() {
+							trace("Google Maps API Library Loaded");
+						});
+					}
+				}
+			},
+			
+			create: function(m) {
+				VMM.ExternalAPI.googlemaps.createAPIMap(m);
+			},
+			
+			createiFrameMap: function(m) {
+				var embed_url		= m.id + "&output=embed",
+					mc				= "",
+					unique_map_id	= m.uid.toString() + "_gmap";
+					
+				mc				+= "<div class='google-map' id='" + unique_map_id + "' style='width=100%;height=100%;'>";
+				mc				+= "<iframe width='100%' height='100%' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='" + embed_url + "'></iframe>";
+				mc				+= "</div>";
+				
+				VMM.attachElement("#" + m.uid, mc);
+				
+			},
+			
+			createAPIMap: function(m) {
+				var map_attribution	= "",
+					layer,
+					map,
+					map_options,
+					unique_map_id			= m.uid.toString() + "_gmap",
+					map_attribution_html	= "",
+					location				= new google.maps.LatLng(41.875696,-87.624207),
+					latlong,
+					zoom					= 11,
+					has_location			= false,
+					has_zoom				= false,
+					api_limit				= false,
+					map_bounds;
+					
+				
+				function mapProvider(name) {
+					if (name in VMM.ExternalAPI.googlemaps.map_providers) {
+						map_attribution = VMM.ExternalAPI.googlemaps.map_attribution[VMM.ExternalAPI.googlemaps.map_providers[name].attribution];
+						return VMM.ExternalAPI.googlemaps.map_providers[name];
+					} else {
+						if (VMM.ExternalAPI.googlemaps.defaultType(name)) {
+							trace("GOOGLE MAP DEFAULT TYPE");
+							return google.maps.MapTypeId[name.toUpperCase()];
+						} else {
+							trace("Not a maptype: " + name );
+						}
+					}
+				}
+				
+				google.maps.VeriteMapType = function(name) {
+					if (VMM.ExternalAPI.googlemaps.defaultType(name)) {
+						return google.maps.MapTypeId[name.toUpperCase()];
+					} else {
+						var provider = 			mapProvider(name);
+						return google.maps.ImageMapType.call(this, {
+							"getTileUrl": function(coord, zoom) {
+								var index = 	(zoom + coord.x + coord.y) % VMM.ExternalAPI.googlemaps.map_subdomains.length;
+								var retURL =  provider.url
+										.replace("{S}", VMM.ExternalAPI.googlemaps.map_subdomains[index])
+										.replace("{Z}", zoom)
+										.replace("{X}", coord.x)
+										.replace("{Y}", coord.y)
+										.replace("{z}", zoom)
+										.replace("{x}", coord.x)
+										.replace("{y}", coord.y);
 
-    // settings that user can't change via setOptions()
-    this._readmore_text     = 'Read More';
-    thisl_loadmore_text     = 'Load More';
-    // this._month_translation = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	this._month_translation = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-     // month separators
-    this._spine_margin      = 100;
+								// trace(retURL);
+								return retURL;
+							},
+							"tileSize": 		new google.maps.Size(256, 256),
+							"name":				name,
+							"minZoom":			provider.minZoom,
+							"maxZoom":			provider.maxZoom
+						});
+					}
+				};
+				
+				google.maps.VeriteMapType.prototype = new google.maps.ImageMapType("_");
+				
+				/* Make the Map
+				================================================== */
+				
+				if (VMM.ExternalAPI.googlemaps.maptype != "") {
+					if (VMM.ExternalAPI.googlemaps.defaultType(VMM.ExternalAPI.googlemaps.maptype)) {
+						layer				=	google.maps.MapTypeId[VMM.ExternalAPI.googlemaps.maptype.toUpperCase()];
+					} else {
+						layer				=	VMM.ExternalAPI.googlemaps.maptype;
+					}
+				} else {
+					layer				=	google.maps.MapTypeId['TERRAIN'];
+				}
+				
+				var new_google_url_regex = new RegExp(/@([0-9\.\-]+),([0-9\.\-]+),(\d+)z/);
 
-    // cache timeline elements in an array
-    this._elements   = [];
-    this._separators = [];
+				if (m.id.match(new_google_url_regex)) {
+					var match = m.id.match(new_google_url_regex)
+					lat = parseFloat(match[1]);
+					lng = parseFloat(match[2]);
+					location = new google.maps.LatLng(lat,lng);
+					zoom = parseFloat(match[3]);
+					has_location = has_zoom = true;
+				} else {
+					if (type.of(VMM.Util.getUrlVars(m.id)["ll"]) == "string") {
+							has_location			= true;
+							latlong					= VMM.Util.getUrlVars(m.id)["ll"].split(",");
+							location				= new google.maps.LatLng(parseFloat(latlong[0]),parseFloat(latlong[1]));
+							
+						} else if (type.of(VMM.Util.getUrlVars(m.id)["sll"]) == "string") {
+							latlong					= VMM.Util.getUrlVars(m.id)["sll"].split(",");
+							location				= new google.maps.LatLng(parseFloat(latlong[0]),parseFloat(latlong[1]));
+						} 
+						
+						if (type.of(VMM.Util.getUrlVars(m.id)["z"]) == "string") {
+							has_zoom				=	true;
+							zoom					=	parseFloat(VMM.Util.getUrlVars(m.id)["z"]);
+						}
+				}				
+					
+				map_options = {
+					zoom:						zoom,
+					draggable: 					false, 
+					disableDefaultUI:			true,
+					mapTypeControl:				false,
+					zoomControl:				true,
+					zoomControlOptions: {
+						style:					google.maps.ZoomControlStyle.SMALL,
+						position:				google.maps.ControlPosition.TOP_RIGHT
+					},
+					center: 					location,
+					mapTypeId:					layer,
+					mapTypeControlOptions: {
+				        mapTypeIds:				[layer]
+				    }
+				}
+				
+				VMM.attachElement("#" + m.uid, "<div class='google-map' id='" + unique_map_id + "' style='width=100%;height=100%;'></div>");
+				
+				map		= new google.maps.Map(document.getElementById(unique_map_id), map_options);
+				
+				if (VMM.ExternalAPI.googlemaps.defaultType(VMM.ExternalAPI.googlemaps.maptype)) {
+					
+				} else {
+					map.mapTypes.set(layer, new google.maps.VeriteMapType(layer));
+					// ATTRIBUTION
+					map_attribution_html =	"<div class='map-attribution'><div class='attribution-text'>" + map_attribution + "</div></div>";
+					VMM.appendElement("#"+unique_map_id, map_attribution_html);
+				}
+				
+				// DETERMINE IF KML IS POSSIBLE 
+				if (type.of(VMM.Util.getUrlVars(m.id)["msid"]) == "string") {
+					loadKML();
+				} else {
+					//loadPlaces();
+					if (type.of(VMM.Util.getUrlVars(m.id)["q"]) == "string") {
+						geocodePlace();
+					} 
+				}
+				
+				// GEOCODE
+				function geocodePlace() {
 
-    // process queue
-    this._iframe_queue  = [];  // iframe queue
 
-    // detect css3 transition support
-    this._use_css3 = (function() {
-        var style = document.body.style;
+					
+					var geocoder	= new google.maps.Geocoder(),
+						address		= VMM.Util.getUrlVars(m.id)["q"],
+						marker;
+						
+					if (address.match("loc:")) {
+						var address_latlon = address.split(":")[1].split("+");
+						location = new google.maps.LatLng(parseFloat(address_latlon[0]),parseFloat(address_latlon[1]));
+						has_location = true;
+					}
+						
+					geocoder.geocode( { 'address': address}, function(results, status) {
+						if (status == google.maps.GeocoderStatus.OK) {
+							
+							marker = new google.maps.Marker({
+								map: map,
+								position: results[0].geometry.location
+							});
+							
+							// POSITION MAP
+							//map.setCenter(results[0].geometry.location);
+							//map.panTo(location);
+							if (typeof results[0].geometry.viewport != 'undefined') {
+								map.fitBounds(results[0].geometry.viewport);
+							} else if (typeof results[0].geometry.bounds != 'undefined') {
+								map.fitBounds(results[0].geometry.bounds);
+							} else {
+								map.setCenter(results[0].geometry.location);
+							}
+							
+							if (has_location) {
+								map.panTo(location);
+							}
+							if (has_zoom) {
+								map.setZoom(zoom);
+							}
+							
+						} else {
+							trace("Geocode for " + address + " was not successful for the following reason: " + status);
+							trace("TRYING PLACES SEARCH");
+							
+							if (has_location) {
+								map.panTo(location);
+							}
+							if (has_zoom) {
+								map.setZoom(zoom);
+							}
+							
+							loadPlaces();
+						}
+					});
+				}
+				
+				// PLACES
+				function loadPlaces() {
+					var place,
+						search_request,
+						infowindow,
+						search_bounds,
+						bounds_sw,
+						bounds_ne;
+					
+					place_search	= new google.maps.places.PlacesService(map);
+					infowindow		= new google.maps.InfoWindow();
+					
+					search_request = {
+						query:		"",
+						types:		['country', 'neighborhood', 'political', 'locality', 'geocode']
+					};
+					
+					if (type.of(VMM.Util.getUrlVars(m.id)["q"]) == "string") {
+						search_request.query	= VMM.Util.getUrlVars(m.id)["q"];
+					}
+					
+					if (has_location) {
+						search_request.location	= location;
+						search_request.radius	= "15000";
+					} else {
+						bounds_sw = new google.maps.LatLng(-89.999999,-179.999999);
+						bounds_ne = new google.maps.LatLng(89.999999,179.999999);
+						search_bounds = new google.maps.LatLngBounds(bounds_sw,bounds_ne);
+						
+						//search_request.location	= search_bounds;
+					}
+					
+					place_search.textSearch(search_request, placeResults);
+					
+					function placeResults(results, status) {
+						
+						if (status == google.maps.places.PlacesServiceStatus.OK) {
+							
+							for (var i = 0; i < results.length; i++) {
+								//createMarker(results[i]);
+							}
+							
+							if (has_location) {
+								map.panTo(location);
+							} else {
+								if (results.length >= 1) {
+									map.panTo(results[0].geometry.location);
+									if (has_zoom) {
+										map.setZoom(zoom);
+									}
+								} 
+							}
+							
+							
+						} else {
+							trace("Place search for " + search_request.query + " was not successful for the following reason: " + status);
+							// IF There's a problem loading the map, load a simple iFrame version instead
+							trace("YOU MAY NEED A GOOGLE MAPS API KEY IN ORDER TO USE THIS FEATURE OF TIMELINEJS");
+							trace("FIND OUT HOW TO GET YOUR KEY HERE: https://developers.google.com/places/documentation/#Authentication");
+							
+							
+							if (has_location) {
+								map.panTo(location);
+								if (has_zoom) {
+									map.setZoom(zoom);
+								}
+							} else {
+								trace("USING SIMPLE IFRAME MAP EMBED");
+								if (m.id[0].match("https")) { 
+									m.id = m.url[0].replace("https", "http");
+								}
+								VMM.ExternalAPI.googlemaps.createiFrameMap(m);
+							}
+							
+						}
+						
+					}
+					
+					function createMarker(place) {
+						var marker, placeLoc;
+						
+						placeLoc = place.geometry.location;
+						marker = new google.maps.Marker({
+							map: map,
+							position: place.geometry.location
+						});
 
-        if (typeof style['transition'] == 'string') {
-            return true;
+						google.maps.event.addListener(marker, 'click', function() {
+							infowindow.setContent(place.name);
+							infowindow.open(map, this);
+						});
+					}
+					
+				}
+				
+				function loadPlacesAlt() {
+					var api_key,
+						places_url,
+						has_key		= false;
+						
+					trace("LOADING PLACES API FOR GOOGLE MAPS");
+						
+					if (VMM.ExternalAPI.keys.google != "") {
+						api_key	= VMM.ExternalAPI.keys.google;
+						has_key	= true;
+					} else {
+						trace("YOU NEED A GOOGLE MAPS API KEY IN ORDER TO USE THIS FEATURE OF TIMELINEJS");
+						trace("FIND OUT HOW TO GET YOUR KEY HERE: https://developers.google.com/places/documentation/#Authentication");
+					}
+					
+					places_url		= "https://maps.googleapis.com/maps/api/place/textsearch/json?key=" + api_key + "&sensor=false&language=" + m.lang + "&";
+					
+					if (type.of(VMM.Util.getUrlVars(m.id)["q"]) == "string") {
+						places_url	+= "query=" + VMM.Util.getUrlVars(m.id)["q"];
+					}
+					
+					if (has_location) {
+						places_url	+= "&location=" + location;
+					} 
+					
+					if (has_key) {
+						VMM.getJSON(places_url, function(d) {
+							trace("PLACES JSON");
+						
+							var places_location 	= "",
+								places_bounds		= "",
+								places_bounds_ne	= "",
+								places_bounds_sw	= "";
+						
+							trace(d);
+						
+							if (d.status == "OVER_QUERY_LIMIT") {
+								trace("OVER_QUERY_LIMIT");
+								if (has_location) {
+									map.panTo(location);
+									if (has_zoom) {
+										map.setZoom(zoom);
+									}
+								} else {
+									trace("DOING TRADITIONAL MAP IFRAME EMBED UNTIL QUERY LIMIT RESTORED");
+									api_limit = true;
+									VMM.ExternalAPI.googlemaps.createiFrameMap(m);
+								}
+							
+							} else {
+								if (d.results.length >= 1) {
+									//location = new google.maps.LatLng(parseFloat(d.results[0].geometry.location.lat),parseFloat(d.results[0].geometry.location.lng));
+									//map.panTo(location);
+							
+									places_bounds_ne	= new google.maps.LatLng(parseFloat(d.results[0].geometry.viewport.northeast.lat),parseFloat(d.results[0].geometry.viewport.northeast.lng));
+									places_bounds_sw	= new google.maps.LatLng(parseFloat(d.results[0].geometry.viewport.southwest.lat),parseFloat(d.results[0].geometry.viewport.southwest.lng));
+							
+									places_bounds = new google.maps.LatLngBounds(places_bounds_sw, places_bounds_ne)
+									map.fitBounds(places_bounds);
+							
+								} else {
+									trace("NO RESULTS");
+								}
+						
+								if (has_location) {
+									map.panTo(location);
+								} 
+								if (has_zoom) {
+									map.setZoom(zoom);
+								}
+							}
+						
+						})
+						.error(function(jqXHR, textStatus, errorThrown) {
+							trace("PLACES JSON ERROR");
+							trace("PLACES JSON ERROR: " + textStatus + " " + jqXHR.responseText);
+						})
+						.success(function(d) {
+							trace("PLACES JSON SUCCESS");
+						});
+					} else {
+						if (has_location) {
+							map.panTo(location);
+							if (has_zoom) {
+								map.setZoom(zoom);
+							}
+						} else {
+							trace("DOING TRADITIONAL MAP IFRAME EMBED BECAUSE NO GOOGLE MAP API KEY WAS PROVIDED");
+							VMM.ExternalAPI.googlemaps.createiFrameMap(m);
+						}
+					}
+					
+					
+				}
+				
+				// KML
+				function loadKML() {
+					var kml_url, kml_layer, infowindow, text;
+					
+					kml_url				= m.id + "&output=kml";
+					kml_url				= kml_url.replace("&output=embed", "");
+					kml_layer			= new google.maps.KmlLayer(kml_url, {preserveViewport:true});
+					infowindow			= new google.maps.InfoWindow();
+					kml_layer.setMap(map);
+					
+					google.maps.event.addListenerOnce(kml_layer, "defaultviewport_changed", function() {
+					   
+						if (has_location) {
+							map.panTo(location);
+						} else {
+							map.fitBounds(kml_layer.getDefaultViewport() );
+						}
+						if (has_zoom) {
+							map.setZoom(zoom);
+						}
+					});
+					
+					google.maps.event.addListener(kml_layer, 'click', function(kmlEvent) {
+						text			= kmlEvent.featureData.description;
+						showInfoWindow(text);
+						
+						function showInfoWindow(c) {
+							infowindow.setContent(c);
+							infowindow.open(map);
+						}
+					});
+				}
+				
+				
+			},
+			
+			pushQue: function() {
+				for(var i = 0; i < VMM.master_config.googlemaps.que.length; i++) {
+					VMM.ExternalAPI.googlemaps.create(VMM.master_config.googlemaps.que[i]);
+				}
+				VMM.master_config.googlemaps.que = [];
+			},
+			
+			onMapAPIReady: function() {
+				VMM.master_config.googlemaps.map_active = true;
+				VMM.master_config.googlemaps.places_active = true;
+				VMM.ExternalAPI.googlemaps.onAPIReady();
+			},
+			
+			onPlacesAPIReady: function() {
+				VMM.master_config.googlemaps.places_active = true;
+				VMM.ExternalAPI.googlemaps.onAPIReady();
+			},
+			
+			onAPIReady: function() {
+				if (!VMM.master_config.googlemaps.active) {
+					if (VMM.master_config.googlemaps.map_active && VMM.master_config.googlemaps.places_active) {
+						VMM.master_config.googlemaps.active = true;
+						VMM.ExternalAPI.googlemaps.pushQue();
+					}
+				}
+			},
+			
+			defaultType: function(name) {
+				if (name.toLowerCase() == "satellite" || name.toLowerCase() == "hybrid" || name.toLowerCase() == "terrain" || name.toLowerCase() == "roadmap") {
+					return true;
+				} else {
+					return false;
+				}
+			},
+			
+			map_subdomains: ["", "a.", "b.", "c.", "d."],
+			
+			map_attribution: {
+				"stamen": 			"Map tiles by <a href='http://stamen.com'>Stamen Design</a>, under <a href='http://creativecommons.org/licenses/by/3.0'>CC BY 3.0</a>. Data by <a href='http://openstreetmap.org'>OpenStreetMap</a>, under <a href='http://creativecommons.org/licenses/by-sa/3.0'>CC BY SA</a>.",
+				"apple": 			"Map data &copy; 2012  Apple, Imagery &copy; 2012 Apple",
+				"osm":				"&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+			},
+									
+			map_providers: {
+				"toner": {
+					"url": 			"//{S}tile.stamen.com/toner/{Z}/{X}/{Y}.png",
+					"minZoom": 		0,
+					"maxZoom": 		20,
+					"attribution": 	"stamen"
+					
+				},
+				"toner-lines": {
+					"url": 			"//{S}tile.stamen.com/toner-lines/{Z}/{X}/{Y}.png",
+					"minZoom": 		0,
+					"maxZoom": 		20,
+					"attribution": 	"stamen"
+				},
+				"toner-labels": {
+					"url": 			"//{S}tile.stamen.com/toner-labels/{Z}/{X}/{Y}.png",
+					"minZoom": 		0,
+					"maxZoom": 		20,
+					"attribution": 	"stamen"
+				},
+				"sterrain": {
+					"url": 			"//{S}tile.stamen.com/terrain/{Z}/{X}/{Y}.jpg",
+					"minZoom": 		4,
+					"maxZoom": 		20,
+					"attribution": 	"stamen"
+				},
+				"apple": {
+					"url": 			"//gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=en_US&z={z}&x={x}&y={y}&v=9",
+					"minZoom": 		4,
+					"maxZoom": 		14,
+					"attribution": 	"apple"
+				},
+				"watercolor": {
+					"url": 			"//{S}tile.stamen.com/watercolor/{Z}/{X}/{Y}.jpg",
+					"minZoom": 		3,
+					"maxZoom": 		16,
+					"attribution": 	"stamen"
+				},
+				"osm": {
+					"url": 			"//tile.openstreetmap.org/{z}/{x}/{y}.png",
+					"minZoom": 		3,
+					"maxZoom": 		18,
+					"attribution":		"osm"
+				}
+			}
+		},
+		
+		googleplus: {
+			
+			get: function(m) {
+				var api_key;
+				var gplus = {user: m.user, activity: m.id, id: m.uid};
+				
+				VMM.master_config.googleplus.que.push(gplus);
+				VMM.master_config.googleplus.active = true;
+			},
+			
+			create: function(gplus, callback) {
+				var mediaElem			= "",
+					api_key				= "",
+					g_activity			= "",
+					g_content			= "",
+					g_attachments		= "",
+					gperson_api_url,
+					gactivity_api_url;
+					googleplus_timeout	= setTimeout(VMM.ExternalAPI.googleplus.errorTimeOut, VMM.master_config.timers.api, gplus),
+					callback_timeout	= setTimeout(callback, VMM.master_config.timers.api, gplus);
+					
+				
+				if (VMM.master_config.Timeline.api_keys.google != "") {
+					api_key = VMM.master_config.Timeline.api_keys.google;
+				} else {
+					api_key = Aes.Ctr.decrypt(VMM.master_config.api_keys_master.google, VMM.master_config.vp, 256);
+				}
+				
+				gperson_api_url = "https://www.googleapis.com/plus/v1/people/" + gplus.user + "/activities/public?alt=json&maxResults=100&fields=items(id,url)&key=" + api_key;
+				
+				//mediaElem	=	"<iframe class='doc' frameborder='0' width='100%' height='100%' src='" + gplus.url + "&amp;embedded=true'></iframe>";
+				mediaElem = "GOOGLE PLUS API CALL";
+				
+				VMM.getJSON(gperson_api_url, function(p_data) {
+					for(var i = 0; i < p_data.items.length; i++) {
+						trace("loop");
+						if (p_data.items[i].url.split("posts/")[1] == gplus.activity) {
+							trace("FOUND IT!!");
+							
+							g_activity = p_data.items[i].id;
+							gactivity_api_url = "https://www.googleapis.com/plus/v1/activities/" + g_activity + "?alt=json&key=" + api_key;
+							
+							VMM.getJSON(gactivity_api_url, function(a_data) {
+								trace(a_data);
+								//a_data.url
+								//a_data.image.url
+								//a_data.actor.displayName
+								//a_data.provider.title
+								//a_data.object.content
+								
+								//g_content		+=	"<h4>" + a_data.title + "</h4>";
+								
+								if (typeof a_data.annotation != 'undefined') {
+									g_content	+=	"<div class='googleplus-annotation'>'" + a_data.annotation + "</div>";
+									g_content	+=	a_data.object.content;
+								} else {
+									g_content	+=	a_data.object.content;
+								}
+								
+								if (typeof a_data.object.attachments != 'undefined') {
+									
+									//g_attachments	+=	"<div class='googleplus-attachemnts'>";
+									
+									for(var k = 0; k < a_data.object.attachments.length; k++) {
+										if (a_data.object.attachments[k].objectType == "photo") {
+											g_attachments	=	"<a href='" + a_data.object.url + "' target='_blank'>" + "<img src='" + a_data.object.attachments[k].image.url + "' class='article-thumb'></a>" + g_attachments;
+										} else if (a_data.object.attachments[k].objectType == "video") {
+											g_attachments	=	"<img src='" + a_data.object.attachments[k].image.url + "' class='article-thumb'>" + g_attachments;
+											g_attachments	+=	"<div>";
+											g_attachments	+=	"<a href='" + a_data.object.attachments[k].url + "' target='_blank'>"
+											g_attachments	+=	"<h5>" + a_data.object.attachments[k].displayName + "</h5>";
+											//g_attachments	+=	"<p>" + a_data.object.attachments[k].content + "</p>";
+											g_attachments	+=	"</a>";
+											g_attachments	+=	"</div>";
+										} else if (a_data.object.attachments[k].objectType == "article") {
+											g_attachments	+=	"<div>";
+											g_attachments	+=	"<a href='" + a_data.object.attachments[k].url + "' target='_blank'>"
+											g_attachments	+=	"<h5>" + a_data.object.attachments[k].displayName + "</h5>";
+											g_attachments	+=	"<p>" + a_data.object.attachments[k].content + "</p>";
+											g_attachments	+=	"</a>";
+											g_attachments	+=	"</div>";
+										}
+										
+										trace(a_data.object.attachments[k]);
+									}
+									
+									g_attachments	=	"<div class='googleplus-attachments'>" + g_attachments + "</div>";
+								}
+								
+								//mediaElem		=	"<div class='googleplus'>";
+								mediaElem		=	"<div class='googleplus-content'>" + g_content + g_attachments + "</div>";
+
+								mediaElem		+=	"<div class='vcard author'><a class='screen-name url' href='" + a_data.url + "' target='_blank'>";
+								mediaElem		+=	"<span class='avatar'><img src='" + a_data.actor.image.url + "' style='max-width: 32px; max-height: 32px;'></span>"
+								mediaElem		+=	"<span class='fn'>" + a_data.actor.displayName + "</span>";
+								mediaElem		+=	"<span class='nickname'><span class='thumbnail-inline'></span></span>";
+								mediaElem		+=	"</a></div>";
+								
+								VMM.attachElement("#googleplus_" + gplus.activity, mediaElem);
+								
+								
+							});
+							
+							break;
+						}
+					}
+					
+					
+					
+				})
+				.error(function(jqXHR, textStatus, errorThrown) {
+					var error_obj = VMM.parseJSON(jqXHR.responseText);
+					trace(error_obj.error.message);
+					VMM.attachElement("#googleplus_" + gplus.activity, VMM.MediaElement.loadingmessage("<p>ERROR LOADING GOOGLE+ </p><p>" + error_obj.error.message + "</p>"));
+				})
+				.success(function(d) {
+					clearTimeout(googleplus_timeout);
+					clearTimeout(callback_timeout);
+					callback();
+				});
+				
+				
+				
+			},
+			
+			pushQue: function() {
+				if (VMM.master_config.googleplus.que.length > 0) {
+					VMM.ExternalAPI.googleplus.create(VMM.master_config.googleplus.que[0], VMM.ExternalAPI.googleplus.pushQue);
+					VMM.Util.removeRange(VMM.master_config.googleplus.que,0);
+				}
+				/*
+				for(var i = 0; i < VMM.master_config.googleplus.que.length; i++) {
+					VMM.ExternalAPI.googleplus.create(VMM.master_config.googleplus.que[i]);
+				}
+				VMM.master_config.googleplus.que = [];
+				*/
+			},
+			
+			errorTimeOut: function(gplus) {
+				trace("GOOGLE+ JSON ERROR TIMEOUT " + gplus.activity);
+				VMM.attachElement("#googleplus_" + gplus.activity, VMM.MediaElement.loadingmessage("<p>Still waiting on GOOGLE+ </p><p>" + gplus.activity + "</p>"));
+				
+			}
+			
+		},
+		
+		googledocs: {
+			
+			get: function(m) {
+				VMM.master_config.googledocs.que.push(m);
+				VMM.master_config.googledocs.active = true;
+			},
+			
+			create: function(m) {
+				var mediaElem = ""; 
+				if (m.id.match(/docs.google.com/i)) {
+					mediaElem	=	"<iframe class='doc' frameborder='0' width='100%' height='100%' src='" + m.id + "&amp;embedded=true'></iframe>";
+				} else {
+					mediaElem	=	"<iframe class='doc' frameborder='0' width='100%' height='100%' src='" + "//docs.google.com/viewer?url=" + m.id + "&amp;embedded=true'></iframe>";
+				}
+				VMM.attachElement("#"+m.uid, mediaElem);
+			},
+			
+			pushQue: function() {
+				
+				for(var i = 0; i < VMM.master_config.googledocs.que.length; i++) {
+					VMM.ExternalAPI.googledocs.create(VMM.master_config.googledocs.que[i]);
+				}
+				VMM.master_config.googledocs.que = [];
+			}
+		
+		},
+		
+		flickr: {
+			
+			get: function(m) {
+				VMM.master_config.flickr.que.push(m);
+				VMM.master_config.flickr.active = true;
+			},
+			
+			create: function(m, callback) {
+				var api_key,
+					callback_timeout= setTimeout(callback, VMM.master_config.timers.api, m);
+					
+				if (typeof VMM.master_config.Timeline != 'undefined' && VMM.master_config.Timeline.api_keys.flickr != "") {
+					api_key = VMM.master_config.Timeline.api_keys.flickr;
+				} else {
+					api_key = Aes.Ctr.decrypt(VMM.master_config.api_keys_master.flickr, VMM.master_config.vp, 256)
+				}
+				var the_url = "https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=" + api_key + "&photo_id=" + m.id + "&format=json&jsoncallback=?";
+				
+				VMM.getJSON(the_url, function(d) {
+					var flickr_id = VMM.ExternalAPI.flickr.getFlickrIdFromUrl(d.sizes.size[0].url);
+				
+					var flickr_large_id = "#" + m.uid,
+						flickr_thumb_id = "#" + m.uid + "_thumb";
+						//flickr_thumb_id = "flickr_" + uid + "_thumb";
+				
+					var flickr_img_size,
+						flickr_img_thumb,
+						flickr_size_found = false,
+						flickr_best_size = "Large";
+				
+					flickr_best_size = VMM.ExternalAPI.flickr.sizes(VMM.master_config.sizes.api.height);
+					for(var i = 0; i < d.sizes.size.length; i++) {
+						if (d.sizes.size[i].label == flickr_best_size) {
+							
+							flickr_size_found = true;
+							flickr_img_size = d.sizes.size[i].source;
+						}
+					}
+					if (!flickr_size_found) {
+						flickr_img_size = d.sizes.size[d.sizes.size.length - 2].source;
+					}
+				
+					flickr_img_thumb = d.sizes.size[0].source;
+					VMM.Lib.attr(flickr_large_id, "src", flickr_img_size);
+					//VMM.attachElement(flickr_large_id, "<a href='" + flick.link + "' target='_blank'><img src='" + flickr_img_size + "'></a>");
+					VMM.attachElement(flickr_thumb_id, "<img src='" + flickr_img_thumb + "'>");
+					
+				})
+				.error(function(jqXHR, textStatus, errorThrown) {
+					trace("FLICKR error");
+					trace("FLICKR ERROR: " + textStatus + " " + jqXHR.responseText);
+				})
+				.success(function(d) {
+					clearTimeout(callback_timeout);
+					callback();
+				});
+				
+			},
+			
+			pushQue: function() {
+				if (VMM.master_config.flickr.que.length > 0) {
+					VMM.ExternalAPI.flickr.create(VMM.master_config.flickr.que[0], VMM.ExternalAPI.flickr.pushQue);
+					VMM.Util.removeRange(VMM.master_config.flickr.que,0);
+				}
+			},
+			
+			sizes: function(s) {
+				var _size = "";
+				if (s <= 75) {
+					_size = "Thumbnail";
+				} else if (s <= 180) {
+					_size = "Small";
+				} else if (s <= 240) {
+					_size = "Small 320";
+				} else if (s <= 375) {
+					_size = "Medium";
+				} else if (s <= 480) {
+					_size = "Medium 640";
+				} else if (s <= 600) {
+					_size = "Large";
+				} else {
+					_size = "Large";
+				}
+				
+				return _size;
+			},
+
+			getFlickrIdFromUrl: function(url) {
+				var idx = url.indexOf("flickr.com/photos/");
+				if (idx == -1) return null; 
+				var pos = idx + "flickr.com/photos/".length;
+				var photo_info = url.substr(pos)
+				if (photo_info.indexOf('/') == -1) return null;
+				if (photo_info.indexOf('/') == 0) photo_info = photo_info.substr(1);
+				return photo_info.split("/")[1];
+			}
+		},
+		
+		instagram: {
+			get: function(m, thumb) {
+				if (thumb) {
+					return "//instagr.am/p/" + m.id + "/media/?size=t";
+				} else {
+					return "//instagr.am/p/" + m.id + "/media/?size=" + VMM.ExternalAPI.instagram.sizes(VMM.master_config.sizes.api.height);
+				}
+			},
+			
+			sizes: function(s) {
+				var _size = "";
+				if (s <= 150) {
+					_size = "t";
+				} else if (s <= 306) {
+					_size = "m";
+				} else {
+					_size = "l";
+				}
+				
+				return _size;
+			},
+
+			isInstagramUrl: function(url) {
+				return url.match("instagr.am/p/") || url.match("instagram.com/p/");
+			},
+
+			getInstagramIdFromUrl: function(url) {
+				try {
+					return url.split("\/p\/")[1].split("/")[0];	
+				} catch(e) {
+					trace("Invalid Instagram url: " + url);
+					return null;
+				}
+				
+			}
+		},
+		
+		soundcloud: {
+			
+			get: function(m) {
+				VMM.master_config.soundcloud.que.push(m);
+				VMM.master_config.soundcloud.active = true;
+			},
+			
+			create: function(m, callback) {
+				var the_url = "//soundcloud.com/oembed?url=" + m.id + "&maxheight=168&format=js&callback=?";
+				VMM.getJSON(the_url, function(d) {
+					VMM.attachElement("#"+m.uid, d.html);
+					callback();
+				});
+			},
+			
+			pushQue: function() {
+				if (VMM.master_config.soundcloud.que.length > 0) {
+					VMM.ExternalAPI.soundcloud.create(VMM.master_config.soundcloud.que[0], VMM.ExternalAPI.soundcloud.pushQue);
+					VMM.Util.removeRange(VMM.master_config.soundcloud.que,0);
+				}
+			}
+			
+		},
+		
+		wikipedia: {
+			
+			get: function(m) {
+				VMM.master_config.wikipedia.que.push(m);
+				VMM.master_config.wikipedia.active = true;
+			},
+			
+			create: function(m, callback) {
+				var the_url = "//" + m.lang + ".wikipedia.org/w/api.php?action=query&prop=extracts&redirects=&titles=" + m.id + "&exintro=1&format=json&callback=?";
+				callback_timeout= setTimeout(callback, VMM.master_config.timers.api, m);
+				
+				if ( VMM.Browser.browser == "Explorer" && parseInt(VMM.Browser.version, 10) >= 7 && window.XDomainRequest) {
+					var temp_text	=	"<h4><a href='http://" + VMM.master_config.language.api.wikipedia + ".wikipedia.org/wiki/" + m.id + "' target='_blank'>" + m.url + "</a></h4>";
+					temp_text		+=	"<span class='wiki-source'>" + VMM.master_config.language.messages.wikipedia + "</span>";
+					temp_text		+=	"<p>Wikipedia entry unable to load using Internet Explorer 8 or below.</p>";
+					VMM.attachElement("#"+m.uid, temp_text );
+				}
+				
+				VMM.getJSON(the_url, function(d) {
+					if (d.query) {
+						var wiki_extract,
+							wiki_title, 
+							_wiki = "", 
+							wiki_text = "", 
+							wiki_number_of_paragraphs = 1, 
+							wiki_text_array = [];
+						
+						wiki_extract = VMM.Util.getObjectAttributeByIndex(d.query.pages, 0).extract;
+						wiki_title = VMM.Util.getObjectAttributeByIndex(d.query.pages, 0).title;
+						
+						if (wiki_extract.match("<p>")) {
+							wiki_text_array = wiki_extract.split("<p>");
+						} else {
+							wiki_text_array.push(wiki_extract);
+						}
+					
+						for(var i = 0; i < wiki_text_array.length; i++) {
+							if (i+1 <= wiki_number_of_paragraphs && i+1 < wiki_text_array.length) {
+								wiki_text	+= "<p>" + wiki_text_array[i+1];
+							}
+						}
+					
+						_wiki		=	"<h4><a href='http://" + VMM.master_config.language.api.wikipedia + ".wikipedia.org/wiki/" + wiki_title + "' target='_blank'>" + wiki_title + "</a></h4>";
+						_wiki		+=	"<span class='wiki-source'>" + VMM.master_config.language.messages.wikipedia + "</span>";
+						_wiki		+=	VMM.Util.linkify_wikipedia(wiki_text);
+					
+						if (wiki_extract.match("REDIRECT")) {
+						
+						} else {
+							VMM.attachElement("#"+m.uid, _wiki );
+						}
+					}
+					//callback();
+				})
+				.error(function(jqXHR, textStatus, errorThrown) {
+					trace("WIKIPEDIA error");
+					trace("WIKIPEDIA ERROR: " + textStatus + " " + jqXHR.responseText);
+					trace(errorThrown);
+					
+					VMM.attachElement("#"+m.uid, VMM.MediaElement.loadingmessage("<p>Wikipedia is not responding</p>"));
+					// TRY AGAIN?
+					clearTimeout(callback_timeout);
+					if (VMM.master_config.wikipedia.tries < 4) {
+						trace("WIKIPEDIA ATTEMPT " + VMM.master_config.wikipedia.tries);
+						trace(m);
+						VMM.master_config.wikipedia.tries++;
+						VMM.ExternalAPI.wikipedia.create(m, callback);
+					} else {
+						callback();
+					}
+					
+				})
+				.success(function(d) {
+					VMM.master_config.wikipedia.tries = 0;
+					clearTimeout(callback_timeout);
+					callback();
+				});
+				
+				
+			},
+			
+			pushQue: function() {
+				
+				if (VMM.master_config.wikipedia.que.length > 0) {
+					trace("WIKIPEDIA PUSH QUE " + VMM.master_config.wikipedia.que.length);
+					VMM.ExternalAPI.wikipedia.create(VMM.master_config.wikipedia.que[0], VMM.ExternalAPI.wikipedia.pushQue);
+					VMM.Util.removeRange(VMM.master_config.wikipedia.que,0);
+				}
+
+			}
+			
+		},
+		
+		youtube: {
+			
+			get: function(m) {
+				var the_url = "//gdata.youtube.com/feeds/api/videos/" + m.id + "?v=2&alt=jsonc&callback=?";
+					
+				VMM.master_config.youtube.que.push(m);
+				
+				if (!VMM.master_config.youtube.active) {
+					if (!VMM.master_config.youtube.api_loaded) {
+						LoadLib.js('//www.youtube.com/player_api', function() {
+							trace("YouTube API Library Loaded");
+						});
+					}
+				}
+				
+				// THUMBNAIL
+				VMM.getJSON(the_url, function(d) {
+					VMM.ExternalAPI.youtube.createThumb(d, m)
+				});
+				
+			},
+			
+			create: function(m) {
+				if (typeof(m.start) != 'undefined') {
+					
+					var vidstart			= m.start.toString(),
+						vid_start_minutes	= 0,
+						vid_start_seconds	= 0;
+						
+					if (vidstart.match('m')) {
+						vid_start_minutes = parseInt(vidstart.split("m")[0], 10);
+						vid_start_seconds = parseInt(vidstart.split("m")[1].split("s")[0], 10);
+						m.start = (vid_start_minutes * 60) + vid_start_seconds;
+					} else {
+						m.start = 0;
+					}
+				} else {
+					m.start = 0;
+				}
+				
+				var p = {
+					active: 				false,
+					player: 				{},
+					name:					m.uid,
+					playing:				false,
+					hd:						false
+				};
+				
+				if (typeof(m.hd) != 'undefined') {
+					p.hd = true;
+				}
+				
+				p.player[m.id] = new YT.Player(m.uid, {
+					height: 				'390',
+					width: 					'640',
+					playerVars: {
+						enablejsapi:		1,
+						color: 				'white',
+						showinfo:			0,
+						theme:				'light',
+						start:				m.start,
+						rel:				0
+					},
+					videoId: m.id,
+					events: {
+						'onReady': 			VMM.ExternalAPI.youtube.onPlayerReady,
+						'onStateChange': 	VMM.ExternalAPI.youtube.onStateChange
+					}
+				});
+				
+				VMM.master_config.youtube.array.push(p);
+			},
+			
+			createThumb: function(d, m) {
+				trace("CREATE THUMB");
+				trace(d);
+				trace(m);
+				if (typeof d.data != 'undefined') {
+					var thumb_id = "#" + m.uid + "_thumb";
+					VMM.attachElement(thumb_id, "<img src='" + d.data.thumbnail.sqDefault + "'>");
+					
+				}
+			},
+			
+			pushQue: function() {
+				for(var i = 0; i < VMM.master_config.youtube.que.length; i++) {
+					VMM.ExternalAPI.youtube.create(VMM.master_config.youtube.que[i]);
+				}
+				VMM.master_config.youtube.que = [];
+			},
+			
+			onAPIReady: function() {
+				VMM.master_config.youtube.active = true;
+				VMM.ExternalAPI.youtube.pushQue();
+			},
+			
+			stopPlayers: function() {
+				for(var i = 0; i < VMM.master_config.youtube.array.length; i++) {
+					if (VMM.master_config.youtube.array[i].playing) {
+						if (typeof VMM.master_config.youtube.array[i].player.the_name !== 'undefined') {
+							VMM.master_config.youtube.array[i].player.the_name.stopVideo();
+						}
+					}
+				}
+			},
+			 
+			onStateChange: function(e) {
+				for(var i = 0; i < VMM.master_config.youtube.array.length; i++) {
+					for (var z in VMM.master_config.youtube.array[i].player) {
+						if (VMM.master_config.youtube.array[i].player[z] == e.target) {
+							VMM.master_config.youtube.array[i].player.the_name = VMM.master_config.youtube.array[i].player[z];
+						}
+					}
+					if (VMM.master_config.youtube.array[i].player.the_name == e.target) {
+						if (e.data == YT.PlayerState.PLAYING) {
+							VMM.master_config.youtube.array[i].playing = true;
+							if (VMM.master_config.youtube.array[i].hd === false) {
+								VMM.master_config.youtube.array[i].hd = true;
+								VMM.master_config.youtube.array[i].player.the_name.setPlaybackQuality("hd720");
+							}
+						}
+					}
+				}
+			},
+			
+			onPlayerReady: function(e) {
+				
+			}
+			
+			
+		},
+		
+		vimeo: {
+			
+			get: function(m) {
+				VMM.master_config.vimeo.que.push(m);
+				VMM.master_config.vimeo.active = true;
+			},
+			
+			create: function(m, callback) {
+				trace("VIMEO CREATE");
+				
+				// THUMBNAIL
+				var thumb_url	= "//vimeo.com/api/v2/video/" + m.id + ".json",
+					video_url	= "//player.vimeo.com/video/" + m.id + "?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff";
+					
+				VMM.getJSON(thumb_url, function(d) {
+					VMM.ExternalAPI.vimeo.createThumb(d, m);
+					callback();
+				});
+				
+				
+				// VIDEO
+				VMM.attachElement("#" + m.uid, "<iframe autostart='false' frameborder='0' width='100%' height='100%' src='" + video_url + "'></iframe>");
+				
+			},
+			
+			createThumb: function(d, m) {
+				trace("VIMEO CREATE THUMB");
+				var thumb_id = "#" + m.uid + "_thumb";
+				VMM.attachElement(thumb_id, "<img src='" + d[0].thumbnail_small + "'>");
+			},
+			
+			pushQue: function() {
+				if (VMM.master_config.vimeo.que.length > 0) {
+					VMM.ExternalAPI.vimeo.create(VMM.master_config.vimeo.que[0], VMM.ExternalAPI.vimeo.pushQue);
+					VMM.Util.removeRange(VMM.master_config.vimeo.que,0);
+				}
+			}
+			
+		},
+		
+		vine: {
+			
+			get: function(m) {
+				VMM.master_config.vine.que.push(m);
+				VMM.master_config.vine.active = true;
+			},
+			
+			create: function(m, callback) {
+				trace("VINE CREATE");				
+				
+				var video_url	= "https://vine.co/v/" + m.id + "/embed/simple";
+					
+				
+				
+				// VIDEO
+				// TODO: NEED TO ADD ASYNC SCRIPT TO TIMELINE FLOW
+				VMM.attachElement("#" + m.uid, "<iframe frameborder='0' width='100%' height='100%' src='" + video_url + "'></iframe><script async src='http://platform.vine.co/static/scripts/embed.js' charset='utf-8'></script>");
+				
+			},
+			
+			pushQue: function() {
+				if (VMM.master_config.vine.que.length > 0) {
+					VMM.ExternalAPI.vine.create(VMM.master_config.vine.que[0], VMM.ExternalAPI.vine.pushQue);
+					VMM.Util.removeRange(VMM.master_config.vine.que,0);
+				}
+			}
+			
+		},
+		
+		webthumb: {
+			
+			get: function(m, thumb) {
+				VMM.master_config.webthumb.que.push(m);
+				VMM.master_config.webthumb.active = true;
+			},
+			
+			sizes: function(s) {
+				var _size = "";
+				if (s <= 150) {
+					_size = "t";
+				} else if (s <= 306) {
+					_size = "m";
+				} else {
+					_size = "l";
+				}
+				
+				return _size;
+			},
+			
+			create: function(m) {
+				trace("WEB THUMB CREATE");
+				
+				var thumb_url	= "//api.pagepeeker.com/v2/thumbs.php?";
+					url			= m.id.replace("http://", "");//.split("/")[0];
+					
+				// Main Image
+				VMM.attachElement("#" + m.uid, "<a href='" + m.id + "' target='_blank'><img src='" + thumb_url + "size=x&url=" + url + "'></a>");
+				
+				// Thumb
+				VMM.attachElement("#" + m.uid + "_thumb", "<img src='" + thumb_url + "size=t&url=" + url + "'>");
+			},
+			
+			pushQue: function() {
+				for(var i = 0; i < VMM.master_config.webthumb.que.length; i++) {
+					VMM.ExternalAPI.webthumb.create(VMM.master_config.webthumb.que[i]);
+				}
+				VMM.master_config.webthumb.que = [];
+			}
+		}
+	
+	}).init();
+	
+}
+
+/*  YOUTUBE API READY
+	Can't find a way to customize this callback and keep it in the VMM namespace
+	Youtube wants it to be this function. 
+================================================== */
+function onYouTubePlayerAPIReady() {
+	trace("GLOBAL YOUTUBE API CALLED")
+	VMM.ExternalAPI.youtube.onAPIReady();
+}
+
+
+/* **********************************************
+     Begin VMM.MediaElement.js
+********************************************** */
+
+/* MediaElement
+================================================== */
+if(typeof VMM != 'undefined' && typeof VMM.MediaElement == 'undefined') {
+	
+	VMM.MediaElement = ({
+		
+		init: function() {
+			return this;
+		},
+		
+		loadingmessage: function(m) {
+			return "<div class='vco-loading'><div class='vco-loading-container'><div class='vco-loading-icon'></div>" + "<div class='vco-message'><p>" + m + "</p></div></div></div>";
+		},
+		
+		thumbnail: function(data, w, h, uid) {
+			var _w		= 16,
+				_h		= 24,
+				_uid	= "";
+				
+			if (w != null && w != "") {_w = w};
+			if (h != null && h != "") {_h = h};
+			if (uid != null && uid != "") {_uid = uid};
+			
+
+			if (data.thumbnail != null && data.thumbnail != "") {
+					trace("CUSTOM THUMB");
+					mediaElem =	"<div class='thumbnail thumb-custom' id='" + uid + "_custom_thumb'><img src='" + data.thumbnail + "'></div>";
+					return mediaElem;
+			} else if (data.media != null && data.media != "") {
+				var _valid		= true,
+					mediaElem	= "",
+					m			= VMM.MediaType(data.media); //returns an object with .type and .id
+					
+				// DETERMINE THUMBNAIL OR ICON
+				if (m.type == "image") {
+					mediaElem		=	"<div class='thumbnail thumb-photo'></div>";
+					return mediaElem;
+				} else if (m.type	==	"flickr") {
+					mediaElem		=	"<div class='thumbnail thumb-photo' id='" + uid + "_thumb'></div>";
+					return mediaElem;
+				} else if (m.type	==	"instagram") {
+					mediaElem		=	"<div class='thumbnail thumb-instagram' id='" + uid + "_thumb'><img src='" + VMM.ExternalAPI.instagram.get(m, true) + "'></div>";
+					return mediaElem;
+				} else if (m.type	==	"youtube") {
+					mediaElem		=	"<div class='thumbnail thumb-youtube' id='" + uid + "_thumb'></div>";
+					return mediaElem;
+				} else if (m.type	==	"googledoc") {
+					mediaElem		=	"<div class='thumbnail thumb-document'></div>";
+					return mediaElem;
+				} else if (m.type	==	"vimeo") {
+					mediaElem		=	"<div class='thumbnail thumb-vimeo' id='" + uid + "_thumb'></div>";
+					return mediaElem;
+				} else if (m.type  ==  "vine") {
+					mediaElem		=  "<div class='thumbnail thumb-vine'></div>";
+					return mediaElem;
+				} else if (m.type  ==  "dailymotion") {
+					mediaElem		=  "<div class='thumbnail thumb-video'></div>";
+					return mediaElem;
+				} else if (m.type	==	"twitter"){
+					mediaElem		=	"<div class='thumbnail thumb-twitter'></div>";
+					return mediaElem;
+				} else if (m.type	==	"twitter-ready") {
+					mediaElem		=	"<div class='thumbnail thumb-twitter'></div>";
+					return mediaElem;
+				} else if (m.type	==	"soundcloud") {
+					mediaElem		=	"<div class='thumbnail thumb-audio'></div>";
+					return mediaElem;
+				} else if (m.type	==	"google-map") {
+					mediaElem		=	"<div class='thumbnail thumb-map'></div>";
+					return mediaElem;
+				} else if (m.type		==	"googleplus") {
+					mediaElem		=	"<div class='thumbnail thumb-googleplus'></div>";
+					return mediaElem;
+				} else if (m.type	==	"wikipedia") {
+					mediaElem		=	"<div class='thumbnail thumb-wikipedia'></div>";
+					return mediaElem;
+				} else if (m.type	==	"storify") {
+					mediaElem		=	"<div class='thumbnail thumb-storify'></div>";
+					return mediaElem;
+				} else if (m.type	==	"quote") {
+					mediaElem		=	"<div class='thumbnail thumb-quote'></div>";
+					return mediaElem;
+				} else if (m.type	==	"iframe") {
+					mediaElem		=	"<div class='thumbnail thumb-video'></div>";
+					return mediaElem;
+				} else if (m.type	==	"unknown") {
+					if (m.id.match("blockquote")) {
+						mediaElem	=	"<div class='thumbnail thumb-quote'></div>";
+					} else {
+						mediaElem	=	"<div class='thumbnail thumb-plaintext'></div>";
+					}
+					return mediaElem;
+				} else if (m.type	==	"website") {
+					mediaElem		=	"<div class='thumbnail thumb-website' id='" + uid + "_thumb'></div>";
+					return mediaElem;
+				} else {
+					mediaElem = "<div class='thumbnail thumb-plaintext'></div>";
+					return mediaElem;
+				}
+			} 
+		},
+		
+		create: function(data, uid) {
+			var _valid = false,
+				//loading_messege			=	"<span class='messege'><p>" + VMM.master_config.language.messages.loading + "</p></span>";
+				loading_messege			=	VMM.MediaElement.loadingmessage(VMM.master_config.language.messages.loading + "...");
+			
+			if (data.media != null && data.media != "") {
+				var mediaElem = "", captionElem = "", creditElem = "", _id = "", isTextMedia = false, m;
+				
+				m = VMM.MediaType(data.media); //returns an object with .type and .id
+				m.uid = uid;
+				_valid = true;
+				
+			// CREDIT
+				if (data.credit != null && data.credit != "") {
+					creditElem			=	"<div class='credit'>" + VMM.Util.linkify_with_twitter(data.credit, "_blank") + "</div>";
+				}
+			// CAPTION
+				if (data.caption != null && data.caption != "") {
+					captionElem			=	"<div class='caption'>" + VMM.Util.linkify_with_twitter(data.caption, "_blank") + "</div>";
+				}
+			// IMAGE
+				if (m.type				==	"image") {
+					if (m.id.match("https://")) {
+						m.id = m.id.replace("https://","http://");
+					}
+					mediaElem			=	"<div class='media-image media-shadow'><img src='" + m.id + "' class='media-image'></div>";
+			// FLICKR
+				} else if (m.type		==	"flickr") {
+					//mediaElem			=	"<div class='media-image media-shadow' id='" + uid + "'>" + loading_messege + "</div>";
+					mediaElem			=	"<div class='media-image media-shadow'><a href='" + m.link + "' target='_blank'><img id='" + uid + "'></a></div>";
+					VMM.ExternalAPI.flickr.get(m);
+			// INSTAGRAM
+				} else if (m.type		==	"instagram") {
+					mediaElem			=	"<div class='media-image media-shadow'><a href='" + m.link + "' target='_blank'><img src='" + VMM.ExternalAPI.instagram.get(m) + "'></a></div>";
+			// GOOGLE DOCS
+				} else if (m.type		==	"googledoc") {
+					mediaElem			=	"<div class='media-frame media-shadow doc' id='" + m.uid + "'>" + loading_messege + "</div>";
+					VMM.ExternalAPI.googledocs.get(m);
+			// YOUTUBE
+				} else if (m.type		==	"youtube") {
+					mediaElem			=	"<div class='media-shadow'><div class='media-frame video youtube' id='" + m.uid + "'>" + loading_messege + "</div></div>";
+					VMM.ExternalAPI.youtube.get(m);
+			// VIMEO
+				} else if (m.type		==	"vimeo") {
+					mediaElem			=	"<div class='media-shadow media-frame video vimeo' id='" + m.uid + "'>" + loading_messege + "</div>";
+					VMM.ExternalAPI.vimeo.get(m);
+			// DAILYMOTION
+				} else if (m.type		==	"dailymotion") {
+					mediaElem			=	"<div class='media-shadow'><iframe class='media-frame video dailymotion' autostart='false' frameborder='0' width='100%' height='100%' src='http://www.dailymotion.com/embed/video/" + m.id + "'></iframe></div>";
+			// VINE
+				} else if (m.type		==	"vine") {
+					mediaElem			=	"<div class='media-shadow media-frame video vine' id='" + m.uid + "'>" + loading_messege + "</div>";
+					VMM.ExternalAPI.vine.get(m);
+			// TWITTER
+				} else if (m.type		==	"twitter"){
+					mediaElem			=	"<div class='twitter' id='" + m.uid + "'>" + loading_messege + "</div>";
+					isTextMedia			=	true;
+					VMM.ExternalAPI.twitter.get(m);
+			// TWITTER
+				} else if (m.type		==	"twitter-ready") {
+					isTextMedia			=	true;
+					mediaElem			=	m.id;
+			// SOUNDCLOUD
+				} else if (m.type		==	"soundcloud") {
+					mediaElem			=	"<div class='media-frame media-shadow soundcloud' id='" + m.uid + "'>" + loading_messege + "</div>";
+					VMM.ExternalAPI.soundcloud.get(m);
+			// GOOGLE MAPS
+				} else if (m.type		==	"google-map") {
+					mediaElem			=	"<div class='media-frame media-shadow map' id='" + m.uid + "'>" + loading_messege + "</div>";
+					VMM.ExternalAPI.googlemaps.get(m);
+			// GOOGLE PLUS
+				} else if (m.type		==	"googleplus") {
+					_id					=	"googleplus_" + m.id;
+					mediaElem			=	"<div class='googleplus' id='" + _id + "'>" + loading_messege + "</div>";
+					isTextMedia			=	true;
+					VMM.ExternalAPI.googleplus.get(m);
+			// WIKIPEDIA
+				} else if (m.type		==	"wikipedia") {
+					mediaElem			=	"<div class='wikipedia' id='" + m.uid + "'>" + loading_messege + "</div>";
+					isTextMedia			=	true;
+					VMM.ExternalAPI.wikipedia.get(m);
+			// STORIFY
+				} else if (m.type		==	"storify") { 
+					isTextMedia			=	true;
+					mediaElem			=	"<div class='plain-text-quote'>" + m.id + "</div>";
+			// IFRAME
+				} else if (m.type		==	"iframe") { 
+					isTextMedia			=	true;
+					mediaElem			=	"<div class='media-shadow'><iframe class='media-frame video' autostart='false' frameborder='0' width='100%' height='100%' src='" + m.id + "'></iframe></div>";
+			// QUOTE
+				} else if (m.type		==	"quote") { 
+					isTextMedia			=	true;
+					mediaElem			=	"<div class='plain-text-quote'>" + m.id + "</div>";
+			// UNKNOWN
+				} else if (m.type		==	"unknown") { 
+					trace("NO KNOWN MEDIA TYPE FOUND TRYING TO JUST PLACE THE HTML"); 
+					isTextMedia			=	true;
+					mediaElem			=	"<div class='plain-text'><div class='container'>" + VMM.Util.properQuotes(m.id) + "</div></div>";
+			// WEBSITE
+				} else if (m.type		==	"website") { 
+					
+					mediaElem			=	"<div class='media-shadow website' id='" + m.uid + "'>" + loading_messege + "</div>";
+					VMM.ExternalAPI.webthumb.get(m);
+					//mediaElem			=	"<div class='media-shadow website'><a href='" + m.id + "' target='_blank'>" + "<img src='http://api1.thumbalizr.com/?url=" + m.id.replace(/[\./]$/g, "") + "&width=300' class='media-image'></a></div>";
+					
+			// NO MATCH
+				} else {
+					trace("NO KNOWN MEDIA TYPE FOUND");
+					trace(m.type);
+				}
+				
+			// WRAP THE MEDIA ELEMENT
+				mediaElem				=	"<div class='media-container' >" + mediaElem + creditElem + captionElem + "</div>";
+			// RETURN
+				if (isTextMedia) {
+					return "<div class='text-media'><div class='media-wrapper'>" + mediaElem + "</div></div>";
+				} else {
+					return "<div class='media-wrapper'>" + mediaElem + "</div>";
+				}
+				
+			};
+			
+		}
+		
+	}).init();
+}
+
+/* **********************************************
+     Begin VMM.MediaType.js
+********************************************** */
+
+/*	MediaType
+	Determines the type of media the url string is.
+	returns an object with .type and .id
+	the id is a key piece of information needed to make
+	the request of the api.
+================================================== */
+if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
+	
+	VMM.MediaType = function(_d) {
+		var d		= _d.replace(/^\s\s*/, '').replace(/\s\s*$/, ''),
+			success	= false,
+			media	= {
+				type:		"unknown",
+				id:			"",
+				start:		0,
+				hd:			false,
+				link:		"",
+				lang:		VMM.Language.lang,
+				uniqueid:	VMM.Util.unique_ID(6)
+			};
+		
+		if (d.match("div class='twitter'")) {
+			media.type = "twitter-ready";
+		    media.id = d;
+		    success = true;
+		} else if (d.match('<blockquote')) {
+			media.type = "quote";
+			media.id = d;
+			success = true;
+		} else if (d.match('<iframe')) {
+			media.type = "iframe";
+			trace("IFRAME")
+			regex = /src=['"](\S+?)['"]/;
+			group = d.match(regex);
+			if (group) {
+				media.id = group[1];
+			}
+			trace( "iframe url: " + media.id );
+			success = Boolean(media.id);
+		} else if (d.match('(www.)?youtube|youtu\.be')) {
+			if (d.match('v=')) {
+				media.id	= VMM.Util.getUrlVars(d)["v"];
+			} else if (d.match('\/embed\/')) {
+				// TODO Issue #618 better splitting
+				media.id	= d.split("embed\/")[1].split(/[?&]/)[0];
+			} else if (d.match(/v\/|v=|youtu\.be\//)){
+				media.id	= d.split(/v\/|v=|youtu\.be\//)[1].split(/[?&]/)[0];
+			} else {
+				trace("YOUTUBE IN URL BUT NOT A VALID VIDEO");
+			}
+			media.start	= VMM.Util.getUrlVars(d)["t"];
+			media.hd	= VMM.Util.getUrlVars(d)["hd"];
+		    media.type = "youtube";
+		    success = true;
+		} else if (d.match('(player.)?vimeo\.com')) {
+		    media.type = "vimeo";
+		    media.id = d.split(/video\/|\/\/vimeo\.com\//)[1].split(/[?&]/)[0];;
+		    success = true;
+	    } else if (d.match('(www.)?dailymotion\.com')) {
+			media.id = d.split(/video\/|\/\/dailymotion\.com\//)[1];
+			media.type = "dailymotion";
+			success = true;
+	    } else if (d.match('(www.)?vine\.co')) {
+			trace("VINE");
+			//https://vine.co/v/b55LOA1dgJU
+			if (d.match("vine.co/v/")) {
+				media.id = d.split("vine.co/v/")[1];
+				trace(media.id);
+			}
+			trace(d);
+			media.type = "vine";
+			success = true;
+		} else if (d.match('(player.)?soundcloud\.com')) {
+			media.type = "soundcloud";
+			media.id = d;
+			success = true;
+		} else if (d.match('(www.)?twitter\.com') && d.match('status') ) {
+			if (d.match("status\/")) {
+				media.id = d.split("status\/")[1];
+			} else if (d.match("statuses\/")) {
+				media.id = d.split("statuses\/")[1];
+			} else {
+				media.id = "";
+			}
+			media.type = "twitter";
+			success = true;
+		} else if (d.match("maps.google") && !d.match("staticmap") && !d.match('streetview')) {
+			media.type = "google-map";
+		    media.id = d;
+			success = true;
+		} else if (d.match(/www.google.\w+\/maps/)) {
+			media.type = "google-map";
+		    media.id = d;
+			success = true;
+		} else if (d.match("plus.google")) {
+			media.type = "googleplus";
+		    media.id = d.split("/posts/")[1];
+			//https://plus.google.com/u/0/112374836634096795698/posts/bRJSvCb5mUU
+			//https://plus.google.com/107096716333816995401/posts/J5iMpEDHWNL
+			if (d.split("/posts/")[0].match("u/0/")) {
+				media.user = d.split("u/0/")[1].split("/posts")[0];
+			} else {
+				media.user = d.split("google.com/")[1].split("/posts/")[0];
+			}
+			success = true;
+		} else if (d.match("flickr.com/photos/")) {
+			media.type = "flickr";
+			media.id = VMM.ExternalAPI.flickr.getFlickrIdFromUrl(d)
+			media.link = d;
+			success = Boolean(media.id);
+		} else if (VMM.ExternalAPI.instagram.isInstagramUrl(d)) {
+			media.type = "instagram";
+			media.link = d;
+			media.id = VMM.ExternalAPI.instagram.getInstagramIdFromUrl(d)
+			success = Boolean(media.id);
+		} else if (d.match(/jpg|jpeg|png|gif|svg|bmp/i) || 
+				   d.match("staticmap") || 
+				   d.match("yfrog.com") || 
+				   d.match("twitpic.com") ||
+				   d.match('maps.googleapis.com/maps/api/streetview')) {
+			media.type = "image";
+			media.id = d;
+			success = true;
+		} else if (VMM.FileExtention.googleDocType(d)) {
+			media.type = "googledoc";
+			media.id = d;
+			success = true;
+		} else if (d.match('(www.)?wikipedia\.org')) {
+			media.type = "wikipedia";
+			//media.id = d.split("wiki\/")[1];
+			// TODO Issue #618 better splitting
+			var wiki_id = d.split("wiki\/")[1].split("#")[0].replace("_", " ");
+			media.id = wiki_id.replace(" ", "%20");
+			media.lang = d.split("//")[1].split(".wikipedia")[0];
+			success = true;
+		} else if (d.indexOf('http://') == 0) {
+			media.type = "website";
+			media.id = d;
+			success = true;
+		} else if (d.match('storify')) {
+			media.type = "storify";
+			media.id = d;
+			success = true;
+		} else {
+			trace("unknown media");  
+			media.type = "unknown";
+			media.id = d;
+			success = true;
+		}
+		
+		if (success) { 
+			return media;
+		} else {
+			trace("No valid media id detected");
+			trace(d);
+		}
+		return false;
+	}
+}
+
+/* **********************************************
+     Begin VMM.TextElement.js
+********************************************** */
+
+/* TextElement
+================================================== */
+if(typeof VMM != 'undefined' && typeof VMM.TextElement == 'undefined') {
+	
+	VMM.TextElement = ({
+		
+		init: function() {
+			return this;
+		},
+		
+		create: function(data) {
+			return data;
+		}
+		
+	}).init();
+}
+
+/* **********************************************
+     Begin VMM.Media.js
+********************************************** */
+
+/* Media
+================================================== */
+
+/*	* CodeKit Import
+	* http://incident57.com/codekit/
+================================================== */
+// @codekit-prepend "VMM.ExternalAPI.js";
+// @codekit-prepend "VMM.MediaElement.js";
+// @codekit-prepend "VMM.MediaType.js";
+// @codekit-prepend "VMM.TextElement.js";
+
+
+/* **********************************************
+     Begin VMM.DragSlider.js
+********************************************** */
+
+/* DRAG SLIDER
+================================================== */
+if(typeof VMM != 'undefined' && typeof VMM.DragSlider == 'undefined') {
+
+	VMM.DragSlider = function() {
+		var drag = {
+			element:		"",
+			element_move:	"",
+			constraint:		"",
+			sliding:		false,
+			pagex: {
+				start:		0,
+				end:		0
+			},
+			pagey: {
+				start:		0,
+				end:		0
+			},
+			left: {
+				start:		0,
+				end:		0
+			},
+			time: {
+				start:		0,
+				end:		0
+			},
+			touch:			false,
+			ease:			"easeOutExpo"
+		},
+		dragevent = {
+			down:		"mousedown",
+			up:			"mouseup",
+			leave:		"mouseleave",
+			move:		"mousemove"
+		},
+		mousedrag = {
+			down:		"mousedown",
+			up:			"mouseup",
+			leave:		"mouseleave",
+			move:		"mousemove"
+		},
+		touchdrag = {
+			down:		"touchstart",
+			up:			"touchend",
+			leave:		"mouseleave",
+			move:		"touchmove"
+		},
+		dragslider		= this,
+		is_sticky		= false;
+		
+		/* PUBLIC FUNCTIONS
+		================================================== */
+		this.createPanel = function(drag_object, move_object, constraint, touch, sticky) {
+			drag.element		= drag_object;
+			drag.element_move	= move_object;
+			//dragslider			= drag_object;
+			if ( sticky != null && sticky != "") {
+				is_sticky = sticky;
+			}
+			if ( constraint != null && constraint != "") {
+				drag.constraint = constraint;
+			} else {
+				drag.constraint = false;
+			}
+			if ( touch) {
+				drag.touch = touch;
+			} else {
+				drag.touch = false;
+			}
+			trace("TOUCH" + drag.touch);
+			if (drag.touch) {
+				dragevent = touchdrag;
+			} else {
+				dragevent = mousedrag;
+			}
+			
+			makeDraggable(drag.element, drag.element_move);
+		}
+		
+		this.updateConstraint = function(constraint) {
+			trace("updateConstraint");
+			drag.constraint = constraint;
+		}
+		
+		this.cancelSlide = function(e) {
+			VMM.unbindEvent(drag.element, onDragMove, dragevent.move);
+			return true;
+		}
+		
+		/* PRIVATE FUNCTIONS
+		================================================== */
+		function makeDraggable(drag_object, move_object) {
+			
+			VMM.bindEvent(drag_object, onDragStart, dragevent.down, {element: move_object, delement: drag_object});
+			VMM.bindEvent(drag_object, onDragEnd, dragevent.up, {element: move_object, delement: drag_object});
+			VMM.bindEvent(drag_object, onDragLeave, dragevent.leave, {element: move_object, delement: drag_object});
+			
+	    }
+		
+		function onDragLeave(e) {
+			VMM.unbindEvent(e.data.delement, onDragMove, dragevent.move);
+			if (!drag.touch) {
+				e.preventDefault();
+			}
+			e.stopPropagation();
+			if (drag.sliding) {
+				drag.sliding = false;
+				dragEnd(e.data.element, e.data.delement, e);
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		function onDragStart(e) {
+			dragStart(e.data.element, e.data.delement, e);
+			if (!drag.touch) {
+				e.preventDefault();
+			}
+			//e.stopPropagation();
+			return true;
+		}
+		
+		function onDragEnd(e) {
+			if (!drag.touch) {
+				e.preventDefault();
+			}
+			//e.stopPropagation();
+			if (drag.sliding) {
+				drag.sliding = false;
+				dragEnd(e.data.element, e.data.delement, e);
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		function onDragMove(e) {
+			dragMove(e.data.element, e);
+			
+		}
+		
+		function dragStart(elem, delem, e) {
+			if (drag.touch) {
+				trace("IS TOUCH")
+				VMM.Lib.css(elem, '-webkit-transition-duration', '0');
+				drag.pagex.start = e.originalEvent.touches[0].screenX;
+				drag.pagey.start = e.originalEvent.touches[0].screenY;
+			} else {
+				drag.pagex.start = e.pageX;
+				drag.pagey.start = e.pageY;
+			}
+			drag.left.start = getLeft(elem);
+			drag.time.start = new Date().getTime();
+			
+			VMM.Lib.stop(elem);
+			VMM.bindEvent(delem, onDragMove, dragevent.move, {element: elem});
+
+	    }
+		
+		function dragEnd(elem, delem, e) {
+			VMM.unbindEvent(delem, onDragMove, dragevent.move);
+			dragMomentum(elem, e);
+		}
+		
+		function dragMove(elem, e) {
+			var drag_to, drag_to_y;
+			drag.sliding = true;
+			if (drag.touch) {
+				drag.pagex.end = e.originalEvent.touches[0].screenX;
+				drag.pagey.end = e.originalEvent.touches[0].screenY;
+			} else {
+				drag.pagex.end = e.pageX;
+				drag.pagey.end = e.pageY;
+			}
+			
+			drag.left.end	= getLeft(elem);
+			drag_to			= -(drag.pagex.start - drag.pagex.end - drag.left.start);
+			
+			
+			if (Math.abs(drag.pagey.start) - Math.abs(drag.pagey.end) > 10) {
+				trace("SCROLLING Y")
+				trace(Math.abs(drag.pagey.start) - Math.abs(drag.pagey.end));
+			}
+			if (Math.abs(drag_to - drag.left.start) > 10) {
+				VMM.Lib.css(elem, 'left', drag_to);
+				e.preventDefault();
+				e.stopPropagation();
+			}
+		}
+		
+		function dragMomentum(elem, e) {
+			var drag_info = {
+					left:			drag.left.end,
+					left_adjust:	0,
+					change: {
+						x:			0
+					},
+					time:			(new Date().getTime() - drag.time.start) * 10,
+					time_adjust:	(new Date().getTime() - drag.time.start) * 10
+				},
+				multiplier = 3000;
+				
+			if (drag.touch) {
+				multiplier = 6000;
+			}
+			
+			drag_info.change.x = multiplier * (Math.abs(drag.pagex.end) - Math.abs(drag.pagex.start));
+			
+			
+			drag_info.left_adjust = Math.round(drag_info.change.x / drag_info.time);
+			
+			drag_info.left = Math.min(drag_info.left + drag_info.left_adjust);
+			
+			if (drag.constraint) {
+				if (drag_info.left > drag.constraint.left) {
+					drag_info.left = drag.constraint.left;
+					if (drag_info.time > 5000) {
+						drag_info.time = 5000;
+					}
+				} else if (drag_info.left < drag.constraint.right) {
+					drag_info.left = drag.constraint.right;
+					if (drag_info.time > 5000) {
+						drag_info.time = 5000;
+					}
+				}
+			}
+			
+			VMM.fireEvent(dragslider, "DRAGUPDATE", [drag_info]);
+			
+			if (!is_sticky) {
+				if (drag_info.time > 0) {
+					if (drag.touch) {
+						VMM.Lib.animate(elem, drag_info.time, "easeOutCirc", {"left": drag_info.left});
+					} else {
+						VMM.Lib.animate(elem, drag_info.time, drag.ease, {"left": drag_info.left});
+					}
+				}
+			}
+		}
+		
+		function getLeft(elem) {
+			return parseInt(VMM.Lib.css(elem, 'left').substring(0, VMM.Lib.css(elem, 'left').length - 2), 10);
+		}
+		
+	}
+}
+
+/* **********************************************
+     Begin VMM.Slider.js
+********************************************** */
+
+/* Slider
+================================================== */
+/*	* CodeKit Import
+	* http://incident57.com/codekit/
+================================================== */
+// @codekit-append "VMM.Slider.Slide.js";
+
+if(typeof VMM != 'undefined' && typeof VMM.Slider == 'undefined') {
+	
+	VMM.Slider = function(parent, parent_config) {
+		
+		var config,
+			timer,
+			$slider,
+			$slider_mask,
+			$slider_container,
+			$slides_items,
+			$dragslide,
+			$explainer,
+			events				= {},
+			data				= [],
+			slides				= [],
+			slide_positions		= [],
+			slides_content		= "",
+			current_slide		= 0,
+			current_width		= 960,
+			touch = {
+				move:			false,
+				x:				10,
+				y:				0,
+				off:			0,
+				dampen:			48
+			},
+			content				= "",
+			_active				= false,
+			layout				= parent,
+			navigation = {
+				nextBtn:		"",
+				prevBtn:		"",
+				nextDate:		"",
+				prevDate:		"",
+				nextTitle:		"",
+				prevTitle:		""
+			};
+		
+		// CONFIG
+		if(typeof parent_config != 'undefined') {
+			config	= parent_config;
+		} else {
+			config	= {
+				preload:			4,
+				current_slide:		0,
+				interval:			10, 
+				something:			0, 
+				width:				720, 
+				height:				400, 
+				ease:				"easeInOutExpo", 
+				duration:			1000, 
+				timeline:			false, 
+				spacing:			15,
+				slider: {
+					width:			720, 
+					height:			400, 
+					content: {
+						width:		720, 
+						height:		400, 
+						padding:	120,
+						padding_default: 120
+					}, 
+					nav: {
+						width:		100, 
+						height:		200
+					} 
+				} 
+			};
+		}
+		
+		/* PUBLIC VARS
+		================================================== */
+		this.ver = "0.6";
+		
+		config.slider.width		= config.width;
+		config.slider.height	= config.height;
+		
+		/* PUBLIC FUNCTIONS
+		================================================== */
+		this.init = function(d) {
+			slides			= [];
+			slide_positions	= [];
+			
+			if(typeof d != 'undefined') {
+				this.setData(d);
+			} else {
+				trace("WAITING ON DATA");
+			}
+		};
+		
+		this.width = function(w) {
+			if (w != null && w != "") {
+				config.slider.width = w;
+				reSize();
+			} else {
+				return config.slider.width;
+			}
+		}
+		
+		this.height = function(h) {
+			if (h != null && h != "") {
+				config.slider.height = h;
+				reSize();
+			} else {
+				return config.slider.height;
+			}
+		}
+		
+		/* GETTERS AND SETTERS
+		================================================== */
+		this.setData = function(d) {
+			if(typeof d != 'undefined') {
+				data = d;
+				build();
+			} else{
+				trace("NO DATA");
+			}
+		};
+		
+		this.getData = function() {
+			return data;
+		};
+		
+		this.setConfig = function(d) {
+			if(typeof d != 'undefined') {
+				config = d;
+			} else{
+				trace("NO CONFIG DATA");
+			}
+		}
+		
+		this.getConfig = function() {
+			return config;
+		};
+		
+		this.setSize = function(w, h) {
+			if (w != null) {config.slider.width = w};
+			if (h != null) {config.slider.height = h};
+			if (_active) {
+				reSize();
+			}
+			
+		}
+		
+		this.active = function() {
+			return _active;
+		};
+		
+		this.getCurrentNumber = function() {
+			return current_slide;
+		};
+		
+		this.setSlide = function(n) {
+			goToSlide(n);
+		};
+		
+		/* ON EVENT
+		================================================== */
+		function onConfigSet() {
+			trace("onConfigSet");
+		};
+		
+		function reSize(go_to_slide, from_start) {
+			var _go_to_slide	= true,
+				_from_start		= false;
+			
+			if (go_to_slide != null) {_go_to_slide = go_to_slide};
+			if (from_start != null) {_from_start = from_start};
+			
+			current_width = config.slider.width;
+			
+			config.slider.nav.height = VMM.Lib.height(navigation.prevBtnContainer);
+			
+			// Handle smaller sizes
+			if (VMM.Browser.device == "mobile" || current_width <= 640) {
+				config.slider.content.padding	= 10;
+			} else {
+				config.slider.content.padding	= config.slider.content.padding_default;
+			}
+			
+			config.slider.content.width = current_width - (config.slider.content.padding *2);
+			
+			VMM.Lib.width($slides_items, (slides.length * config.slider.content.width));
+			
+			if (_from_start) {
+				VMM.Lib.css($slider_container, "left", slides[current_slide].leftpos());
+			}
+			
+			// RESIZE SLIDES
+			sizeSlides();
+			
+			// POSITION SLIDES
+			positionSlides();
+			
+			// POSITION NAV
+			VMM.Lib.css(navigation.nextBtn, "left", (current_width - config.slider.nav.width));
+			VMM.Lib.height(navigation.prevBtn, config.slider.height);
+			VMM.Lib.height(navigation.nextBtn, config.slider.height);
+			VMM.Lib.css(navigation.nextBtnContainer, "top", ( (config.slider.height/2) - (config.slider.nav.height/2) ) + 10 );
+			VMM.Lib.css(navigation.prevBtnContainer, "top", ( (config.slider.height/2) - (config.slider.nav.height/2) ) + 10 );
+			
+			// Animate Changes
+			VMM.Lib.height($slider_mask, config.slider.height);
+			VMM.Lib.width($slider_mask, current_width);
+			
+			if (_go_to_slide) {
+				goToSlide(current_slide, "linear", 1);
+			};
+			
+			if (current_slide == 0) {
+				VMM.Lib.visible(navigation.prevBtn, false);
+			}
+			
+		}
+		
+		function onDragFinish(e, d) {
+			trace("DRAG FINISH");
+			trace(d.left_adjust);
+			trace((config.slider.width / 2));
+			
+			if (d.left_adjust < 0 ) {
+				if (Math.abs(d.left_adjust) > (config.slider.width / 2) ) {
+					//onNextClick(e);
+					if (current_slide == slides.length - 1) {
+						backToCurrentSlide();
+					} else {
+						goToSlide(current_slide+1, "easeOutExpo");
+						upDate();
+					}
+				} else {
+					backToCurrentSlide();
+					
+				}
+			} else if (Math.abs(d.left_adjust) > (config.slider.width / 2) ) {
+				if (current_slide == 0) {
+					backToCurrentSlide();
+				} else {
+					goToSlide(current_slide-1, "easeOutExpo");
+					upDate();
+				}
+			} else {
+				backToCurrentSlide();
+			}
+				
+			
+			
+		}
+		/* NAVIGATION
+		================================================== */
+		function onNextClick(e) {
+			if (current_slide == slides.length - 1) {
+				backToCurrentSlide();
+			} else {
+				goToSlide(current_slide+1);
+				upDate();
+			}
+		}
+		
+		function onPrevClick(e) {
+			if (current_slide == 0) {
+				backToCurrentSlide();
+			} else {
+				goToSlide(current_slide-1);
+				upDate();
+			}
+		}
+
+		function onKeypressNav(e) {
+			switch(e.keyCode) {
+				case 39:
+					// RIGHT ARROW
+					onNextClick(e);
+					break;
+				case 37:
+					// LEFT ARROW
+					onPrevClick(e);
+					break;
+			}
+		}
+		
+		function onTouchUpdate(e, b) {
+			if (slide_positions.length == 0) {
+				for(var i = 0; i < slides.length; i++) {
+					slide_positions.push( slides[i].leftpos() );
+				}
+			}
+			if (typeof b.left == "number") {
+				var _pos = b.left;
+				var _slide_pos = -(slides[current_slide].leftpos());
+				if (_pos < _slide_pos - (config.slider_width/3)) {
+					onNextClick();
+				} else if (_pos > _slide_pos + (config.slider_width/3)) {
+					onPrevClick();
+				} else {
+					VMM.Lib.animate($slider_container, config.duration, config.ease, {"left": _slide_pos });
+				}
+			} else {
+				VMM.Lib.animate($slider_container, config.duration, config.ease, {"left": _slide_pos });
+			}
+			
+			if (typeof b.top == "number") {
+				VMM.Lib.animate($slider_container, config.duration, config.ease, {"top": -b.top});
+			} else {
+				
+			}
+		};
+		
+		function onExplainerClick(e) {
+			detachMessege();
+		}
+		
+		/* UPDATE
+		================================================== */
+		function upDate() {
+			config.current_slide = current_slide;
+			VMM.fireEvent(layout, "UPDATE");
+		};
+		
+		/* GET DATA
+		================================================== */
+		function getData(d) {
+			data = d;
+		};
+		
+		/* BUILD SLIDES
+		================================================== */
+		function buildSlides(d) {
+			var i	= 0;
+			
+			VMM.attachElement($slides_items, "");
+			slides = [];
+			
+			for(i = 0; i < d.length; i++) {
+				var _slide = new VMM.Slider.Slide(d[i], $slides_items);
+				//_slide.show();
+				slides.push(_slide);
+			}
+		}
+		
+		function preloadSlides(skip) {
+			var i	= 0;
+			
+			if (skip) {
+				preloadTimeOutSlides();
+			} else {
+				for(i = 0; i < slides.length; i++) {
+					slides[i].clearTimers();
+				}
+				timer = setTimeout(preloadTimeOutSlides, config.duration);
+				
+			}
+		}
+		
+		function preloadTimeOutSlides() {
+			var i = 0;
+			
+			for(i = 0; i < slides.length; i++) {
+				slides[i].enqueue = true;
+			}
+			
+			for(i = 0; i < config.preload; i++) {
+				if ( !((current_slide + i) > slides.length - 1)) {
+					slides[current_slide + i].show();
+					slides[current_slide + i].enqueue = false;
+				}
+				if ( !( (current_slide - i) < 0 ) ) {
+					slides[current_slide - i].show();
+					slides[current_slide - i].enqueue = false;
+				}
+			}
+			
+			if (slides.length > 50) {
+				for(i = 0; i < slides.length; i++) {
+					if (slides[i].enqueue) {
+						slides[i].hide();
+					}
+				}
+			}
+			
+			sizeSlides();
+		}
+		
+		function sizeSlide(slide_id) {
+			
+		}
+		
+		/* SIZE SLIDES
+		================================================== */
+		function sizeSlides() {
+			var i						= 0,
+				layout_text_media		= ".slider-item .layout-text-media .media .media-container ",
+				layout_media			= ".slider-item .layout-media .media .media-container ",
+				layout_both				= ".slider-item .media .media-container",
+				layout_caption			= ".slider-item .media .media-container .media-shadow .caption",
+				is_skinny				= false,
+				mediasize = {
+					text_media: {
+						width: 			(config.slider.content.width/100) * 60,
+						height: 		config.slider.height - 60,
+						video: {
+							width:		0,
+							height:		0
+						},
+						text: {
+							width:		((config.slider.content.width/100) * 40) - 30,
+							height:		config.slider.height
+						}
+					},
+					media: {
+						width: 			config.slider.content.width,
+						height: 		config.slider.height - 110,
+						video: {
+							width: 		0,
+							height: 	0
+						}
+					}
+				};
+				
+			// Handle smaller sizes
+			if (VMM.Browser.device == "mobile" || current_width < 641) {
+				is_skinny = true;
+
+			} 
+			
+			VMM.master_config.sizes.api.width	= mediasize.media.width;
+			VMM.master_config.sizes.api.height	= mediasize.media.height;
+			
+			mediasize.text_media.video			= VMM.Util.ratio.fit(mediasize.text_media.width, mediasize.text_media.height, 16, 9);
+			mediasize.media.video				= VMM.Util.ratio.fit(mediasize.media.width, mediasize.media.height, 16, 9);
+			
+			VMM.Lib.css(".slider-item", "width", config.slider.content.width );
+			VMM.Lib.height(".slider-item", config.slider.height);
+			
+			
+			
+			if (is_skinny) {
+				
+				mediasize.text_media.width = 	config.slider.content.width - (config.slider.content.padding*2);
+				mediasize.media.width = 		config.slider.content.width - (config.slider.content.padding*2);
+				mediasize.text_media.height = 	((config.slider.height/100) * 50 ) - 50;
+				mediasize.media.height = 		((config.slider.height/100) * 70 ) - 40;
+				
+				mediasize.text_media.video = 	VMM.Util.ratio.fit(mediasize.text_media.width, mediasize.text_media.height, 16, 9);
+				mediasize.media.video = 		VMM.Util.ratio.fit(mediasize.media.width, mediasize.media.height, 16, 9);
+				
+				VMM.Lib.css(".slider-item .layout-text-media .text", "width", "100%" );
+				VMM.Lib.css(".slider-item .layout-text-media .text", "display", "block" );
+				VMM.Lib.css(".slider-item .layout-text-media .text .container", "display", "block" );
+				VMM.Lib.css(".slider-item .layout-text-media .text .container", "width", mediasize.media.width );
+				VMM.Lib.css(".slider-item .layout-text-media .text .container .start", "width", "auto" );
+				
+				VMM.Lib.css(".slider-item .layout-text-media .media", "float", "none" );
+				VMM.Lib.addClass(".slider-item .content-container", "pad-top");
+				
+				VMM.Lib.css(".slider-item .media blockquote p", "line-height", "18px" );
+				VMM.Lib.css(".slider-item .media blockquote p", "font-size", "16px" );
+				
+				VMM.Lib.css(".slider-item", "overflow-y", "auto" );
+				
+				
+			} else {
+				
+				VMM.Lib.css(".slider-item .layout-text-media .text", "width", "40%" );
+				VMM.Lib.css(".slider-item .layout-text-media .text", "display", "table-cell" );
+				VMM.Lib.css(".slider-item .layout-text-media .text .container", "display", "table-cell" );
+				VMM.Lib.css(".slider-item .layout-text-media .text .container", "width", "auto" );
+				VMM.Lib.css(".slider-item .layout-text-media .text .container .start", "width", mediasize.text_media.text.width );
+				//VMM.Lib.addClass(".slider-item .content-container", "pad-left");
+				VMM.Lib.removeClass(".slider-item .content-container", "pad-top");
+				
+				VMM.Lib.css(".slider-item .layout-text-media .media", "float", "left" );
+				VMM.Lib.css(".slider-item .layout-text-media", "display", "table" );
+				
+				VMM.Lib.css(".slider-item .media blockquote p", "line-height", "36px" );
+				VMM.Lib.css(".slider-item .media blockquote p", "font-size", "28px" );
+				
+				VMM.Lib.css(".slider-item", "display", "table" );
+				VMM.Lib.css(".slider-item", "overflow-y", "auto" );
+			}
+			
+			// MEDIA FRAME
+			VMM.Lib.css(	layout_text_media + ".media-frame", 		"max-width", 	mediasize.text_media.width);
+			VMM.Lib.height(	layout_text_media + ".media-frame", 						mediasize.text_media.height);
+			VMM.Lib.width(	layout_text_media + ".media-frame", 						mediasize.text_media.width);
+			
+			// WEBSITES
+			//VMM.Lib.css(	layout_both + 		".website", 			"max-width", 	300 );
+			
+			// IMAGES
+			VMM.Lib.css(	layout_text_media + "img", 					"max-height", 	mediasize.text_media.height );
+			VMM.Lib.css(	layout_media + 		"img", 					"max-height", 	mediasize.media.height );
+			
+			// FIX FOR NON-WEBKIT BROWSERS
+			VMM.Lib.css(	layout_text_media + "img", 					"max-width", 	mediasize.text_media.width );
+			VMM.Lib.css(	layout_text_media + ".avatar img", "max-width", 			32 );
+			VMM.Lib.css(	layout_text_media + ".avatar img", "max-height", 			32 );
+			VMM.Lib.css(	layout_media + 		".avatar img", "max-width", 			32 );
+			VMM.Lib.css(	layout_media + 		".avatar img", "max-height", 			32 );
+			
+			VMM.Lib.css(	layout_text_media + ".article-thumb", "max-width", 			"50%" );
+			//VMM.Lib.css(	layout_text_media + ".article-thumb", "max-height", 		100 );
+			VMM.Lib.css(	layout_media + 		".article-thumb", "max-width", 			200 );
+			//VMM.Lib.css(	layout_media + 		".article-thumb", "max-height", 		100 );
+			
+			
+			// IFRAME FULL SIZE VIDEO
+			VMM.Lib.width(	layout_text_media + ".media-frame", 						mediasize.text_media.video.width);
+			VMM.Lib.height(	layout_text_media + ".media-frame", 						mediasize.text_media.video.height);
+			VMM.Lib.width(	layout_media + 		".media-frame", 						mediasize.media.video.width);
+			VMM.Lib.height(	layout_media + 		".media-frame", 						mediasize.media.video.height);
+			VMM.Lib.css(	layout_media + 		".media-frame", 		"max-height", 	mediasize.media.video.height);
+			VMM.Lib.css(	layout_media + 		".media-frame", 		"max-width", 	mediasize.media.video.width);
+			
+			// SOUNDCLOUD
+			VMM.Lib.height(	layout_media + 		".soundcloud", 							168);
+			VMM.Lib.height(	layout_text_media + ".soundcloud", 							168);
+			VMM.Lib.width(	layout_media + 		".soundcloud", 							mediasize.media.width);
+			VMM.Lib.width(	layout_text_media + ".soundcloud", 							mediasize.text_media.width);
+			VMM.Lib.css(	layout_both + 		".soundcloud", 			"max-height", 	168 );
+			
+			// MAPS
+			VMM.Lib.height(	layout_text_media	+ ".map", 								mediasize.text_media.height);
+			VMM.Lib.width(	layout_text_media	+ ".map", 								mediasize.text_media.width);
+			VMM.Lib.css(	layout_media		+ ".map", 				"max-height", 	mediasize.media.height);
+			VMM.Lib.width(	layout_media		+ ".map", 								mediasize.media.width);
+			
+			
+			// DOCS
+			VMM.Lib.height(	layout_text_media + ".doc", 								mediasize.text_media.height);
+			VMM.Lib.width(	layout_text_media	+ ".doc", 								mediasize.text_media.width);
+			VMM.Lib.height(	layout_media + 		".doc", 								mediasize.media.height);
+			VMM.Lib.width(	layout_media		+ ".doc", 								mediasize.media.width);
+			
+			// IE8 NEEDS THIS
+			VMM.Lib.width(	layout_media + 		".wikipedia", 							mediasize.media.width);
+			VMM.Lib.width(	layout_media + 		".twitter", 							mediasize.media.width);
+			VMM.Lib.width(	layout_media + 		".plain-text-quote", 					mediasize.media.width);
+			VMM.Lib.width(	layout_media + 		".plain-text", 							mediasize.media.width);
+			
+			VMM.Lib.css(	layout_both, 		"max-width", 							mediasize.media.width);
+			
+			
+			// CAPTION WIDTH
+			VMM.Lib.css( layout_text_media + 	".caption",	"max-width",	mediasize.text_media.video.width);
+			VMM.Lib.css( layout_media + 		".caption",	"max-width",	mediasize.media.video.width);
+			//VMM.Lib.css( layout_text_media + 	".caption",	"max-width",	mediasize.text_media.width);
+			//VMM.Lib.css( layout_media + 		".caption",	"max-width",	mediasize.media.width);
+			
+			// MAINTAINS VERTICAL CENTER IF IT CAN
+			for(i = 0; i < slides.length; i++) {
+				
+				slides[i].layout(is_skinny);
+				
+				if (slides[i].content_height() > config.slider.height + 20) {
+					slides[i].css("display", "block");
+				} else {
+					slides[i].css("display", "table");
+				}
+			}
+			
+		}
+		
+		/* POSITION SLIDES
+		================================================== */
+		function positionSlides() {
+			var pos = 0,
+				i	= 0;
+				
+			for(i = 0; i < slides.length; i++) {
+				pos = i * (config.slider.width+config.spacing);
+				slides[i].leftpos(pos);
+			}
+		}
+		
+		/* OPACITY SLIDES
+		================================================== */
+		function opacitySlides(n) {
+			var _ease	= "linear",
+				i		= 0;
+				
+			for(i = 0; i < slides.length; i++) {
+				if (i == current_slide) {
+					slides[i].animate(config.duration, _ease, {"opacity": 1});
+				} else if (i == current_slide - 1 || i == current_slide + 1) {
+					slides[i].animate(config.duration, _ease, {"opacity": 0.1});
+				} else {
+					slides[i].opacity(n);
+				}
+			}
+		}
+		
+		/* GO TO SLIDE
+			goToSlide(n, ease, duration);
+		================================================== */
+		function goToSlide(n, ease, duration, fast, firstrun) {
+			var _ease		= config.ease,
+				_duration	= config.duration,
+				is_last		= false,
+				is_first	= false,
+				_title		= "",
+				_pos;
+			
+			/* STOP ANY VIDEO PLAYERS ACTIVE
+			================================================== */
+			VMM.ExternalAPI.youtube.stopPlayers();
+			
+			// Set current slide
+			current_slide	= n;
+			_pos			= slides[current_slide].leftpos();
+			
+			
+			if (current_slide == 0) {is_first = true};
+			if (current_slide +1 >= slides.length) {is_last = true};
+			if (ease != null && ease != "") {_ease = ease};
+			if (duration != null && duration != "") {_duration = duration};
+			
+			/*	NAVIGATION
+				set proper nav titles and dates etc.
+			================================================== */
+			// Handle smaller sizes
+			if (VMM.Browser.device == "mobile") {
+			//if (VMM.Browser.device == "mobile" || current_width <= 640) {
+				VMM.Lib.visible(navigation.prevBtn, false);
+				VMM.Lib.visible(navigation.nextBtn, false);
+			} else {
+				if (is_first) {
+					VMM.Lib.visible(navigation.prevBtn, false);
+				} else {
+					VMM.Lib.visible(navigation.prevBtn, true);
+					_title = VMM.Util.unlinkify(data[current_slide - 1].title)
+					if (config.type == "timeline") {
+						if(typeof data[current_slide - 1].date === "undefined") {
+							VMM.attachElement(navigation.prevDate, _title);
+							VMM.attachElement(navigation.prevTitle, "");
+						} else {
+							VMM.attachElement(navigation.prevDate, VMM.Date.prettyDate(data[current_slide - 1].startdate, false, data[current_slide - 1].precisiondate));
+							VMM.attachElement(navigation.prevTitle, _title);
+						}
+					} else {
+						VMM.attachElement(navigation.prevTitle, _title);
+					}
+				
+				}
+				if (is_last) {
+					VMM.Lib.visible(navigation.nextBtn, false);
+				} else {
+					VMM.Lib.visible(navigation.nextBtn, true);
+					_title = VMM.Util.unlinkify(data[current_slide + 1].title);
+					if (config.type == "timeline") {
+						if(typeof data[current_slide + 1].date === "undefined") {
+							VMM.attachElement(navigation.nextDate, _title);
+							VMM.attachElement(navigation.nextTitle, "");
+						} else {
+							VMM.attachElement(navigation.nextDate, VMM.Date.prettyDate(data[current_slide + 1].startdate, false, data[current_slide + 1].precisiondate) );
+							VMM.attachElement(navigation.nextTitle, _title);
+						}
+					} else {
+						VMM.attachElement(navigation.nextTitle,  _title);
+					}
+				
+				}
+			}
+			
+			
+			/* ANIMATE SLIDE
+			================================================== */
+			if (fast) {
+				VMM.Lib.css($slider_container, "left", -(_pos - config.slider.content.padding));	
+			} else{
+				VMM.Lib.stop($slider_container);
+				VMM.Lib.animate($slider_container, _duration, _ease, {"left": -(_pos - config.slider.content.padding)});
+			}
+			
+			if (firstrun) {
+				VMM.fireEvent(layout, "LOADED");
+			}
+			
+			/* SET Vertical Scoll
+			================================================== */
+			if (slides[current_slide].height() > config.slider_height) {
+				VMM.Lib.css(".slider", "overflow-y", "scroll" );
+			} else {
+				VMM.Lib.css(layout, "overflow-y", "hidden" );
+				var scroll_height = 0;
+				try {
+					scroll_height = VMM.Lib.prop(layout, "scrollHeight");
+					VMM.Lib.animate(layout, _duration, _ease, {scrollTop: scroll_height - VMM.Lib.height(layout) });
+				}
+				catch(err) {
+					scroll_height = VMM.Lib.height(layout);
+				}
+			}
+			
+			preloadSlides();
+			VMM.fireEvent($slider, "MESSAGE", "TEST");
+		}
+
+		function backToCurrentSlide() {
+			VMM.Lib.stop($slider_container);
+			VMM.Lib.animate($slider_container, config.duration, "easeOutExpo", {"left": -(slides[current_slide].leftpos()) +  config.slider.content.padding} );
+		}
+		
+		/* MESSEGES 
+		================================================== */
+		function showMessege(e, msg, other) {
+			trace("showMessege " + msg);
+			//VMM.attachElement($timeline, $feedback);
+			VMM.attachElement($explainer, "<div class='vco-explainer'><div class='vco-explainer-container'><div class='vco-bezel'><div class='vco-gesture-icon'></div>" + "<div class='vco-message'><p>" + msg + "</p></div></div></div></div>");
+		};
+		
+		function hideMessege() {
+			VMM.Lib.animate($explainer, config.duration, config.ease, {"opacity": 0}, detachMessege);
+		};
+		
+		function detachMessege() {
+			VMM.Lib.detach($explainer);
+		}
+		
+		/* BUILD NAVIGATION
+		================================================== */
+		function buildNavigation() {
+			
+			var temp_icon = "<div class='icon'>&nbsp;</div>";
+			
+			navigation.nextBtn = VMM.appendAndGetElement($slider, "<div>", "nav-next");
+			navigation.prevBtn = VMM.appendAndGetElement($slider, "<div>", "nav-previous");
+			navigation.nextBtnContainer = VMM.appendAndGetElement(navigation.nextBtn, "<div>", "nav-container", temp_icon);
+			navigation.prevBtnContainer = VMM.appendAndGetElement(navigation.prevBtn, "<div>", "nav-container", temp_icon);
+			if (config.type == "timeline") {
+				navigation.nextDate = VMM.appendAndGetElement(navigation.nextBtnContainer, "<div>", "date", "");
+				navigation.prevDate = VMM.appendAndGetElement(navigation.prevBtnContainer, "<div>", "date", "");
+			}
+			navigation.nextTitle = VMM.appendAndGetElement(navigation.nextBtnContainer, "<div>", "title", "");
+			navigation.prevTitle = VMM.appendAndGetElement(navigation.prevBtnContainer, "<div>", "title", "");
+			
+			VMM.bindEvent(".nav-next", onNextClick);
+			VMM.bindEvent(".nav-previous", onPrevClick);
+			VMM.bindEvent(window, onKeypressNav, 'keydown');
+			
+		}
+		
+		/* BUILD
+		================================================== */
+		function build() {
+			var __duration = 3000;
+			// Clear out existing content
+			VMM.attachElement(layout, "");
+			
+			// Get DOM Objects to local objects
+			$slider				= VMM.getElement(layout);
+			$slider_mask		= VMM.appendAndGetElement($slider, "<div>", "slider-container-mask");
+			$slider_container	= VMM.appendAndGetElement($slider_mask, "<div>", "slider-container");
+			$slides_items		= VMM.appendAndGetElement($slider_container, "<div>", "slider-item-container");
+			
+			
+			// BUILD NAVIGATION
+			buildNavigation();
+
+			// ATTACH SLIDES
+			buildSlides(data);
+			
+			/* MAKE SLIDER DRAGGABLE/TOUCHABLE
+			================================================== */
+			
+			if (VMM.Browser.device == "tablet" || VMM.Browser.device == "mobile") {
+				// Different Animation duration for touch
+				config.duration = 500;
+				__duration = 1000;
+				
+				// Make touchable
+				$dragslide = new VMM.DragSlider();
+				$dragslide.createPanel($slider, $slider_container, "", config.touch, true);
+				VMM.bindEvent($dragslide, onDragFinish, 'DRAGUPDATE');
+				
+				// EXPLAINER
+				$explainer = VMM.appendAndGetElement($slider_mask, "<div>", "vco-feedback", "");
+				showMessege(null, "Swipe to Navigate");
+				VMM.Lib.height($explainer, config.slider.height);
+				VMM.bindEvent($explainer, onExplainerClick);
+				VMM.bindEvent($explainer, onExplainerClick, 'touchend');
+			}
+			
+			reSize(false, true);
+			
+			
+			VMM.Lib.visible(navigation.prevBtn, false);
+			goToSlide(config.current_slide, "easeOutExpo", __duration, true, true);
+			
+			_active = true;
+		};
+		
+	};
+	
+}
+
+
+
+
+
+
+/* **********************************************
+     Begin VMM.Slider.Slide.js
+********************************************** */
+
+/* Slider Slide 
+================================================== */
+
+if (typeof VMM.Slider != 'undefined') {
+	VMM.Slider.Slide = function(d, _parent) {
+		
+		var $media, $text, $slide, $wrap, element, c,
+			data		= d,
+			slide		= {},
+			element		= "",
+			media		= "",
+			loaded		= false,
+			preloaded	= false,
+			is_skinny	= false,
+			_enqueue	= true,
+			_removeque	= false,
+			_id			= "slide_",
+			_class		= 0,
+			timer		= {pushque:"", render:"", relayout:"", remove:"", skinny:false},
+			times		= {pushque:500, render:100, relayout:100, remove:30000};
+		
+		_id				= _id + data.uniqueid;
+		this.enqueue	= _enqueue;
+		this.id			= _id;
+		
+		
+		element		=	VMM.appendAndGetElement(_parent, "<div>", "slider-item");
+		
+		if (typeof data.classname != 'undefined') {
+			trace("HAS CLASSNAME");
+			VMM.Lib.addClass(element, data.classname);
+		} else {
+			trace("NO CLASSNAME");
+			trace(data);
+		}
+		
+		c = {slide:"", text: "", media: "", media_element: "", layout: "content-container layout", has: { headline: false, text: false, media: false }};
+		
+		/* PUBLIC
+		================================================== */
+		this.show = function(skinny) {
+			_enqueue = false;
+			timer.skinny = skinny;
+			_removeque = false;
+			clearTimeout(timer.remove);
+			
+			if (!loaded) {
+				if (preloaded) {
+					clearTimeout(timer.relayout);
+					timer.relayout = setTimeout(reloadLayout, times.relayout);
+				} else {
+					render(skinny);
+				}
+			}
+		};
+		
+		this.hide = function() {
+			if (loaded && !_removeque) {
+				_removeque = true;
+				clearTimeout(timer.remove);
+				timer.remove = setTimeout(removeSlide, times.remove);
+			}
+		};
+		
+		this.clearTimers = function() {
+			//clearTimeout(timer.remove);
+			clearTimeout(timer.relayout);
+			clearTimeout(timer.pushque);
+			clearTimeout(timer.render);
+		};
+		
+		this.layout = function(skinny) {
+			if (loaded && preloaded) {
+				reLayout(skinny);
+			}
+		};
+		
+		this.elem = function() {	
+			return element;
+		};
+		
+		this.position = function() {
+			return VMM.Lib.position(element);
+		};
+		
+		this.leftpos = function(p) {
+			if(typeof p != 'undefined') {
+				VMM.Lib.css(element, "left", p);
+			} else {
+				return VMM.Lib.position(element).left
+			}
+		};
+		
+		this.animate = function(d, e, p) {
+			VMM.Lib.animate(element, d, e, p);
+		};
+		
+		this.css = function(p, v) {
+			VMM.Lib.css(element, p, v );
+		}
+		
+		this.opacity = function(p) {
+			VMM.Lib.css(element, "opacity", p);	
+		}
+		
+		this.width = function() {
+			return VMM.Lib.width(element);
+		};
+		
+		this.height = function() {
+			return VMM.Lib.height(element);
+		};
+		
+		this.content_height = function () {
+			var ch = VMM.Lib.find( element, ".content")[0];
+			
+			if (ch != 'undefined' && ch != null) {
+				return VMM.Lib.height(ch);
+			} else {
+				return 0;
+			}
+		}
+		
+		/* PRIVATE
+		================================================== */
+		var render = function(skinny) {
+			trace("RENDER " + _id);
+			
+			loaded = true;
+			preloaded = true;
+			timer.skinny = skinny;
+			
+			buildSlide();
+			
+			clearTimeout(timer.pushque);
+			clearTimeout(timer.render);
+			timer.pushque = setTimeout(VMM.ExternalAPI.pushQues, times.pushque);
+			
+		};
+		
+		var removeSlide = function() {
+			//VMM.attachElement(element, "");
+			trace("REMOVE SLIDE TIMER FINISHED");
+			loaded = false;
+			VMM.Lib.detach($text);
+			VMM.Lib.detach($media);
+			
+		};
+		
+		var reloadLayout = function() {
+			loaded = true;
+			reLayout(timer.skinny, true);
+		};
+		
+		var reLayout = function(skinny, reload) {
+			if (c.has.text)	{
+				if (skinny) {
+					if (!is_skinny || reload) {
+						VMM.Lib.removeClass($slide, "pad-left");
+						VMM.Lib.detach($text);
+						VMM.Lib.detach($media);
+						VMM.Lib.append($slide, $text);
+						VMM.Lib.append($slide, $media);
+						is_skinny = true;
+					} 
+				} else {
+					if (is_skinny || reload) {
+						VMM.Lib.addClass($slide, "pad-left");
+						VMM.Lib.detach($text);
+						VMM.Lib.detach($media);
+						VMM.Lib.append($slide, $media);
+						VMM.Lib.append($slide, $text);
+						is_skinny = false;
+						
+					} 
+				}
+			} else if (reload) {
+				if (c.has.headline) {
+					VMM.Lib.detach($text);
+					VMM.Lib.append($slide, $text);
+				}
+				VMM.Lib.detach($media);
+				VMM.Lib.append($slide, $media);
+			}
+		}
+		
+		var buildSlide = function() {
+			trace("BUILDSLIDE");
+			$wrap	= VMM.appendAndGetElement(element, "<div>", "content");
+			$slide	= VMM.appendAndGetElement($wrap, "<div>");
+			
+			/* DATE
+			================================================== */
+			if (data.startdate != null && data.startdate != "") {
+				if (type.of(data.startdate) == "date") {
+					if (data.type != "start") {
+						var st	= VMM.Date.prettyDate(data.startdate, false, data.precisiondate);
+						var en	= VMM.Date.prettyDate(data.enddate, false, data.precisiondate);
+						var tag	= "";
+						/* TAG / CATEGORY
+						================================================== */
+						if (data.tag != null && data.tag != "") {
+							tag		= VMM.createElement("span", data.tag, "slide-tag");
+						}
+						
+						if (st != en) {
+							c.text += VMM.createElement("h2", st + " &mdash; " + en + tag, "date");
+						} else {
+							c.text += VMM.createElement("h2", st + tag, "date");
+						}
+					}
+				}
+			}
+			
+			/* HEADLINE
+			================================================== */
+			if (data.headline != null && data.headline != "") {
+				c.has.headline	=	true;
+				if (data.type == "start") {
+					c.text		+=	VMM.createElement("h2", VMM.Util.linkify_with_twitter(data.headline, "_blank"), "start");
+				} else { 
+					c.text		+=	VMM.createElement("h3", VMM.Util.linkify_with_twitter(data.headline, "_blank"));
+				}
+			}
+			
+			/* TEXT
+			================================================== */
+			if (data.text != null && data.text != "") {
+				c.has.text		=  true;
+				c.text			+= VMM.createElement("p", VMM.Util.linkify_with_twitter(data.text, "_blank"));
+			}
+			
+			if (c.has.text || c.has.headline) {
+				c.text		= VMM.createElement("div", c.text, "container");
+				//$text		=	VMM.appendAndGetElement($slide, "<div>", "text", c.text);
+				
+				$text		= VMM.appendAndGetElement($slide, "<div>", "text", VMM.TextElement.create(c.text));
+				
+			}
+			
+			/* SLUG
+			================================================== */
+			if (data.needs_slug) {
+				
+			}
+			
+			/* MEDIA
+			================================================== */
+			if (data.asset != null && data.asset != "") {
+				if (data.asset.media != null && data.asset.media != "") {
+					c.has.media	= true;
+					$media		= VMM.appendAndGetElement($slide, "<div>", "media", VMM.MediaElement.create(data.asset, data.uniqueid));
+				}
+			}
+			
+			/* COMBINE
+			================================================== */
+			if (c.has.text)	{ c.layout		+=	"-text"		};
+			if (c.has.media){ c.layout		+=	"-media"	};
+
+			if (c.has.text)	{
+				if (timer.skinny) {
+					VMM.Lib.addClass($slide, c.layout);
+					is_skinny = true;
+				} else {
+					VMM.Lib.addClass($slide, c.layout);
+					VMM.Lib.addClass($slide, "pad-left");
+					VMM.Lib.detach($text);
+					VMM.Lib.append($slide, $text);
+				}
+				
+			} else {
+				VMM.Lib.addClass($slide, c.layout);
+			}
+			
+			
+		};
+		
+	}
+	
+};
+
+
+/* **********************************************
+     Begin AES.js
+********************************************** */
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/*  AES implementation in JavaScript (c) Chris Veness 2005-2011                                   */
+/*   - see http://csrc.nist.gov/publications/PubsFIPS.html#197                                    */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
+var Aes = {};  // Aes namespace
+
+/**
+ * AES Cipher function: encrypt 'input' state with Rijndael algorithm
+ *   applies Nr rounds (10/12/14) using key schedule w for 'add round key' stage
+ *
+ * @param {Number[]} input 16-byte (128-bit) input state array
+ * @param {Number[][]} w   Key schedule as 2D byte-array (Nr+1 x Nb bytes)
+ * @returns {Number[]}     Encrypted output state array
+ */
+Aes.cipher = function(input, w) {    // main Cipher function [§5.1]
+  var Nb = 4;               // block size (in words): no of columns in state (fixed at 4 for AES)
+  var Nr = w.length/Nb - 1; // no of rounds: 10/12/14 for 128/192/256-bit keys
+
+  var state = [[],[],[],[]];  // initialise 4xNb byte-array 'state' with input [§3.4]
+  for (var i=0; i<4*Nb; i++) state[i%4][Math.floor(i/4)] = input[i];
+
+  state = Aes.addRoundKey(state, w, 0, Nb);
+
+  for (var round=1; round<Nr; round++) {
+    state = Aes.subBytes(state, Nb);
+    state = Aes.shiftRows(state, Nb);
+    state = Aes.mixColumns(state, Nb);
+    state = Aes.addRoundKey(state, w, round, Nb);
+  }
+
+  state = Aes.subBytes(state, Nb);
+  state = Aes.shiftRows(state, Nb);
+  state = Aes.addRoundKey(state, w, Nr, Nb);
+
+  var output = new Array(4*Nb);  // convert state to 1-d array before returning [§3.4]
+  for (var i=0; i<4*Nb; i++) output[i] = state[i%4][Math.floor(i/4)];
+  return output;
+}
+
+/**
+ * Perform Key Expansion to generate a Key Schedule
+ *
+ * @param {Number[]} key Key as 16/24/32-byte array
+ * @returns {Number[][]} Expanded key schedule as 2D byte-array (Nr+1 x Nb bytes)
+ */
+Aes.keyExpansion = function(key) {  // generate Key Schedule (byte-array Nr+1 x Nb) from Key [§5.2]
+  var Nb = 4;            // block size (in words): no of columns in state (fixed at 4 for AES)
+  var Nk = key.length/4  // key length (in words): 4/6/8 for 128/192/256-bit keys
+  var Nr = Nk + 6;       // no of rounds: 10/12/14 for 128/192/256-bit keys
+
+  var w = new Array(Nb*(Nr+1));
+  var temp = new Array(4);
+
+  for (var i=0; i<Nk; i++) {
+    var r = [key[4*i], key[4*i+1], key[4*i+2], key[4*i+3]];
+    w[i] = r;
+  }
+
+  for (var i=Nk; i<(Nb*(Nr+1)); i++) {
+    w[i] = new Array(4);
+    for (var t=0; t<4; t++) temp[t] = w[i-1][t];
+    if (i % Nk == 0) {
+      temp = Aes.subWord(Aes.rotWord(temp));
+      for (var t=0; t<4; t++) temp[t] ^= Aes.rCon[i/Nk][t];
+    } else if (Nk > 6 && i%Nk == 4) {
+      temp = Aes.subWord(temp);
+    }
+    for (var t=0; t<4; t++) w[i][t] = w[i-Nk][t] ^ temp[t];
+  }
+
+  return w;
+}
+
+/*
+ * ---- remaining routines are private, not called externally ----
+ */
+ 
+Aes.subBytes = function(s, Nb) {    // apply SBox to state S [§5.1.1]
+  for (var r=0; r<4; r++) {
+    for (var c=0; c<Nb; c++) s[r][c] = Aes.sBox[s[r][c]];
+  }
+  return s;
+}
+
+Aes.shiftRows = function(s, Nb) {    // shift row r of state S left by r bytes [§5.1.2]
+  var t = new Array(4);
+  for (var r=1; r<4; r++) {
+    for (var c=0; c<4; c++) t[c] = s[r][(c+r)%Nb];  // shift into temp copy
+    for (var c=0; c<4; c++) s[r][c] = t[c];         // and copy back
+  }          // note that this will work for Nb=4,5,6, but not 7,8 (always 4 for AES):
+  return s;  // see asmaes.sourceforge.net/rijndael/rijndaelImplementation.pdf
+}
+
+Aes.mixColumns = function(s, Nb) {   // combine bytes of each col of state S [§5.1.3]
+  for (var c=0; c<4; c++) {
+    var a = new Array(4);  // 'a' is a copy of the current column from 's'
+    var b = new Array(4);  // 'b' is a•{02} in GF(2^8)
+    for (var i=0; i<4; i++) {
+      a[i] = s[i][c];
+      b[i] = s[i][c]&0x80 ? s[i][c]<<1 ^ 0x011b : s[i][c]<<1;
+
+    }
+    // a[n] ^ b[n] is a•{03} in GF(2^8)
+    s[0][c] = b[0] ^ a[1] ^ b[1] ^ a[2] ^ a[3]; // 2*a0 + 3*a1 + a2 + a3
+    s[1][c] = a[0] ^ b[1] ^ a[2] ^ b[2] ^ a[3]; // a0 * 2*a1 + 3*a2 + a3
+    s[2][c] = a[0] ^ a[1] ^ b[2] ^ a[3] ^ b[3]; // a0 + a1 + 2*a2 + 3*a3
+    s[3][c] = a[0] ^ b[0] ^ a[1] ^ a[2] ^ b[3]; // 3*a0 + a1 + a2 + 2*a3
+  }
+  return s;
+}
+
+Aes.addRoundKey = function(state, w, rnd, Nb) {  // xor Round Key into state S [§5.1.4]
+  for (var r=0; r<4; r++) {
+    for (var c=0; c<Nb; c++) state[r][c] ^= w[rnd*4+c][r];
+  }
+  return state;
+}
+
+Aes.subWord = function(w) {    // apply SBox to 4-byte word w
+  for (var i=0; i<4; i++) w[i] = Aes.sBox[w[i]];
+  return w;
+}
+
+Aes.rotWord = function(w) {    // rotate 4-byte word w left by one byte
+  var tmp = w[0];
+  for (var i=0; i<3; i++) w[i] = w[i+1];
+  w[3] = tmp;
+  return w;
+}
+
+// sBox is pre-computed multiplicative inverse in GF(2^8) used in subBytes and keyExpansion [§5.1.1]
+Aes.sBox =  [0x63,0x7c,0x77,0x7b,0xf2,0x6b,0x6f,0xc5,0x30,0x01,0x67,0x2b,0xfe,0xd7,0xab,0x76,
+             0xca,0x82,0xc9,0x7d,0xfa,0x59,0x47,0xf0,0xad,0xd4,0xa2,0xaf,0x9c,0xa4,0x72,0xc0,
+             0xb7,0xfd,0x93,0x26,0x36,0x3f,0xf7,0xcc,0x34,0xa5,0xe5,0xf1,0x71,0xd8,0x31,0x15,
+             0x04,0xc7,0x23,0xc3,0x18,0x96,0x05,0x9a,0x07,0x12,0x80,0xe2,0xeb,0x27,0xb2,0x75,
+             0x09,0x83,0x2c,0x1a,0x1b,0x6e,0x5a,0xa0,0x52,0x3b,0xd6,0xb3,0x29,0xe3,0x2f,0x84,
+             0x53,0xd1,0x00,0xed,0x20,0xfc,0xb1,0x5b,0x6a,0xcb,0xbe,0x39,0x4a,0x4c,0x58,0xcf,
+             0xd0,0xef,0xaa,0xfb,0x43,0x4d,0x33,0x85,0x45,0xf9,0x02,0x7f,0x50,0x3c,0x9f,0xa8,
+             0x51,0xa3,0x40,0x8f,0x92,0x9d,0x38,0xf5,0xbc,0xb6,0xda,0x21,0x10,0xff,0xf3,0xd2,
+             0xcd,0x0c,0x13,0xec,0x5f,0x97,0x44,0x17,0xc4,0xa7,0x7e,0x3d,0x64,0x5d,0x19,0x73,
+             0x60,0x81,0x4f,0xdc,0x22,0x2a,0x90,0x88,0x46,0xee,0xb8,0x14,0xde,0x5e,0x0b,0xdb,
+             0xe0,0x32,0x3a,0x0a,0x49,0x06,0x24,0x5c,0xc2,0xd3,0xac,0x62,0x91,0x95,0xe4,0x79,
+             0xe7,0xc8,0x37,0x6d,0x8d,0xd5,0x4e,0xa9,0x6c,0x56,0xf4,0xea,0x65,0x7a,0xae,0x08,
+             0xba,0x78,0x25,0x2e,0x1c,0xa6,0xb4,0xc6,0xe8,0xdd,0x74,0x1f,0x4b,0xbd,0x8b,0x8a,
+             0x70,0x3e,0xb5,0x66,0x48,0x03,0xf6,0x0e,0x61,0x35,0x57,0xb9,0x86,0xc1,0x1d,0x9e,
+             0xe1,0xf8,0x98,0x11,0x69,0xd9,0x8e,0x94,0x9b,0x1e,0x87,0xe9,0xce,0x55,0x28,0xdf,
+             0x8c,0xa1,0x89,0x0d,0xbf,0xe6,0x42,0x68,0x41,0x99,0x2d,0x0f,0xb0,0x54,0xbb,0x16];
+
+// rCon is Round Constant used for the Key Expansion [1st col is 2^(r-1) in GF(2^8)] [§5.2]
+Aes.rCon = [ [0x00, 0x00, 0x00, 0x00],
+             [0x01, 0x00, 0x00, 0x00],
+             [0x02, 0x00, 0x00, 0x00],
+             [0x04, 0x00, 0x00, 0x00],
+             [0x08, 0x00, 0x00, 0x00],
+             [0x10, 0x00, 0x00, 0x00],
+             [0x20, 0x00, 0x00, 0x00],
+             [0x40, 0x00, 0x00, 0x00],
+             [0x80, 0x00, 0x00, 0x00],
+             [0x1b, 0x00, 0x00, 0x00],
+             [0x36, 0x00, 0x00, 0x00] ]; 
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/*  AES Counter-mode implementation in JavaScript (c) Chris Veness 2005-2011                      */
+/*   - see http://csrc.nist.gov/publications/nistpubs/800-38a/sp800-38a.pdf                       */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
+Aes.Ctr = {};  // Aes.Ctr namespace: a subclass or extension of Aes
+
+/** 
+ * Encrypt a text using AES encryption in Counter mode of operation
+ *
+ * Unicode multi-byte character safe
+ *
+ * @param {String} plaintext Source text to be encrypted
+ * @param {String} password  The password to use to generate a key
+ * @param {Number} nBits     Number of bits to be used in the key (128, 192, or 256)
+ * @returns {string}         Encrypted text
+ */
+Aes.Ctr.encrypt = function(plaintext, password, nBits) {
+  var blockSize = 16;  // block size fixed at 16 bytes / 128 bits (Nb=4) for AES
+  if (!(nBits==128 || nBits==192 || nBits==256)) return '';  // standard allows 128/192/256 bit keys
+  plaintext = Utf8.encode(plaintext);
+  password = Utf8.encode(password);
+  //var t = new Date();  // timer
+	
+  // use AES itself to encrypt password to get cipher key (using plain password as source for key 
+  // expansion) - gives us well encrypted key (though hashed key might be preferred for prod'n use)
+  var nBytes = nBits/8;  // no bytes in key (16/24/32)
+  var pwBytes = new Array(nBytes);
+  for (var i=0; i<nBytes; i++) {  // use 1st 16/24/32 chars of password for key
+    pwBytes[i] = isNaN(password.charCodeAt(i)) ? 0 : password.charCodeAt(i);
+  }
+  var key = Aes.cipher(pwBytes, Aes.keyExpansion(pwBytes));  // gives us 16-byte key
+  key = key.concat(key.slice(0, nBytes-16));  // expand key to 16/24/32 bytes long
+
+  // initialise 1st 8 bytes of counter block with nonce (NIST SP800-38A §B.2): [0-1] = millisec, 
+  // [2-3] = random, [4-7] = seconds, together giving full sub-millisec uniqueness up to Feb 2106
+  var counterBlock = new Array(blockSize);
+  
+  var nonce = (new Date()).getTime();  // timestamp: milliseconds since 1-Jan-1970
+  var nonceMs = nonce%1000;
+  var nonceSec = Math.floor(nonce/1000);
+  var nonceRnd = Math.floor(Math.random()*0xffff);
+  
+  for (var i=0; i<2; i++) counterBlock[i]   = (nonceMs  >>> i*8) & 0xff;
+  for (var i=0; i<2; i++) counterBlock[i+2] = (nonceRnd >>> i*8) & 0xff;
+  for (var i=0; i<4; i++) counterBlock[i+4] = (nonceSec >>> i*8) & 0xff;
+  
+  // and convert it to a string to go on the front of the ciphertext
+  var ctrTxt = '';
+  for (var i=0; i<8; i++) ctrTxt += String.fromCharCode(counterBlock[i]);
+
+  // generate key schedule - an expansion of the key into distinct Key Rounds for each round
+  var keySchedule = Aes.keyExpansion(key);
+  
+  var blockCount = Math.ceil(plaintext.length/blockSize);
+  var ciphertxt = new Array(blockCount);  // ciphertext as array of strings
+  
+  for (var b=0; b<blockCount; b++) {
+    // set counter (block #) in last 8 bytes of counter block (leaving nonce in 1st 8 bytes)
+    // done in two stages for 32-bit ops: using two words allows us to go past 2^32 blocks (68GB)
+    for (var c=0; c<4; c++) counterBlock[15-c] = (b >>> c*8) & 0xff;
+    for (var c=0; c<4; c++) counterBlock[15-c-4] = (b/0x100000000 >>> c*8)
+
+    var cipherCntr = Aes.cipher(counterBlock, keySchedule);  // -- encrypt counter block --
+    
+    // block size is reduced on final block
+    var blockLength = b<blockCount-1 ? blockSize : (plaintext.length-1)%blockSize+1;
+    var cipherChar = new Array(blockLength);
+    
+    for (var i=0; i<blockLength; i++) {  // -- xor plaintext with ciphered counter char-by-char --
+      cipherChar[i] = cipherCntr[i] ^ plaintext.charCodeAt(b*blockSize+i);
+      cipherChar[i] = String.fromCharCode(cipherChar[i]);
+    }
+    ciphertxt[b] = cipherChar.join(''); 
+  }
+
+  // Array.join is more efficient than repeated string concatenation in IE
+  var ciphertext = ctrTxt + ciphertxt.join('');
+  ciphertext = Base64.encode(ciphertext);  // encode in base64
+  
+  //alert((new Date()) - t);
+  return ciphertext;
+}
+
+/** 
+ * Decrypt a text encrypted by AES in counter mode of operation
+ *
+ * @param {String} ciphertext Source text to be encrypted
+ * @param {String} password   The password to use to generate a key
+ * @param {Number} nBits      Number of bits to be used in the key (128, 192, or 256)
+ * @returns {String}          Decrypted text
+ */
+Aes.Ctr.decrypt = function(ciphertext, password, nBits) {
+  var blockSize = 16;  // block size fixed at 16 bytes / 128 bits (Nb=4) for AES
+  if (!(nBits==128 || nBits==192 || nBits==256)) return '';  // standard allows 128/192/256 bit keys
+  ciphertext = Base64.decode(ciphertext);
+  password = Utf8.encode(password);
+  //var t = new Date();  // timer
+  
+  // use AES to encrypt password (mirroring encrypt routine)
+  var nBytes = nBits/8;  // no bytes in key
+  var pwBytes = new Array(nBytes);
+  for (var i=0; i<nBytes; i++) {
+    pwBytes[i] = isNaN(password.charCodeAt(i)) ? 0 : password.charCodeAt(i);
+  }
+  var key = Aes.cipher(pwBytes, Aes.keyExpansion(pwBytes));
+  key = key.concat(key.slice(0, nBytes-16));  // expand key to 16/24/32 bytes long
+
+  // recover nonce from 1st 8 bytes of ciphertext
+  var counterBlock = new Array(8);
+  ctrTxt = ciphertext.slice(0, 8);
+  for (var i=0; i<8; i++) counterBlock[i] = ctrTxt.charCodeAt(i);
+  
+  // generate key schedule
+  var keySchedule = Aes.keyExpansion(key);
+
+  // separate ciphertext into blocks (skipping past initial 8 bytes)
+  var nBlocks = Math.ceil((ciphertext.length-8) / blockSize);
+  var ct = new Array(nBlocks);
+  for (var b=0; b<nBlocks; b++) ct[b] = ciphertext.slice(8+b*blockSize, 8+b*blockSize+blockSize);
+  ciphertext = ct;  // ciphertext is now array of block-length strings
+
+  // plaintext will get generated block-by-block into array of block-length strings
+  var plaintxt = new Array(ciphertext.length);
+
+  for (var b=0; b<nBlocks; b++) {
+    // set counter (block #) in last 8 bytes of counter block (leaving nonce in 1st 8 bytes)
+    for (var c=0; c<4; c++) counterBlock[15-c] = ((b) >>> c*8) & 0xff;
+    for (var c=0; c<4; c++) counterBlock[15-c-4] = (((b+1)/0x100000000-1) >>> c*8) & 0xff;
+
+    var cipherCntr = Aes.cipher(counterBlock, keySchedule);  // encrypt counter block
+
+    var plaintxtByte = new Array(ciphertext[b].length);
+    for (var i=0; i<ciphertext[b].length; i++) {
+      // -- xor plaintxt with ciphered counter byte-by-byte --
+      plaintxtByte[i] = cipherCntr[i] ^ ciphertext[b].charCodeAt(i);
+      plaintxtByte[i] = String.fromCharCode(plaintxtByte[i]);
+    }
+    plaintxt[b] = plaintxtByte.join('');
+  }
+
+  // join array of blocks into single plaintext string
+  var plaintext = plaintxt.join('');
+  plaintext = Utf8.decode(plaintext);  // decode from UTF8 back to Unicode multi-byte chars
+  
+  //alert((new Date()) - t);
+  return plaintext;
+}
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/*  Base64 class: Base 64 encoding / decoding (c) Chris Veness 2002-2011                          */
+/*    note: depends on Utf8 class                                                                 */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
+var Base64 = {};  // Base64 namespace
+
+Base64.code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+/**
+ * Encode string into Base64, as defined by RFC 4648 [http://tools.ietf.org/html/rfc4648]
+ * (instance method extending String object). As per RFC 4648, no newlines are added.
+ *
+ * @param {String} str The string to be encoded as base-64
+ * @param {Boolean} [utf8encode=false] Flag to indicate whether str is Unicode string to be encoded 
+ *   to UTF8 before conversion to base64; otherwise string is assumed to be 8-bit characters
+ * @returns {String} Base64-encoded string
+ */ 
+Base64.encode = function(str, utf8encode) {  // http://tools.ietf.org/html/rfc4648
+  utf8encode =  (typeof utf8encode == 'undefined') ? false : utf8encode;
+  var o1, o2, o3, bits, h1, h2, h3, h4, e=[], pad = '', c, plain, coded;
+  var b64 = Base64.code;
+   
+  plain = utf8encode ? str.encodeUTF8() : str;
+  
+  c = plain.length % 3;  // pad string to length of multiple of 3
+  if (c > 0) { while (c++ < 3) { pad += '='; plain += '\0'; } }
+  // note: doing padding here saves us doing special-case packing for trailing 1 or 2 chars
+   
+  for (c=0; c<plain.length; c+=3) {  // pack three octets into four hexets
+    o1 = plain.charCodeAt(c);
+    o2 = plain.charCodeAt(c+1);
+    o3 = plain.charCodeAt(c+2);
+      
+    bits = o1<<16 | o2<<8 | o3;
+      
+    h1 = bits>>18 & 0x3f;
+    h2 = bits>>12 & 0x3f;
+    h3 = bits>>6 & 0x3f;
+    h4 = bits & 0x3f;
+
+    // use hextets to index into code string
+    e[c/3] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
+  }
+  coded = e.join('');  // join() is far faster than repeated string concatenation in IE
+  
+  // replace 'A's from padded nulls with '='s
+  coded = coded.slice(0, coded.length-pad.length) + pad;
+   
+  return coded;
+}
+
+/**
+ * Decode string from Base64, as defined by RFC 4648 [http://tools.ietf.org/html/rfc4648]
+ * (instance method extending String object). As per RFC 4648, newlines are not catered for.
+ *
+ * @param {String} str The string to be decoded from base-64
+ * @param {Boolean} [utf8decode=false] Flag to indicate whether str is Unicode string to be decoded 
+ *   from UTF8 after conversion from base64
+ * @returns {String} decoded string
+ */ 
+Base64.decode = function(str, utf8decode) {
+  utf8decode =  (typeof utf8decode == 'undefined') ? false : utf8decode;
+  var o1, o2, o3, h1, h2, h3, h4, bits, d=[], plain, coded;
+  var b64 = Base64.code;
+
+  coded = utf8decode ? str.decodeUTF8() : str;
+  
+  
+  for (var c=0; c<coded.length; c+=4) {  // unpack four hexets into three octets
+    h1 = b64.indexOf(coded.charAt(c));
+    h2 = b64.indexOf(coded.charAt(c+1));
+    h3 = b64.indexOf(coded.charAt(c+2));
+    h4 = b64.indexOf(coded.charAt(c+3));
+      
+    bits = h1<<18 | h2<<12 | h3<<6 | h4;
+      
+    o1 = bits>>>16 & 0xff;
+    o2 = bits>>>8 & 0xff;
+    o3 = bits & 0xff;
+    
+    d[c/4] = String.fromCharCode(o1, o2, o3);
+    // check for padding
+    if (h4 == 0x40) d[c/4] = String.fromCharCode(o1, o2);
+    if (h3 == 0x40) d[c/4] = String.fromCharCode(o1);
+  }
+  plain = d.join('');  // join() is far faster than repeated string concatenation in IE
+   
+  return utf8decode ? plain.decodeUTF8() : plain; 
+}
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/*  Utf8 class: encode / decode between multi-byte Unicode characters and UTF-8 multiple          */
+/*              single-byte character encoding (c) Chris Veness 2002-2011                         */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
+var Utf8 = {};  // Utf8 namespace
+
+/**
+ * Encode multi-byte Unicode string into utf-8 multiple single-byte characters 
+ * (BMP / basic multilingual plane only)
+ *
+ * Chars in range U+0080 - U+07FF are encoded in 2 chars, U+0800 - U+FFFF in 3 chars
+ *
+ * @param {String} strUni Unicode string to be encoded as UTF-8
+ * @returns {String} encoded string
+ */
+Utf8.encode = function(strUni) {
+  // use regular expressions & String.replace callback function for better efficiency 
+  // than procedural approaches
+  var strUtf = strUni.replace(
+      /[\u0080-\u07ff]/g,  // U+0080 - U+07FF => 2 bytes 110yyyyy, 10zzzzzz
+      function(c) { 
+        var cc = c.charCodeAt(0);
+        return String.fromCharCode(0xc0 | cc>>6, 0x80 | cc&0x3f); }
+    );
+  strUtf = strUtf.replace(
+      /[\u0800-\uffff]/g,  // U+0800 - U+FFFF => 3 bytes 1110xxxx, 10yyyyyy, 10zzzzzz
+      function(c) { 
+        var cc = c.charCodeAt(0); 
+        return String.fromCharCode(0xe0 | cc>>12, 0x80 | cc>>6&0x3F, 0x80 | cc&0x3f); }
+    );
+  return strUtf;
+}
+
+/**
+ * Decode utf-8 encoded string back into multi-byte Unicode characters
+ *
+ * @param {String} strUtf UTF-8 string to be decoded back to Unicode
+ * @returns {String} decoded string
+ */
+Utf8.decode = function(strUtf) {
+  // note: decode 3-byte chars first as decoded 2-byte strings could appear to be 3-byte char!
+  var strUni = strUtf.replace(
+      /[\u00e0-\u00ef][\u0080-\u00bf][\u0080-\u00bf]/g,  // 3-byte chars
+      function(c) {  // (note parentheses for precence)
+        var cc = ((c.charCodeAt(0)&0x0f)<<12) | ((c.charCodeAt(1)&0x3f)<<6) | ( c.charCodeAt(2)&0x3f); 
+        return String.fromCharCode(cc); }
+    );
+  strUni = strUni.replace(
+      /[\u00c0-\u00df][\u0080-\u00bf]/g,                 // 2-byte chars
+      function(c) {  // (note parentheses for precence)
+        var cc = (c.charCodeAt(0)&0x1f)<<6 | c.charCodeAt(1)&0x3f;
+        return String.fromCharCode(cc); }
+    );
+  return strUni;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
+/* **********************************************
+     Begin bootstrap-tooltip.js
+********************************************** */
+
+/* ===========================================================
+ * bootstrap-tooltip.js v2.0.1
+ * http://twitter.github.com/bootstrap/javascript.html#tooltips
+ * Inspired by the original jQuery.tipsy by Jason Frame
+ * ===========================================================
+ * Copyright 2012 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ========================================================== */
+
+!function( $ ) {
+
+  "use strict"
+
+ /* TOOLTIP PUBLIC CLASS DEFINITION
+  * =============================== */
+
+  var Tooltip = function ( element, options ) {
+    this.init('tooltip', element, options)
+  }
+
+  Tooltip.prototype = {
+
+    constructor: Tooltip
+
+  , init: function ( type, element, options ) {
+      var eventIn
+        , eventOut
+
+      this.type = type
+      this.$element = $(element)
+      this.options = this.getOptions(options)
+      this.enabled = true
+
+      if (this.options.trigger != 'manual') {
+        eventIn  = this.options.trigger == 'hover' ? 'mouseenter' : 'focus'
+        eventOut = this.options.trigger == 'hover' ? 'mouseleave' : 'blur'
+        this.$element.on(eventIn, this.options.selector, $.proxy(this.enter, this))
+        this.$element.on(eventOut, this.options.selector, $.proxy(this.leave, this))
+      }
+
+      this.options.selector ?
+        (this._options = $.extend({}, this.options, { trigger: 'manual', selector: '' })) :
+        this.fixTitle()
+    }
+
+  , getOptions: function ( options ) {
+      options = $.extend({}, $.fn[this.type].defaults, options, this.$element.data())
+
+      if (options.delay && typeof options.delay == 'number') {
+        options.delay = {
+          show: options.delay
+        , hide: options.delay
         }
+      }
 
-        // Tests for vendor specific prop
-        var prefix = ['Webkit', 'Moz', 'Khtml', 'O', 'ms'];
-        for (var i=0; i< prefix.length; i++) {
-            if (typeof (style[prefix[i] + 'Transition']) == 'string') {
-                return true;
-            }
-        }
+      return options
+    }
 
-        return false;
-    })();
+  , enter: function ( e ) {
+      var self = $(e.currentTarget)[this.type](this._options).data(this.type)
 
-    // default timeline element options
-    this._default_element_data = {
-        type:        'blog_post',      // blog_post   gallery    slider   iframe
-        date:        '2000-01-01',     // blog_post   gallery    slider   iframe
-        dateFormat:  'DD MMMM YYYY',   // blog_post   gallery    slider   iframe
-        title:       null,             // blog_post   gallery    slider   iframe
-        content:     null,             // blog_post
-        image:       null,             // blog_post
-        readmore:    null,             // blog_post
-        height:      300,              //             gallery    slider   iframe
-        images:      [],               //             gallery    slider
-        speed:       5000,             //                        slider
-        url:         null              //                                 iframe
-    };
-
-    this._prepareData = function() {
-        SELF._sortData(SELF._original_data);
-
-        if (SELF._options.max && SELF._options.max < SELF._original_data.length) {
-            SELF._data = SELF._original_data.slice(0, SELF._options.max);
-            SELF._original_data.splice(0, SELF._options.max)
-        } else {
-            SELF._data = SELF._original_data;
-        }
-    };
-
-    // create a single timeline element
-    this._createElement = function(element_data, position) {
-        element_data = $.extend({}, SELF._default_element_data, element_data)
-
-        // element DIV
-        var element = $('<div>').addClass('timeline_element ' + element_data.type);
-
-        if (position === 'left') {
-            element.addClass('timeline_element_left');
-        } else if (position === 'right') {
-            element.addClass('timeline_element_right');
-        }
-
-        if (!SELF._options.animation) {
-            element.addClass('animated');
-        }
-
-        var element_box = $('<div>').addClass('timeline_element_box').appendTo(element);
-
-        // title DIV
-        if (element_data.title !== null) {
-            var title = $('<div>').addClass('timeline_title').html('<span class="timeline_title_label">' +  element_data.title + '</span><span class="timeline_title_date">' + SELF._getDateString(element_data.date, element_data.dateFormat) + '</span>').appendTo(element_box);
-        } else {
-            element.addClass('notitle');
-        }
-
-        switch (element_data.type) {
-            case 'iframe':
-                // content DIV
-                var content  = $('<div>').addClass('content loading').height(element_data.height).appendTo(element_box);
-
-                SELF._iframe_queue.push({
-                    element: content,
-                    url:     element_data.url
-                });
-
-                break;
-            case 'blog_post':
-                // image
-                if (element_data.image !== null) {
-                    var img_container = $('<div>').addClass('img_container')
-                        .append($('<img>').attr('src', element_data.image))
-                        .appendTo(element_box);
-
-                    if (SELF._options.lightbox) {
-                        img_container.append($('<div>').addClass('img_overlay').html('<span class="magnifier" data-type="blog_post" data-img="' + element_data.image + '"></span>'));
-                    }
-                }
-
-                // content DIV
-                if (element_data.content !== null) {
-                    $('<div>').addClass('content').html(element_data.content).appendTo(element_box);
-                }
-
-                if (element_data.readmore !== null) {
-                    $('<div>').addClass('readmore').html('<a href="' + element_data.readmore + '">' + SELF._readmore_text + '</a>').appendTo(element_box);
-                }
-
-                break;
-            case 'gallery':
-                // mini gallery
-                if (element_data.images.length) {
-                    var scroll_container = $('<div>').addClass('scroll_container').appendTo(element_box);
-
-                    var image_html = '';
-                    var _loaded = 0;
-                    var _total = element_data.images.length;
-                    $(element_data.images).each(function(index, image_src) {
-                        image_html += '<div class="img_container"><img height="' + element_data.height + '" src="' + image_src + '" />';
-                        if (SELF._options.lightbox) {
-                            image_html += '<div class="img_overlay"><span class="magnifier" data-total="' + element_data.images.length + '" data-order="' + index + '" data-type="gallery" data-img="' + image_src + '"></span></div>';
-                        }
-                        image_html += '</div>';
-                    });
-
-                    scroll_container.html(image_html);
-                }
-
-                break;
-            case 'slider':
-                var html = '';
-                $(element_data.images).each(function(index, image_src) {
-                    html += '<div data-total="' + element_data.images.length + '" data-order="' + index + '" class="img_container' + (index === 0 ? ' active' : '') + '" style="display:' + (index === 0 ? 'block' : 'none') + ';"><img src="' + image_src + '" />';
-                    if (SELF._options.lightbox) {
-                        html += '<div class="img_overlay"><span class="magnifier" data-total="' + element_data.images.length + '" data-order="' + index + '" data-type="slider" data-img="' + image_src + '"></span></div>';
-                    }
-                    html += '</div>';
-                });
-
-                if (element_data.images.length > 1) {
-                    html += '<span class="slider_prev"></span><span class="slider_next"></span>';
-                }
-
-                $('<div>').addClass('content').height(element_data.height).html(html).appendTo(element_box);
-
-                if (element_data.images.length > 1) {
-                    element.data('speed', element_data.speed);
-                    setTimeout(function() {
-                        SELF._updateSlider(element, 'next');
-                    }, element_data.speed);
-                }
-
-                break;
-        }
-
-        element.appendTo(SELF._container);
-
-        // cache element in the array
-        SELF._elements.push(element);
-
-        return element;
-    };
-
-    // create a year separator
-    this._createSeparator = function(time) {
-        var separator = $('<div>').addClass('date_separator').attr('id', 'timeline_date_separator_' + time).html('<span>' + time + '</span>').appendTo(SELF._container);
-        if (!SELF._options.animation) {
-            separator.addClass('animated');
-        }
-        SELF._separators.push(separator);
-    };
-
-    // create DOM from JSON
-    this._render = function(timeline_data, is_append) {
-        var is_odd = true;
-
-        $(timeline_data).each(function(index, data) {
-            if (SELF._options.max !== null && SELF._options.max <= index) {
-                return false;
-            }
-
-            if (is_append && index === 0) {
-                var last_element = SELF._container.children(':last');
-                if (last_element.length && last_element.hasClass('timeline_element_left')) {
-                    is_odd = false;
-                }
-            }
-
-            var year  = parseInt(data.date.split('-')[0], 10);
-            var month = parseInt(data.date.split('-')[1], 10);
-
-            //add wangning
-            var day = parseInt(data.date.split('-')[2], 10);
-
-            if (month < 10) {
-                month = '0' + month;
-            }
-
-            month = year + '-' + month;
-
-            day =  month + '-' + day;
-
-            var start_new = false;
-
-            if ($.inArray(year, SELF._years) === -1 && (SELF._options.separator === 'year' || SELF._options.separator === null)) {
-                start_new = true;
-                SELF._years.push(year);
-            }
-
-            if ($.inArray(month, SELF._months) === -1 && (SELF._options.separator === 'month' || SELF._options.separator === 'month_year')) {
-                start_new = true;
-                SELF._months.push(month);
-            }
-
-            //add wangning
-
-            if ($.inArray(day, SELF._days) === -1 && (SELF._options.separator === 'day')) {
-                start_new = true;
-                SELF._days.push(day);
-            }
-
-            if (start_new) {
-                if (SELF._options.separator === 'year') {
-                    if (SELF._years.length > 1 || SELF._options.first_separator) {
-                        SELF._createSeparator(year);
-                    }
-                } else if (SELF._options.separator === 'month' || SELF._options.separator === 'month_year') {
-                    if (SELF._months.length > 1 || SELF._options.first_separator) {
-                        var month_display = SELF._month_translation[parseInt(month.split('-')[1], 10) - 1];
-
-                        if (SELF._options.separator === 'month_year') {
-                            month_display = month_display + ' ' + year;
-                        }
-
-                        SELF._createSeparator(month_display);
-                    }
-                } else if(SELF._options.separator === 'day'){
-                	if (SELF._days.length > 1 || SELF._options.first_separator) {
-                		var month_display = SELF._month_translation[parseInt(month.split('-')[1], 10) - 1];
-                		var day_display = year + '年 ' + month_display + ' ' + parseInt(day.split('-')[2], 10) + '日';
-                        SELF._createSeparator(day_display);
-                    }
-                }
-
-                if (SELF._options.separator) {
-                    is_odd = true;
-                }
-            }
-
-            if (SELF._options.columnMode === 'dual') {
-                SELF._createElement(data, is_odd ? 'left' : 'right');
-            } else {
-                SELF._createElement(data);
-            }
-
-            is_odd = is_odd ? false : true;
-        });
-    };
-
-    this._updateSlider = function(timeline_element, direction) {
-        if (timeline_element.data('timeout_id')) {
-            clearTimeout(timeline_element.data('timeout_id'));
-        }
-
-        if (!this._options.lightbox || !SELF._overlay.hasClass('open')) {
-            var current_image = timeline_element.find('.img_container.active').removeClass('active');
-
-            if (direction === 'next') {
-                if (current_image.data('order') === current_image.data('total') - 1) {
-                    var next_image = timeline_element.find('.img_container:first').addClass('active');
-                } else {
-                    var next_image = current_image.next().addClass('active');
-                }
-            } else {
-                if (current_image.data('order') === 0) {
-                    var next_image = timeline_element.find('.img_container:last').addClass('active');
-                } else {
-                    var next_image = current_image.prev().addClass('active');
-                }
-            }
-
-            current_image.fadeOut();
-            next_image.fadeIn();
-        }
-
-        var timeout_id = setTimeout(function() {
-            SELF._updateSlider(timeline_element, direction);
-        }, timeline_element.data('speed'));
-
-        timeline_element.data('timeout_id', timeout_id);
-    };
-
-    // start animation on page load
-    this._startAnimation = function(callback) {
-        $(window).width(); // force page reflow
-
-        if (SELF._use_css3) {
-            SELF._spine.addClass('animated');
-        } else {
-            SELF._spine.animate({bottom:'0%'}, 500, function() {
-                SELF._spine.addClass('animated');
-            });
-        }
-
-        if (SELF._options.separator === 'year' || SELF._options.separator === 'month' || SELF._options.separator === 'month_year' || SELF._options.separator === 'day' ) {
-            setTimeout(function() {
-                // separator
-                $(SELF._separators).each(function(index, separator) {
-                    if (SELF._use_css3) {
-                        separator.addClass('animated');
-                    } else {
-                        separator.children('span').animate({opacity:1, top:'50%'}, 300, function() {
-                            separator.addClass('animated');
-                        });
-                    }
-                });
-            }, 500);
-        }
-
-        // timeline element
-        var count = 0;
-        $(SELF._elements).each(function(index, element) {
-            if (!element.hasClass('animated')) {
-                count++;
-
-                setTimeout(function(count) {
-                    if (SELF._use_css3) {
-                        element.addClass('animated');
-                    } else {
-                        element.hide().addClass('animated').fadeIn();
-                    }
-
-                    if (index === SELF._elements.length - 1) {
-                        setTimeout(callback, 200);
-                    }
-
-                }, (SELF._options.separator === 'year' || SELF._options.separator === 'month' || SELF._options.separator === 'month_year' ? 1000 : 500) + count * 100);
-            }
-        });
-
-        return true;
-    };
-
-    // convert 2013-12-19 to 19 Dec 2013
-    this._getDateString = function(string, format) {
-        // validations
-        var string_array = string.split('-');
-        if (string_array.length >= 3) {
-            var year  = string_array[0];
-            var month = string_array[1];
-            var day   = string_array[2];
-        } else if (string_array.length === 2) {
-            var year  = string_array[0];
-            var month = string_array[1];
-            var day   = '01';
-        } else if (string_array.length === 1) {
-            var year  = string_array[0];
-            var month = '01';
-            var day   = '01';
-        }
-
-        var date_string = year + '-' + month + '-' + day;
-
-        return moment(date_string).format(format);
-    };
-
-    this._loadMore = function() {
-        if (SELF._loadmore.hasClass('loading')) {
-            return;
-        }
-
-        SELF._loadmore.addClass('loading');
-
+      if (!self.options.delay || !self.options.delay.show) {
+        self.show()
+      } else {
+        self.hoverState = 'in'
         setTimeout(function() {
-            SELF._loadmore.removeClass('loading');
+          if (self.hoverState == 'in') {
+            self.show()
+          }
+        }, self.options.delay.show)
+      }
+    }
 
-            if (SELF._original_data.length <= SELF._options.loadmore) {
-                var new_data = SELF._original_data;
-                SELF._original_data = [];
+  , leave: function ( e ) {
+      var self = $(e.currentTarget)[this.type](this._options).data(this.type)
 
-                SELF._loadmore.remove();
-            } else {
-                var new_data = SELF._original_data.slice(0, SELF._options.loadmore);
-                SELF._original_data.splice(0, SELF._options.loadmore);
-            }
-
-            SELF.appendData(new_data);
-        }, 1000);
-    };
-
-    // sort data in desc or asc order
-    this._sortData = function(timeline_data) {
-        if (timeline_data) {
-            // sort data by date
-            timeline_data.sort(function(a, b) {
-                if (SELF._options.order === 'desc') {
-                    return parseInt(b.date.replace(/-/g, ''), 10) - parseInt(a.date.replace(/-/g, ''), 10);
-                } else {
-                    return parseInt(a.date.replace(/-/g, ''), 10) - parseInt(b.date.replace(/-/g, ''), 10);
-                }
-            });
-        }
-
-        return timeline_data;
-    };
-
-    // display timeline
-    this._display = function() {
-        if (SELF._options.responsive_width) {
-            $(window).on('resize', SELF._windowResize);
-        }
-
-        if ($(document).data('timeline_events_binded') !== true) {
-            $(document)
-                .data('timeline_events_binded', true)
-                .click(SELF._handleClick)
-                .keydown(SELF._handleKeyDown);
-        }
-
-        if (SELF._options.lightbox) {
-            SELF._overlay = $('.timeline_overlay');
-            if (SELF._overlay.length) {
-                SELF._lightbox = SELF._overlay.children('.lightbox');
-            } else {
-                // lightbox
-                SELF._overlay  = $('<div>').addClass('timeline_overlay');
-                SELF._lightbox = $('<div>').addClass('lightbox').html('<span class="prev"></span><span class="next"></span><a class="close" href="#"></a>').appendTo(SELF._overlay);
-                SELF._overlay.appendTo(BODY);
-            }
-        }
-
-        // build container
-        SELF._container = $('<div>').addClass('timeline timeline_' + SELF._options.columnMode);
-
-        if (!$.support.opacity) {
-            SELF._container.addClass('opacityFilter');
-        }
-
-        if (!SELF._use_css3) {
-            SELF._container.addClass('noneCSS3');
-        }
-
-        if (SELF._options.responsive_width) {
-            $(window).resize();
-        }
-
-        // spine
-        SELF._spine = $('<div>').addClass('spine').appendTo(SELF._container);
-        if (!SELF._options.animation) {
-            SELF._spine.addClass('animated');
-        }
-
-        // render: create DOM
-        SELF._render(SELF._data);
-
-        SELF._container.data('loaded', true).appendTo(element);
-
-        // load more
-        if (SELF._options.loadmore && SELF._options.max && data.length && data.length > this._options.max) {
-            SELF._loadmore = $('<div>').addClass('timeline_loadmore').text(thisl_loadmore_text).appendTo(element);
-        }
-
-        if (SELF._options.animation) {
-            setTimeout(function() {
-                SELF._startAnimation(SELF._processIframeQueue);
-            }, 200);  // fix animation cannot be fully seen from the very beginning
-        } else {
-            SELF._processIframeQueue();
-        }
-
-        return true;
-    };
-
-    this._makeResponsive = function(responsive) {
-        if (responsive) {
-            if (!this._responsive) {
-                this._responsive = true;
-                SELF._container.removeClass('timeline_left timeline_right timeline_dual');
-                SELF._container.addClass('timeline_center');
-            }
-        } else {
-            if (this._responsive) {
-                this._responsive = false;
-                SELF._container.removeClass('timeline_center');
-                SELF._container.addClass('timeline_' + SELF._options.columnMode);
-            }
-        }
-    };
-
-    /*
-    |-------------------|
-    |     LIGHTBOX      |
-    |-------------------|
-    */
-
-    // open image in a lighbox
-    this._openLightBox = function(magnifier, image_url) {
-        magnifier.parent().addClass('loading');
-
-        if (magnifier.data('type') === 'gallery' || magnifier.data('type') === 'slider') {
-            SELF._lightbox.children('span').show();
-            SELF._lightbox.data('magnifier', magnifier);
-            SELF._toggleLightBoxControl(parseInt(magnifier.data('total'), 10), parseInt(magnifier.data('order'), 10));
-        } else {
-            SELF._lightbox.children('span').hide();
-        }
-
+      if (!self.options.delay || !self.options.delay.hide) {
+        self.hide()
+      } else {
+        self.hoverState = 'out'
         setTimeout(function() {
-            var _addImage = function() {
-                magnifier.parent().removeClass('loading');
-                SELF._overlay.addClass('open');
-                $('<img>').attr('src', image_url).appendTo(SELF._lightbox);
+          if (self.hoverState == 'out') {
+            self.hide()
+          }
+        }, self.options.delay.hide)
+      }
+    }
 
-                var lightbox_size = SELF._getLightboxSize(image.width, image.height);
+  , show: function () {
+      var $tip
+        , inside
+        , pos
+        , actualWidth
+        , actualHeight
+        , placement
+        , tp
 
-                var _css = {
-                    width:   lightbox_size.width,
-                    height:  lightbox_size.height,
-                    margin:  '-' + (lightbox_size.height / 2) + 'px 0px 0px -' + lightbox_size.width / 2 + 'px'
-                };
+      if (this.hasContent() && this.enabled) {
+        $tip = this.tip()
+        this.setContent()
 
-                if (SELF._use_css3) {
-                    SELF._lightbox.addClass('loaded').css(_css);
-                } else {
-                    SELF._lightbox.css(_css).animate({
-                        top:     '50%',
-                        opacity: 1
-                    }, 300, function() {
-                        SELF._lightbox.addClass('loaded')
-                    });
-                }
-            }
-
-            var image = new Image();
-            image.onload = _addImage;
-            image.src = image_url;
-        }, 1000);
-
-        return image_url;
-    };
-
-    // close lightbox
-    this._closeLightBox = function(e) {
-        if (SELF._use_css3) {
-            SELF._lightbox.removeClass('loaded');
-        } else {
-            SELF._lightbox.animate({top:0, opacity:0}, 300, function() {
-                SELF._lightbox.removeClass('loaded');
-            });
+        if (this.options.animation) {
+          $tip.addClass('fade')
         }
 
-        setTimeout(function() {
-            SELF._overlay.removeClass('open');
-            SELF._lightbox.removeAttr('style').children('img').remove();
-        }, 300);
-    };
+        placement = typeof this.options.placement == 'function' ?
+          this.options.placement.call(this, $tip[0], this.$element[0]) :
+          this.options.placement
 
-    // get lightbox size (max: 90% of window size)
-    this._getLightboxSize = function(width, height) {
-        var max_width  = $(window).width() * 0.9;
-        var max_height = $(window).height() * 0.9;
+        inside = /in/.test(placement)
 
-        var new_width  = width;
-        var new_height = height;
+        $tip
+          .remove()
+          .css({ top: 0, left: 0, display: 'block' })
+          .appendTo(inside ? this.$element : document.body)
 
-        if (width > max_width || height > max_height) {
-            var ratio = width / height;
+        pos = this.getPosition(inside)
 
-            if (width > max_width && height <= max_height) {
-                var new_width  = max_width;
-                var new_height = height / (width / new_width);
-            } else if (height > max_height && width <= max_width) {
-                var new_height = max_height;
-                var new_width  = width / (height / new_height);
-            } else {
-                var new_width  = max_width;
-                var new_height = height / (width / new_width);
+        actualWidth = $tip[0].offsetWidth
+        actualHeight = $tip[0].offsetHeight
 
-                if (new_height > max_height) {
-                    var new_height = max_height;
-                    var new_width  = width / (height / new_height);
-                }
-            }
+        switch (inside ? placement.split(' ')[1] : placement) {
+          case 'bottom':
+            tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2}
+            break
+          case 'top':
+            tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2}
+            break
+          case 'left':
+            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth}
+            break
+          case 'right':
+            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width}
+            break
         }
 
-        return {width:new_width, height:new_height};
-    };
+        $tip
+          .css(tp)
+          .addClass(placement)
+          .addClass('in')
+      }
+    }
 
-    // navigate to next/previous image
-    this._navLightBox = function(element, direction) {
-        if (direction === 'next') {
-            var next_magnifier = SELF._lightbox.data('magnifier').parents('.img_container:first').next().find('span.magnifier');
-        } else {
-            var next_magnifier = SELF._lightbox.data('magnifier').parents('.img_container:first').prev().find('span.magnifier');
-        }
+  , setContent: function () {
+      var $tip = this.tip()
+      $tip.find('.timeline-tooltip-inner').html(this.getTitle())
+      $tip.removeClass('fade in top bottom left right')
+    }
 
-        var image_url = next_magnifier.data('img');
+  , hide: function () {
+      var that = this
+        , $tip = this.tip()
 
-        var _updateImage = function() {
-            SELF._lightbox.data('magnifier', next_magnifier).addClass('updating');
+      $tip.removeClass('in')
 
-            SELF._lightbox.children('img').attr('src', image_url)
-            var lightbox_size = SELF._getLightboxSize(image.width, image.height);
+      function removeWithAnimation() {
+        var timeout = setTimeout(function () {
+          $tip.off($.support.transition.end).remove()
+        }, 500)
 
-            var _css = {
-                width:   lightbox_size.width,
-                height:  lightbox_size.height,
-                margin:  '-' + (lightbox_size.height / 2) + 'px 0px 0px -' + lightbox_size.width / 2 + 'px'
-            };
+        $tip.one($.support.transition.end, function () {
+          clearTimeout(timeout)
+          $tip.remove()
+        })
+      }
 
-            if (SELF._use_css3) {
-                SELF._lightbox.css(_css);
-            } else {
-                SELF._lightbox.animate(_css, 500);
-            }
+      $.support.transition && this.$tip.hasClass('fade') ?
+        removeWithAnimation() :
+        $tip.remove()
+    }
 
-            SELF._toggleLightBoxControl(parseInt(next_magnifier.data('total'), 10), parseInt(next_magnifier.data('order'), 10));
+  , fixTitle: function () {
+      var $e = this.$element
+      if ($e.attr('title') || typeof($e.attr('data-original-title')) != 'string') {
+        $e.attr('data-original-title', $e.attr('title') || '').removeAttr('title')
+      }
+    }
 
-            setTimeout(function() {
-                SELF._lightbox.removeClass('updating');
-            }, 500);
-        }
+  , hasContent: function () {
+      return this.getTitle()
+    }
 
-        var image = new Image();
-        image.onload = _updateImage;
-        image.src = image_url;
-    };
+  , getPosition: function (inside) {
+      return $.extend({}, (inside ? {top: 0, left: 0} : this.$element.offset()), {
+        width: this.$element[0].offsetWidth
+      , height: this.$element[0].offsetHeight
+      })
+    }
 
-    this._toggleLightBoxControl = function(total, order) {
-        if (total <= 1) {
-            SELF._lightbox.children('span').hide();
-        } else {
-            if (order === 0) {
-                SELF._lightbox.children('span.prev').hide();
-            } else {
-                SELF._lightbox.children('span.prev').show();
-            }
+  , getTitle: function () {
+      var title
+        , $e = this.$element
+        , o = this.options
 
-            if (order === total - 1) {
-                SELF._lightbox.children('span.next').hide();
-            } else {
-                SELF._lightbox.children('span.next').show();
-            }
-        }
-    };
+      title = $e.attr('data-original-title')
+        || (typeof o.title == 'function' ? o.title.call($e[0]) :  o.title)
 
-    /*
-    |-------------------|
-    |      PROCESS      |
-    |-------------------|
-    */
+      title = title.toString().replace(/(^\s*|\s*$)/, "")
 
-    this._processIframeQueue = function() {
-        $(SELF._iframe_queue).each(function(index, queue) {
-            queue.element.removeClass('loading').html('<iframe frameborder="0" src="' + queue.url + '"></iframe>');
-        });
-    };
+      return title
+    }
 
-    /*
-    |-------------------|
-    |      EVENTS       |
-    |-------------------|
-    */
+  , tip: function () {
+      return this.$tip = this.$tip || $(this.options.template)
+    }
 
-    this._windowResize = function(e) {
-        if ($(window).width() < SELF._options.responsive_width) {
-            SELF._makeResponsive(true);
-        } else {
-            SELF._makeResponsive(false);
-        }
-    };
+  , validate: function () {
+      if (!this.$element[0].parentNode) {
+        this.hide()
+        this.$element = null
+        this.options = null
+      }
+    }
 
-    this._handleClick = function(e) {
-        var element = $(e.target);
+  , enable: function () {
+      this.enabled = true
+    }
 
-        if (element.hasClass('timeline_overlay')) {
-            SELF._closeLightBox(e);
-        } else if (element.hasClass('magnifier')) {
-            SELF._openLightBox(element, element.data('img'));
-        } else if (element.hasClass('close')) {
-            e.preventDefault();
-            SELF._closeLightBox(e);
-        } else if (element.hasClass('prev')) {
-            SELF._navLightBox(element, 'prev');
-        } else if (element.hasClass('next')) {
-            SELF._navLightBox(element, 'next');
-        } else if (element.hasClass('slider_prev')) {
-            SELF._updateSlider(element.parents('.timeline_element:first'), 'prev');
-        } else if (element.hasClass('slider_next')) {
-            SELF._updateSlider(element.parents('.timeline_element:first'), 'next');
-        } else if (element.hasClass('timeline_loadmore')) {
-            SELF._loadMore();
-        }
+  , disable: function () {
+      this.enabled = false
+    }
 
-        return true;
-    };
+  , toggleEnabled: function () {
+      this.enabled = !this.enabled
+    }
 
-    this._handleKeyDown = function(e) {
-        switch (parseInt(e.which, 10)) {
-            case 27:   // ESC
-                if (SELF._overlay.hasClass('open')) {
-                    SELF._closeLightBox(e);
-                }
-                break;
-            case 37:   // LEFT
-                if (SELF._lightbox.hasClass('loaded') && SELF._lightbox.children('span.prev').is(':visible')) {
-                    SELF._lightbox.children('span.prev').click();
-                    return false;
-                }
-                break;
-            case 39:   // RIGHT
-                if (SELF._lightbox.hasClass('loaded') && SELF._lightbox.children('span.next').is(':visible')) {
-                    SELF._lightbox.children('span.next').click();
-                    return false;
-                }
+  , toggle: function () {
+      this[this.tip().hasClass('in') ? 'hide' : 'show']()
+    }
 
-                break;
-        }
-    };
-
-    /*
-    |-------------------|
-    |     Facebook      |
-    |-------------------|
-    */
-
-    this._loadFacebook = function(callback) {
-        var api_url    = '/' + SELF._options.facebookPageId + '/feed';
-        var api_option = {'access_token':SELF._options.facebookAccessToken};
-
-        var facebook_posts = [];
-
-        var picture_in_loading = 0;
-
-        var _done = function() {
-            SELF._original_data = facebook_posts;
-
-            if (callback !== undefined) {
-                callback();
-            }
-
-            if (SELF._options.onSearchSuccess) {
-                SELF._options.onSearchSuccess(facebook_posts);
-            }
-        };
-
-        var _initContent = function(facebook_data) {
-            var content = '<div class="facebook_type_' + facebook_data.type + '">' +
-                              '<div class="facebook_left_column"><img class="facebook_profile" src="https://graph.facebook.com/' + facebook_data.from.id + '/picture?type=square" /></div>' +
-                              '<div class="facebook_right_column">';
-
-            if (facebook_data.message) {
-                content +=        '<div class="facebook_content">' + facebook_data.message.substr(0, 300).parseURL() + '</div>';
-            }
-
-            content +=        '</div>' +
-                          '<div style="clear:both;"></div>';
-
-            return content;
-        };
-
-        var _pushData = function(facebook_data, content) {
-            var date = facebook_data.updated_time.split('-');
-            var year  = date[0];
-            var month = date[1];
-            var day   = date[2].substr(0, 2);
-
-            facebook_posts.push({
-                type:     'blog_post',
-                date:     year + '-' + month + '-' + day,
-                title:    facebook_data.from.name,
-                content:  content
-            });
-        };
-
-        FB.api(api_url, api_option, function(response) {
-            if (!response || ! response.data || !response.data.length) {
-                if (SELF._options.onSearchError) {
-                    SELF._options.onSearchError(response);
-                }
-
-                // no data
-                return;
-            }
-
-            // Get Timeline data via Facebook API
-            $(response.data).each(function(index, facebook_data) {
-                if (facebook_data.from.id) {
-                    if (facebook_data.type === 'photo') {
-                        picture_in_loading++;
-                        FB.api('/' + facebook_data.object_id, api_option, function(response) {
-                            var content = _initContent(facebook_data);
-
-                            if (response.source) {
-                                content += '<div class="facebook_post">' +
-                                               '<a href="' + facebook_data.link + '" style="display:inline;"><img class="facebook_picture" align="left" src="' + response.source +  '" /></a>' +
-                                           '</div>';
-                            }
-
-                            content += '</div>';
-
-                            _pushData(facebook_data, content);
-
-                            picture_in_loading--;
-
-                            if (picture_in_loading === 0) {
-                                _done();
-                            }
-                        });
-                    } else if (facebook_data.message) {
-                        var content = _initContent(facebook_data);
-
-                        if (facebook_data.picture) {
-                            content += '<div class="facebook_post">' +
-                                           '<a href="' + facebook_data.link + '" style="display:inline;"><img class="facebook_picture" align="left" src="' + facebook_data.picture +  '" /></a>' +
-                                           '<div class="description_container">' +
-                                               (facebook_data.name ? '<a href="' + facebook_data.link + '">' + facebook_data.name + '</a>' : '') +
-                                               (facebook_data.caption ? '<div class="facebook_caption">' + facebook_data.caption + '</div>' : '') +
-                                               (facebook_data.description ? '<div class="facebook_description">' + facebook_data.description + '</div>' : '') +
-                                           '</div>' +
-                                       '</div>';
-                        }
-
-                        content += '</div>';
-
-                        _pushData(facebook_data, content);
-                    }
-                }
-            });
-
-            if (picture_in_loading === 0) {
-                _done();
-            }
-        });
-    };
-
-    /*
-    |-------------------|
-    |     Twitter       |
-    |-------------------|
-    */
-    this._loadTwitter = function(callback) {
-        $.getJSON('http://api.melonhtml5.com/?action=twittersearch&q=' + SELF._options.twitterSearchKey + '&callback=?', function(response) {
-            var twitter_data = [];
-
-            if (!response.statuses.length) {
-                if (SELF._options.onSearchError) {
-                    SELF._options.onSearchError(response);
-                }
-                return;
-            }
-
-            $(response.statuses).each(function(index, tweet_data) {
-                var months = [];
-                months['Jan'] = '01'; months['Feb'] = '02'; months['Mar'] = '03';
-                months['Apr'] = '04'; months['May'] = '05'; months['Jun'] = '06';
-                months['Jul'] = '07'; months['Aug'] = '08'; months['Sep'] = '09';
-                months['Oct'] = '10'; months['Nov'] = '11'; months['Dec'] = '12';
-
-                var date = tweet_data.created_at.split(' ');
-                var year  = date[5];
-                var month = months[date[1]];
-                var day   = date[2];
-
-                twitter_data.push({
-                    type:     'blog_post',
-                    date:     year + '-' + month + '-' + day,
-                    title:    '<a href="http://www.twitter.com/' + tweet_data.user.screen_name + '" target="_blank" style="text-decoration:none;color:#AAAAAA;">' + tweet_data.user.screen_name + '</a>',
-                    content:  '<div><img style="margin:0px 5px 5px 0px;" align="left" src="' + tweet_data.user.profile_image_url + '" /></div>' + tweet_data.text.parseURL().parseHashtag()
-                });
-            });
-
-            SELF._original_data = twitter_data;
-
-            if (callback !== undefined) {
-                callback();
-            }
-
-            if (SELF._options.onSearchSuccess) {
-                SELF._options.onSearchSuccess(response);
-            }
-        });
-    };
+  }
 
 
-    /*
-    |-------------------|
-    |        API        |
-    |-------------------|
-    */
+ /* TOOLTIP PLUGIN DEFINITION
+  * ========================= */
 
-    // set options
-    this.setOptions = function(opts) {
-        SELF._options = $.extend(SELF._options, opts);
-        return SELF._options;
-    };
+  $.fn.tooltip = function ( option ) {
+    return this.each(function () {
+      var $this = $(this)
+        , data = $this.data('tooltip')
+        , options = typeof option == 'object' && option
+      if (!data) $this.data('tooltip', (data = new Tooltip(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
 
-    // display
-    this.display = function() {
-        var _go = function() {
-            SELF._prepareData();
-            SELF._display();
-        };
+  $.fn.tooltip.Constructor = Tooltip
 
-        if (SELF._original_data && SELF._original_data.length) {
-            _go();
-        } else if (SELF._options.twitterSearchKey) {
-            SELF._loadTwitter(_go);
-        } else if (SELF._options.facebookAccessToken && SELF._options.facebookPageId) {
-            if (FB) {
-                SELF._loadFacebook(_go);
-            }
-        }
-    };
+  $.fn.tooltip.defaults = {
+    animation: true
+  , delay: 0
+  , selector: false
+  , placement: 'top'
+  , trigger: 'hover'
+  , title: ''
+  , template: '<div class="timeline-tooltip"><div class="timeline-tooltip-arrow"></div><div class="timeline-tooltip-inner"></div></div>'
+  }
 
-    // add additional data into an existing timeline
-    this.appendData = function(timeline_data) {
-        var end_date = parseInt(SELF._data[SELF._data.length - 1].date.replace(/-/g, ''), 10);
-        var new_data = [];
+}( window.jQuery );
 
-        if (SELF._options.order === 'desc') {
-            $(timeline_data).each(function(index, data) {
-                if (parseInt(data.date.replace(/-/g, ''), 10) <=  end_date) {
-                    new_data.push(data);
-                }
-            });
-        } else {
-            $(timeline_data).each(function(index, data) {
-                if (parseInt(data.date.replace(/-/g, ''), 10) >=  end_date) {
-                    new_data.push(data);
-                }
-            });
-        }
+/* **********************************************
+     Begin VMM.StoryJS.js
+********************************************** */
 
-        SELF._data = SELF._data.concat(new_data);
+/* VeriteCo StoryJS
+================================================== */
 
-        // render: create DOM
-        SELF._render(new_data, true);
+/*	* CodeKit Import
+	* http://incident57.com/codekit/
+================================================== */
+// @codekit-prepend "Core/VMM.Core.js";
+// @codekit-prepend "Language/VMM.Language.js";
+// @codekit-prepend "Media/VMM.Media.js";
+// @codekit-prepend "Slider/VMM.DragSlider.js";
+// @codekit-prepend "Slider/VMM.Slider.js";
+// @codekit-prepend "Library/AES.js";
+// @codekit-prepend "Library/bootstrap-tooltip.js";
 
-        if (SELF._options.animation) {
-            SELF._startAnimation(SELF._processIframeQueue);
-        } else {
-            SELF._processIframeQueue();
-        }
-    };
+
+if(typeof VMM != 'undefined' && typeof VMM.StoryJS == 'undefined') {
+	
+	VMM.StoryJS = function() {  
+		
+		/* PRIVATE VARS
+		================================================== */
+		
+		/* PUBLIC FUNCTIONS
+		================================================== */
+		this.init = function(d) {
+			
+		};
+		
+	}
+}
+
+
+/* **********************************************
+     Begin VMM.Timeline.js
+********************************************** */
+
+// VMM.Timeline.js
+/*	* CodeKit Import
+	* http://incident57.com/codekit/
+================================================== */
+// @codekit-prepend "Core/VMM.StoryJS.js";
+
+// @codekit-append "VMM.Timeline.TimeNav.js";
+// @codekit-append "VMM.Timeline.DataObj.js";
+
+
+/* Timeline
+================================================== */
+
+if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
+	
+	VMM.Timeline = function(_timeline_id, w, h) {
+		
+		var $timeline,
+			$container,
+			$feature,
+			$feedback,
+			$slider,
+			$navigation,
+			slider,
+			timenav,
+			version		= "2.x",
+			timeline_id	= "#timelinejs",
+			events		= {},
+			data		= {},
+			_dates		= [],
+			config		= {},
+			has_width	= false,
+			has_height	= false,
+			ie7			= false,
+			is_moving	= false;
+		
+
+		if (type.of(_timeline_id) == "string") {
+			if (_timeline_id.match("#")) {
+				timeline_id	= _timeline_id;
+			} else {
+				timeline_id	= "#" + _timeline_id;
+			}
+		} else {
+			timeline_id		= "#timelinejs";
+		}
+		
+		
+		/* CONFIG
+		================================================== */
+		config = {
+			embed:					false,
+			events: {
+				data_ready:			"DATAREADY",
+				messege:			"MESSEGE",
+				headline:			"HEADLINE",
+				slide_change:		"SLIDE_CHANGE",
+				resize:				"resize"
+			},
+			id: 					timeline_id,
+			source:					"nothing",
+			type: 					"timeline",
+			touch:					false,
+			orientation: 			"normal", 
+			maptype: 				"",
+			version: 				"2.x", 
+			preload:				4,
+			current_slide:			0,
+			hash_bookmark:			false,
+			start_at_end: 			false,
+			start_at_slide:			0,
+			start_zoom_adjust:		0,
+			start_page: 			false,
+			api_keys: {
+				google:				"",
+				flickr:				"",
+				twitter:			""
+			},
+			interval: 				10,
+			something: 				0,
+			width: 					960,
+			height: 				540,
+			spacing: 				15,
+			loaded: {
+				slider: 			false, 
+				timenav: 			false, 
+				percentloaded: 		0
+			},
+			nav: {
+				start_page: 		false,
+				interval_width: 	200,
+				density: 			4,
+				minor_width: 		0,
+				minor_left:			0,
+				constraint: {
+					left:			0,
+					right:			0,
+					right_min:		0,
+					right_max:		0
+				},
+				zoom: {
+					adjust:			0
+				},
+				multiplier: {
+					current: 		6,
+					min: 			.1,
+					max: 			50
+				},
+				rows: 				[1, 1, 1],
+				width: 				960,
+				height: 			200,
+				marker: {
+					width: 			150,
+					height: 		50
+				}
+			},
+			feature: {
+				width: 				960,
+				height: 			540
+			},
+			slider: {
+				width: 				720,
+				height: 			400,
+				content: {
+					width: 			720,
+					height: 		400,
+					padding: 		130,
+					padding_default:130
+				},
+				nav: {
+					width: 			100,
+					height: 		200
+				}
+			},
+			ease: 					"easeInOutExpo",
+			duration: 				1000,
+			gmap_key: 				"",
+			language: 				VMM.Language
+		};
+		
+		if ( w != null && w != "") {
+			config.width = w;
+			has_width = true;
+		} 
+
+		if ( h != null && h != "") {
+			config.height = h;
+			has_height = true;
+		}
+		
+		if(window.location.hash) {
+			 var hash					=	window.location.hash.substring(1);
+			 if (!isNaN(hash)) {
+			 	 config.current_slide	=	parseInt(hash);
+			 }
+		}
+		
+		window.onhashchange = function () {
+			var hash					=	window.location.hash.substring(1);
+			if (config.hash_bookmark) {
+				if (is_moving) {
+					goToEvent(parseInt(hash));
+				} else {
+					is_moving = false;
+				}
+			} else {
+				goToEvent(parseInt(hash));
+			}
+		}
+		
+		/* CREATE CONFIG
+		================================================== */
+		function createConfig(conf) {
+			
+			// APPLY SUPPLIED CONFIG TO TIMELINE CONFIG
+			if (typeof embed_config == 'object') {
+				timeline_config = embed_config;
+			}
+			if (typeof timeline_config == 'object') {
+				trace("HAS TIMELINE CONFIG");
+				config = VMM.Util.mergeConfig(config, timeline_config);
+			} else if (typeof conf == 'object') {
+				config = VMM.Util.mergeConfig(config, conf);
+			}
+			
+			if (VMM.Browser.device == "mobile" || VMM.Browser.device == "tablet") {
+				config.touch = true;
+			}
+			
+			config.nav.width			= config.width;
+			config.nav.height			= 200;
+			config.feature.width		= config.width;
+			config.feature.height		= config.height - config.nav.height;
+			config.nav.zoom.adjust		= parseInt(config.start_zoom_adjust, 10);
+			VMM.Timeline.Config			= config;
+			VMM.master_config.Timeline	= VMM.Timeline.Config;
+			this.events					= config.events;
+			
+			if (config.gmap_key != "") {
+				config.api_keys.google = config.gmap_key;
+			}
+			
+			trace("VERSION " + config.version);
+			version = config.version;
+		}
+		
+		/* CREATE TIMELINE STRUCTURE
+		================================================== */
+		function createStructure() {
+			// CREATE DOM STRUCTURE
+			$timeline	= VMM.getElement(timeline_id);
+			VMM.Lib.addClass($timeline, "vco-timeline");
+			VMM.Lib.addClass($timeline, "vco-storyjs");
+			
+			$container	= VMM.appendAndGetElement($timeline, "<div>", "vco-container vco-main");
+			$feature	= VMM.appendAndGetElement($container, "<div>", "vco-feature");
+			$slider		= VMM.appendAndGetElement($feature, "<div>", "vco-slider");
+			$navigation	= VMM.appendAndGetElement($container, "<div>", "vco-navigation");
+			$feedback	= VMM.appendAndGetElement($timeline, "<div>", "vco-feedback", "");
+			
+			
+			if (typeof config.language.right_to_left != 'undefined') {
+				VMM.Lib.addClass($timeline, "vco-right-to-left");
+			}
+			
+			slider		= new VMM.Slider($slider, config);
+			timenav		= new VMM.Timeline.TimeNav($navigation);
+			
+			if (!has_width) {
+				config.width = VMM.Lib.width($timeline);
+			} else {
+				VMM.Lib.width($timeline, config.width);
+			}
+
+			if (!has_height) {
+				config.height = VMM.Lib.height($timeline);
+			} else {
+				VMM.Lib.height($timeline, config.height);
+			}
+			
+			if (config.touch) {
+				VMM.Lib.addClass($timeline, "vco-touch");
+			} else {
+				VMM.Lib.addClass($timeline, "vco-notouch");
+			}
+			
+			
+		}
+		
+		/* ON EVENT
+		================================================== */
+
+		function onDataReady(e, d) {
+			trace("onDataReady");
+			data = d.timeline;
+			
+			if (type.of(data.era) != "array") {
+				data.era = [];
+			}
+			
+			buildDates();
+			
+		};
+		
+		function onDatesProcessed() {
+			build();
+		}
+		
+		function reSize() {
+			
+			updateSize();
+			
+			slider.setSize(config.feature.width, config.feature.height);
+			timenav.setSize(config.width, config.height);
+			if (orientationChange()) {
+				setViewport();
+			}
+			
+		};
+		
+		function onSliderLoaded(e) {
+			config.loaded.slider = true;
+			onComponentLoaded();
+		};
+		
+		function onComponentLoaded(e) {
+			config.loaded.percentloaded = config.loaded.percentloaded + 25;
+			
+			if (config.loaded.slider && config.loaded.timenav) {
+				hideMessege();
+			}
+		}
+		
+		function onTimeNavLoaded(e) {
+			config.loaded.timenav = true;
+			onComponentLoaded();
+		}
+		
+		function onSlideUpdate(e) {
+			is_moving = true;
+			config.current_slide = slider.getCurrentNumber();
+			setHash(config.current_slide);
+			timenav.setMarker(config.current_slide, config.ease,config.duration);
+		};
+		
+		function onMarkerUpdate(e) {
+			is_moving = true;
+			config.current_slide = timenav.getCurrentNumber();
+			setHash(config.current_slide);
+			slider.setSlide(config.current_slide);
+		};
+		
+		function goToEvent(n) {
+			if (n <= _dates.length - 1 && n >= 0) {
+				config.current_slide = n;
+				slider.setSlide(config.current_slide);
+				timenav.setMarker(config.current_slide, config.ease,config.duration);
+			} 
+		}
+		
+		function setHash(n) {
+			if (config.hash_bookmark) {
+				window.location.hash = "#" + n.toString();
+			}
+		}
+		
+		function getViewport() {
+			
+		}
+		
+		function setViewport() {
+			var viewport_content		= "",
+				viewport_orientation	= searchOrientation(window.orientation);
+			
+			if (VMM.Browser.device == "mobile") {
+				if (viewport_orientation == "portrait") {
+					//viewport_content	= "width=device-width; initial-scale=0.75, maximum-scale=0.75";
+					viewport_content	= "width=device-width; initial-scale=0.5, maximum-scale=0.5";
+				} else if (viewport_orientation == "landscape") {
+					viewport_content	= "width=device-width; initial-scale=0.5, maximum-scale=0.5";
+				} else {
+					viewport_content	= "width=device-width, initial-scale=1, maximum-scale=1.0";
+				}
+			} else if (VMM.Browser.device == "tablet") {
+				//viewport_content		= "width=device-width, initial-scale=1, maximum-scale=1.0";
+			}
+			
+			if (document.getElementById("viewport")) {
+				//VMM.Lib.attr("#viewport", "content", viewport_content);
+			} else {
+				//VMM.appendElement("head", "<meta id='viewport' name='viewport' content=" + viewport_content + "/>");
+			}
+
+		}
+		
+		/* ORIENTATION
+		================================================== */
+		function searchOrientation(orientation) {
+			var orient = "";
+			
+			if ( orientation == 0  || orientation == 180) {  
+				orient = "portrait";
+			} else if ( orientation == 90 || orientation == -90) {  
+				orient = "landscape";
+			} else {
+				orient = "normal";
+			}
+			
+			return orient;
+		}
+		
+		function orientationChange() {
+			var orientation	= searchOrientation(window.orientation);
+			
+			if (orientation == config.orientation) {
+				return false;
+			} else {
+				config.orientation = orientation;
+				return true;
+			}
+			
+		}
+		
+		
+		/* PUBLIC FUNCTIONS
+		================================================== */
+		this.init = function(c, _data) {
+			trace('INIT');
+			setViewport();
+			createConfig(c);
+			createStructure();
+			
+			if (type.of(_data) == "string") {
+				config.source	= _data;
+			}
+			
+			// LANGUAGE
+			VMM.Date.setLanguage(config.language);
+			VMM.master_config.language = config.language;
+			
+			// EXTERNAL API
+			VMM.ExternalAPI.setKeys(config.api_keys);
+			VMM.ExternalAPI.googlemaps.setMapType(config.maptype);
+			
+			// EVENTS
+			VMM.bindEvent(global, onDataReady, config.events.data_ready);
+			VMM.bindEvent(global, showMessege, config.events.messege);
+			
+			VMM.fireEvent(global, config.events.messege, config.language.messages.loading_timeline);
+			
+			/* GET DATA
+			================================================== */
+			if (VMM.Browser.browser == "Explorer" || VMM.Browser.browser == "MSIE") {
+			    if (parseInt(VMM.Browser.version, 10) <= 7 && (VMM.Browser.tridentVersion == null || VMM.Browser.tridentVersion < 4)) {
+					ie7 = true;
+				}
+			}
+			
+			if (type.of(config.source) == "string" || type.of(config.source) == "object") {
+				VMM.Timeline.DataObj.getData(config.source);
+			} else {
+				VMM.fireEvent(global, config.events.messege, "No data source provided");
+				//VMM.Timeline.DataObj.getData(VMM.getElement(timeline_id));
+			}
+			
+			
+		};
+		
+		this.iframeLoaded = function() {
+			trace("iframeLoaded");
+		};
+		
+		this.reload = function(_d) {
+			trace("Load new timeline data" + _d);
+			VMM.fireEvent(global, config.events.messege, config.language.messages.loading_timeline);
+			data = {};
+			VMM.Timeline.DataObj.getData(_d);
+			config.current_slide = 0;
+			slider.setSlide(0);
+			timenav.setMarker(0, config.ease,config.duration);
+		};
+		
+		/* DATA 
+		================================================== */
+		function getData(url) {
+			VMM.getJSON(url, function(d) {
+				data = VMM.Timeline.DataObj.getData(d);
+				VMM.fireEvent(global, config.events.data_ready);
+			});
+		};
+		
+		/* MESSEGES 
+		================================================== */
+		function showMessege(e, msg, other) {
+			trace("showMessege " + msg);
+			//VMM.attachElement($timeline, $feedback);
+			if (other) {
+				VMM.attachElement($feedback, msg);
+			} else{
+				VMM.attachElement($feedback, VMM.MediaElement.loadingmessage(msg));
+			}
+		};
+		
+		function hideMessege() {
+			VMM.Lib.animate($feedback, config.duration, config.ease*4, {"opacity": 0}, detachMessege);
+		};
+		
+		function detachMessege() {
+			VMM.Lib.detach($feedback);
+		}
+		
+		/* BUILD DISPLAY
+		================================================== */
+		function build() {
+			
+			// START AT SLIDE
+			if (parseInt(config.start_at_slide) > 0 && config.current_slide == 0) {
+				config.current_slide = parseInt(config.start_at_slide); 
+			}
+			// START AT END
+			if (config.start_at_end && config.current_slide == 0) {
+				config.current_slide = _dates.length - 1;
+			}
+			
+			
+			// IE7
+			if (ie7) {
+				ie7 = true;
+				VMM.fireEvent(global, config.events.messege, "Internet Explorer " + VMM.Browser.version + " is not supported by TimelineJS. Please update your browser to version 8 or higher. If you are using a recent version of Internet Explorer you may need to disable compatibility mode in your browser.");
+			} else {
+				
+				detachMessege();
+				reSize();
+				
+				// EVENT LISTENERS
+				VMM.bindEvent($slider, onSliderLoaded, "LOADED");
+				VMM.bindEvent($navigation, onTimeNavLoaded, "LOADED");
+				VMM.bindEvent($slider, onSlideUpdate, "UPDATE");
+				VMM.bindEvent($navigation, onMarkerUpdate, "UPDATE");
+				
+				// INITIALIZE COMPONENTS
+				slider.init(_dates);
+				timenav.init(_dates, data.era);
+			
+				// RESIZE EVENT LISTENERS
+				VMM.bindEvent(global, reSize, config.events.resize);
+				
+				
+				
+			}
+			
+			
+		};
+		
+		function updateSize() {
+			trace("UPDATE SIZE");
+			config.width = VMM.Lib.width($timeline);
+			config.height = VMM.Lib.height($timeline);
+			
+			config.nav.width = config.width;
+			config.feature.width = config.width;
+			
+			config.feature.height = config.height - config.nav.height - 3;
+			
+			if (VMM.Browser.device == "mobile") {
+				/*
+				if (VMM.Browser.orientation == "portrait") {
+					config.feature.height	= 480;
+					config.height			= 480 + config.nav.height;
+				} else if(VMM.Browser.orientation == "landscape") {
+					config.feature.height	= 320;
+					config.height			= 320 + config.nav.height;
+				} else {
+					config.feature.height = config.height - config.nav.height - 3;
+				}
+				*/
+			}
+			
+			if (config.width < 641) {
+				VMM.Lib.addClass($timeline, "vco-skinny");
+			} else {
+				VMM.Lib.removeClass($timeline, "vco-skinny");
+			}
+			
+		};
+		
+		// BUILD DATE OBJECTS
+		function buildDates() {
+			
+			_dates = [];
+			VMM.fireEvent(global, config.events.messege, "Building Dates");
+			updateSize();
+			
+			for(var i = 0; i < data.date.length; i++) {
+				
+				if (data.date[i].startDate != null && data.date[i].startDate != "") {
+					
+					var _date		= {},
+						do_start	= VMM.Date.parse(data.date[i].startDate, true),
+						do_end;
+						
+					_date.startdate		= do_start.date;
+					_date.precisiondate	= do_start.precision;
+					
+					if (!isNaN(_date.startdate)) {
+						
+					
+						// END DATE
+						if (data.date[i].endDate != null && data.date[i].endDate != "") {
+							_date.enddate = VMM.Date.parse(data.date[i].endDate);
+						} else {
+							_date.enddate = _date.startdate;
+						}
+						
+						_date.needs_slug = false;
+						
+						if (data.date[i].headline == "") {
+							if (data.date[i].slug != null && data.date[i].slug != "") {
+								_date.needs_slug = true;
+							}
+						}
+						
+						_date.title				= data.date[i].headline;
+						_date.headline			= data.date[i].headline;
+						_date.type				= data.date[i].type;
+						_date.date				= VMM.Date.prettyDate(_date.startdate, false, _date.precisiondate);
+						_date.asset				= data.date[i].asset;
+						_date.fulldate			= _date.startdate.getTime();
+						_date.text				= data.date[i].text;
+						_date.content			= "";
+						_date.tag				= data.date[i].tag;
+						_date.slug				= data.date[i].slug;
+						_date.uniqueid			= VMM.Util.unique_ID(7);
+						_date.classname			= data.date[i].classname;
+						
+						
+						_dates.push(_date);
+					} 
+					
+				}
+				
+			};
+			
+			/* CUSTOM SORT
+			================================================== */
+			if (data.type != "storify") {
+				_dates.sort(function(a, b){
+					return a.fulldate - b.fulldate
+				});
+			}
+			
+			/* CREATE START PAGE IF AVAILABLE
+			================================================== */
+			if (data.headline != null && data.headline != "" && data.text != null && data.text != "") {
+
+				var startpage_date,
+					do_start,
+					_date			= {},
+					td_num			= 0,
+					td;
+					
+				if (typeof data.startDate != 'undefined') {
+					do_start		= VMM.Date.parse(data.startDate, true);
+					startpage_date	= do_start.date;
+				} else {
+					startpage_date = false;
+				}
+				trace("HAS STARTPAGE");
+				trace(startpage_date);
+				
+				if (startpage_date && startpage_date < _dates[0].startdate) {
+					_date.startdate = new Date(startpage_date);
+				} else {
+					td = _dates[0].startdate;
+					_date.startdate = new Date(_dates[0].startdate);
+				
+					if (td.getMonth() === 0 && td.getDate() == 1 && td.getHours() === 0 && td.getMinutes() === 0 ) {
+						// trace("YEAR ONLY");
+						_date.startdate.setFullYear(td.getFullYear() - 1);
+					} else if (td.getDate() <= 1 && td.getHours() === 0 && td.getMinutes() === 0) {
+						// trace("YEAR MONTH");
+						_date.startdate.setMonth(td.getMonth() - 1);
+					} else if (td.getHours() === 0 && td.getMinutes() === 0) {
+						// trace("YEAR MONTH DAY");
+						_date.startdate.setDate(td.getDate() - 1);
+					} else  if (td.getMinutes() === 0) {
+						// trace("YEAR MONTH DAY HOUR");
+						_date.startdate.setHours(td.getHours() - 1);
+					} else {
+						// trace("YEAR MONTH DAY HOUR MINUTE");
+						_date.startdate.setMinutes(td.getMinutes() - 1);
+					}
+				}
+				
+				_date.uniqueid		= VMM.Util.unique_ID(7);
+				_date.enddate		= _date.startdate;
+				_date.precisiondate	= do_start.precision;
+				_date.title			= data.headline;
+				_date.headline		= data.headline;
+				_date.text			= data.text;
+				_date.type			= "start";
+				_date.date			= VMM.Date.prettyDate(data.startDate, false, _date.precisiondate);
+				_date.asset			= data.asset;
+				_date.slug			= false;
+				_date.needs_slug	= false;
+				_date.fulldate		= _date.startdate.getTime();
+				
+				if (config.embed) {
+					VMM.fireEvent(global, config.events.headline, _date.headline);
+				}
+				
+				_dates.unshift(_date);
+			}
+			
+			/* CUSTOM SORT
+			================================================== */
+			if (data.type != "storify") {
+				_dates.sort(function(a, b){
+					return a.fulldate - b.fulldate
+				});
+			}
+			
+			onDatesProcessed();
+		}
+		
+	};
+
+	VMM.Timeline.Config = {};
+	
+};
+
+
+/* **********************************************
+     Begin VMM.Timeline.TimeNav.js
+********************************************** */
+
+/* 	VMM.Timeline.TimeNav.js
+    TimeNav
+	This class handles the bottom timeline navigation.
+	It requires the VMM.Util class and VMM.Date class
+================================================== */
+
+if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefined') {
+	
+	VMM.Timeline.TimeNav = function(parent, content_width, content_height) {
+		trace("VMM.Timeline.TimeNav");
+		
+		var $timenav, $content, $time, $timeintervalminor, $timeinterval, $timeintervalmajor, $timebackground, 
+			$timeintervalbackground, $timenavline, $timenavindicator, $timeintervalminor_minor, $toolbar, $zoomin, $zoomout, $dragslide,
+			config					= VMM.Timeline.Config,
+			row_height,
+			events					= {},
+			timespan				= {},
+			layout					= parent,
+			data					= [],
+			era_markers				= [],
+			markers					= [],
+			interval_array			= [],
+			interval_major_array	= [],
+			tags					= [],
+			current_marker			= 0,
+			_active					= false,
+			eras,
+			content,
+			timeouts = {
+				interval_position:	""
+			},
+			timenav_pos = {
+				left:				"",
+				visible: {
+					left:			"",
+					right:			""
+				}
+			},
+			timelookup = {
+				day:			24,
+				month:			12,
+				year:			10,
+				hour:			60,
+				minute:			60,
+				second:			1000,
+				decade:			10,
+				century:		100,
+				millenium:		1000,
+				age:			1000000,
+				epoch:			10000000,
+				era:			100000000,
+				eon:			500000000,
+				week:			4.34812141,
+				days_in_month:	30.4368499,
+				days_in_week:	7,
+				weeks_in_month:	4.34812141,
+				weeks_in_year:	52.177457,
+				days_in_year:	365.242199,
+				hours_in_day:	24
+			},
+			dateFractionBrowser = {
+				day:			86400000,
+				week:			7,
+				month:			30.4166666667,
+				year:			12,
+				hour:			24,
+				minute:			1440,
+				second:			86400,
+				decade:			10,
+				century:		100,
+				millenium:		1000,
+				age:			1000000,
+				epoch:			10000000,
+				era:			100000000,
+				eon:			500000000
+			},
+			interval = {
+				type:			"year",
+				number:			10,
+				first:			1970,
+				last:			2011,
+				multiplier:		100,
+				classname:		"_idd",
+				interval_type:	"interval"
+			},
+			interval_major = {
+				type:			"year",
+				number:			10,
+				first:			1970,
+				last:			2011,
+				multiplier:		100,
+				classname:		"major",
+				interval_type:	"interval major"
+			},
+			interval_macro = {
+				type:			"year",
+				number:			10,
+				first:			1970,
+				last:			2011,
+				multiplier:		100,
+				classname:		"_dd_minor",
+				interval_type:	"interval minor"
+			},
+			interval_calc = {
+				day: {},
+				month: {},
+				year: {},
+				hour: {},
+				minute: {},
+				second: {},
+				decade: {},
+				century: {},
+				millenium: {},
+				week: {},
+				age: {},
+				epoch: {},
+				era: {},
+				eon: {}
+			};
+		
+		
+		/* ADD to Config
+		================================================== */
+		row_height			=	config.nav.marker.height/2;
+		config.nav.rows = {
+			full:				[1, row_height*2, row_height*4],
+			half:				[1, row_height, row_height*2, row_height*3, row_height*4, row_height*5],
+			current:			[]
+		}
+		
+		if (content_width != null && content_width != "") {
+			config.nav.width	= 	content_width;
+		} 
+		if (content_height != null && content_height != "") {
+			config.nav.height	= 	content_height;
+		}
+		
+		/* INIT
+		================================================== */
+		this.init = function(d,e) {
+			trace('VMM.Timeline.TimeNav init');
+			// need to evaluate d
+			// some function to determine type of data and prepare it
+			if(typeof d != 'undefined') {
+				this.setData(d, e);
+			} else {
+				trace("WAITING ON DATA");
+			}
+		};
+		
+		/* GETTERS AND SETTERS
+		================================================== */
+		this.setData = function(d,e) {
+			if(typeof d != 'undefined') {
+				data = {};
+				data = d;
+				eras = e;
+				build();
+			} else{
+				trace("NO DATA");
+			}
+		};
+		
+		this.setSize = function(w, h) {
+			if (w != null) {config.width = w};
+			if (h != null) {config.height = h};
+			if (_active) {
+				reSize();
+			}
+
+			
+		}
+		
+		this.setMarker = function(n, ease, duration, fast) {
+			goToMarker(n, ease, duration);
+		}
+		
+		this.getCurrentNumber = function() {
+			return current_marker;
+		}
+		
+		/* ON EVENT
+		================================================== */
+		
+		function onConfigSet() {
+			trace("onConfigSet");
+		};
+		
+		function reSize(firstrun) {
+			config.nav.constraint.left = (config.width/2);
+			config.nav.constraint.right = config.nav.constraint.right_min - (config.width/2);
+			$dragslide.updateConstraint(config.nav.constraint);
+			
+			VMM.Lib.css($timenavline, "left", Math.round(config.width/2)+2);
+			VMM.Lib.css($timenavindicator, "left", Math.round(config.width/2)-8);
+			goToMarker(config.current_slide, config.ease, config.duration, true, firstrun);
+		};
+		
+		function upDate() {
+			VMM.fireEvent(layout, "UPDATE");
+		}
+		
+		function onZoomIn() {
+			
+			$dragslide.cancelSlide();
+			if (config.nav.multiplier.current > config.nav.multiplier.min) {
+				if (config.nav.multiplier.current <= 1) {
+					config.nav.multiplier.current = config.nav.multiplier.current - .25;
+				} else {
+					if (config.nav.multiplier.current > 5) {
+						if (config.nav.multiplier.current > 16) {
+							config.nav.multiplier.current = Math.round(config.nav.multiplier.current - 10);
+						} else {
+							config.nav.multiplier.current = Math.round(config.nav.multiplier.current - 4);
+						}
+					} else {
+						config.nav.multiplier.current = Math.round(config.nav.multiplier.current - 1);
+					}
+					
+				}
+				if (config.nav.multiplier.current <= 0) {
+					config.nav.multiplier.current = config.nav.multiplier.min;
+				}
+				refreshTimeline();
+			}
+		}
+		
+		function onZoomOut() {
+			$dragslide.cancelSlide();
+			if (config.nav.multiplier.current < config.nav.multiplier.max) {
+				if (config.nav.multiplier.current > 4) {
+					if (config.nav.multiplier.current > 16) {
+						config.nav.multiplier.current = Math.round(config.nav.multiplier.current + 10);
+					} else {
+						config.nav.multiplier.current = Math.round(config.nav.multiplier.current + 4);
+					}
+				} else {
+					config.nav.multiplier.current = Math.round(config.nav.multiplier.current + 1);
+				}
+				
+				if (config.nav.multiplier.current >= config.nav.multiplier.max) {
+					config.nav.multiplier.current = config.nav.multiplier.max;
+				}
+				refreshTimeline();
+			}
+		}
+		
+		function onBackHome(e) {
+			$dragslide.cancelSlide();
+			goToMarker(0);
+			upDate();
+		}
+		
+		function onMouseScroll(e) {
+			var delta		= 0,
+				scroll_to	= 0;
+			if (!e) {
+				e = window.event;
+			}
+			if (e.originalEvent) {
+				e = e.originalEvent;
+			}
+			
+			// Browsers unable to differntiate between up/down and left/right scrolling
+			/*
+			if (e.wheelDelta) {
+				delta = e.wheelDelta/6;
+			} else if (e.detail) {
+				delta = -e.detail*12;
+			}
+			*/
+			
+			// Webkit and browsers able to differntiate between up/down and left/right scrolling
+			if (typeof e.wheelDeltaX != 'undefined' ) {
+				delta = e.wheelDeltaY/6;
+				if (Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)) {
+					delta = e.wheelDeltaX/6;
+				} else {
+					//delta = e.wheelDeltaY/6;
+					delta = 0;
+				}
+			}
+			if (delta) {
+				if (e.preventDefault) {
+					 e.preventDefault();
+				}
+				e.returnValue = false;
+			}
+			// Stop from scrolling too far
+			scroll_to = VMM.Lib.position($timenav).left + delta;
+			
+			if (scroll_to > config.nav.constraint.left) {
+				scroll_to = config.width/2;
+			} else if (scroll_to < config.nav.constraint.right) {
+				scroll_to = config.nav.constraint.right;
+			}
+			
+			//VMM.Lib.stop($timenav);
+			//VMM.Lib.animate($timenav, config.duration/2, "linear", {"left": scroll_to});
+			VMM.Lib.css($timenav, "left", scroll_to);	
+		}
+		
+		function refreshTimeline() {
+			trace("config.nav.multiplier " + config.nav.multiplier.current);
+			positionMarkers(true);
+			positionEras(true);
+			positionInterval($timeinterval, interval_array, true, true);
+			positionInterval($timeintervalmajor, interval_major_array, true);
+			config.nav.constraint.left = (config.width/2);
+			config.nav.constraint.right = config.nav.constraint.right_min - (config.width/2);
+			$dragslide.updateConstraint(config.nav.constraint);
+		};
+		
+		/* MARKER EVENTS
+		================================================== */
+		function onMarkerClick(e) {
+			$dragslide.cancelSlide();
+			goToMarker(e.data.number);
+			upDate();
+		};
+		
+		function onMarkerHover(e) {
+			VMM.Lib.toggleClass(e.data.elem, "zFront");
+		};
+		
+		function goToMarker(n, ease, duration, fast, firstrun) {
+			trace("GO TO MARKER");
+			var _ease		= config.ease,
+				_duration	= config.duration,
+				is_last		= false,
+				is_first	= false;
+			
+			current_marker = 	n;
+			
+			timenav_pos.left			= (config.width/2) - markers[current_marker].pos_left
+			timenav_pos.visible.left	= Math.abs(timenav_pos.left) - 100;
+			timenav_pos.visible.right	= Math.abs(timenav_pos.left) + config.width + 100;
+			
+			if (current_marker == 0) {
+				is_first = true;
+			}
+			if (current_marker +1 == markers.length) {
+				is_last = true
+			}
+			if (ease != null && ease != "") {_ease = ease};
+			if (duration != null && duration != "") {_duration = duration};
+			
+			// set marker style
+			for(var i = 0; i < markers.length; i++) {
+				VMM.Lib.removeClass(markers[i].marker, "active");
+			}
+			
+			if (config.start_page && markers[0].type == "start") {
+				VMM.Lib.visible(markers[0].marker, false);
+				VMM.Lib.addClass(markers[0].marker, "start");
+			}
+			
+			VMM.Lib.addClass(markers[current_marker].marker, "active");
+			
+			// ANIMATE MARKER
+			VMM.Lib.stop($timenav);
+			VMM.Lib.animate($timenav, _duration, _ease, {"left": timenav_pos.left});
+			
+		}
+		
+		/* TOUCH EVENTS
+		================================================== */
+		function onTouchUpdate(e, b) {
+			VMM.Lib.animate($timenav, b.time/2, config.ease, {"left": b.left});
+		};
+		
+		/* CALCULATIONS
+		================================================== */
+		function averageMarkerPositionDistance() {
+			var last_pos	= 0,
+				pos			= 0,
+				pos_dif		= 0,
+				mp_diff		= [],
+				i			= 0;
+			
+			for(i = 0; i < markers.length; i++) {
+				if (data[i].type == "start") {
+					
+				} else {
+					var _pos = positionOnTimeline(interval, markers[i].relative_pos),
+					last_pos = pos;
+					pos = _pos.begin;
+					pos_dif = pos - last_pos;
+					mp_diff.push(pos_dif);
+				}
+			}
+			return VMM.Util.average(mp_diff).mean;
+		}
+		
+		function averageDateDistance() {
+			var last_dd			= 0,
+				dd				= 0,
+				_dd				= "",
+				date_dif		= 0,
+				date_diffs		= [],
+				is_first_date	= true,
+				i				= 0;
+			
+			for(i = 0; i < data.length; i++) {
+				if (data[i].type == "start") {
+					trace("DATA DATE IS START")
+				} else {
+					_dd			= data[i].startdate;
+					last_dd		= dd;
+					dd			= _dd;
+					date_dif	= dd - last_dd;
+					date_diffs.push(date_dif);
+				}
+			}
+			
+			return VMM.Util.average(date_diffs);
+		}
+		
+		function calculateMultiplier() {
+			var temp_multiplier	= config.nav.multiplier.current,
+				i				= 0;
+				
+			for(i = 0; i < temp_multiplier; i++) {
+				if (averageMarkerPositionDistance() < 75) {
+					if (config.nav.multiplier.current > 1) {
+						config.nav.multiplier.current = (config.nav.multiplier.current - 1);
+					}
+				}
+			}
+			
+		}
+		
+		function calculateInterval() {
+			// NEED TO REWRITE ALL OF THIS
+			var _first								= getDateFractions(data[0].startdate),
+				_last								= getDateFractions(data[data.length - 1].enddate);
+			
+			// EON
+			interval_calc.eon.type					=	"eon";
+			interval_calc.eon.first					=	_first.eons;
+			interval_calc.eon.base					=	Math.floor(_first.eons);
+			interval_calc.eon.last					=	_last.eons;
+			interval_calc.eon.number				=	timespan.eons;
+			interval_calc.eon.multiplier		 	=	timelookup.eons;
+			interval_calc.eon.minor					=	timelookup.eons;
+			
+			// ERA
+			interval_calc.era.type					=	"era";
+			interval_calc.era.first					=	_first.eras;
+			interval_calc.era.base					=	Math.floor(_first.eras);
+			interval_calc.era.last					=	_last.eras;
+			interval_calc.era.number				=	timespan.eras;
+			interval_calc.era.multiplier		 	=	timelookup.eras;
+			interval_calc.era.minor					=	timelookup.eras;
+			
+			// EPOCH
+			interval_calc.epoch.type				=	"epoch";
+			interval_calc.epoch.first				=	_first.epochs;
+			interval_calc.epoch.base				=	Math.floor(_first.epochs);
+			interval_calc.epoch.last				=	_last.epochs;
+			interval_calc.epoch.number				=	timespan.epochs;
+			interval_calc.epoch.multiplier		 	=	timelookup.epochs;
+			interval_calc.epoch.minor				=	timelookup.epochs;
+			
+			// AGE
+			interval_calc.age.type					=	"age";
+			interval_calc.age.first					=	_first.ages;
+			interval_calc.age.base					=	Math.floor(_first.ages);
+			interval_calc.age.last					=	_last.ages;
+			interval_calc.age.number				=	timespan.ages;
+			interval_calc.age.multiplier		 	=	timelookup.ages;
+			interval_calc.age.minor					=	timelookup.ages;
+			
+			// MILLENIUM
+			interval_calc.millenium.type 			=	"millenium";
+			interval_calc.millenium.first			=	_first.milleniums;
+			interval_calc.millenium.base			=	Math.floor(_first.milleniums);
+			interval_calc.millenium.last			=	_last.milleniums;
+			interval_calc.millenium.number			=	timespan.milleniums;
+			interval_calc.millenium.multiplier	 	=	timelookup.millenium;
+			interval_calc.millenium.minor			=	timelookup.millenium;
+			
+			// CENTURY
+			interval_calc.century.type 				= "century";
+			interval_calc.century.first 			= _first.centuries;
+			interval_calc.century.base 				= Math.floor(_first.centuries);
+			interval_calc.century.last 				= _last.centuries;
+			interval_calc.century.number 			= timespan.centuries;
+			interval_calc.century.multiplier	 	= timelookup.century;
+			interval_calc.century.minor 			= timelookup.century;
+			
+			// DECADE
+			interval_calc.decade.type 				= "decade";
+			interval_calc.decade.first 				= _first.decades;
+			interval_calc.decade.base 				= Math.floor(_first.decades);
+			interval_calc.decade.last 				= _last.decades;
+			interval_calc.decade.number 			= timespan.decades;
+			interval_calc.decade.multiplier 		= timelookup.decade;
+			interval_calc.decade.minor 				= timelookup.decade;
+			
+			// YEAR
+			interval_calc.year.type					= "year";
+			interval_calc.year.first 				= _first.years;
+			interval_calc.year.base 				= Math.floor(_first.years);
+			interval_calc.year.last					= _last.years;
+			interval_calc.year.number 				= timespan.years;
+			interval_calc.year.multiplier 			= 1;
+			interval_calc.year.minor 				= timelookup.month;
+			
+			// MONTH
+			interval_calc.month.type 				= "month";
+			interval_calc.month.first 				= _first.months;
+			interval_calc.month.base 				= Math.floor(_first.months);
+			interval_calc.month.last 				= _last.months;
+			interval_calc.month.number 				= timespan.months;
+			interval_calc.month.multiplier 			= 1;
+			interval_calc.month.minor 				= Math.round(timelookup.week);
+			
+			// WEEK
+			// NOT DONE
+			interval_calc.week.type 				= "week";
+			interval_calc.week.first 				= _first.weeks;
+			interval_calc.week.base 				= Math.floor(_first.weeks);
+			interval_calc.week.last 				= _last.weeks;
+			interval_calc.week.number 				= timespan.weeks;
+			interval_calc.week.multiplier 			= 1;
+			interval_calc.week.minor 				= 7;
+			
+			// DAY
+			interval_calc.day.type 					= "day";
+			interval_calc.day.first 				= _first.days;
+			interval_calc.day.base	 				= Math.floor(_first.days);
+			interval_calc.day.last 					= _last.days;
+			interval_calc.day.number 				= timespan.days;
+			interval_calc.day.multiplier 			= 1;
+			interval_calc.day.minor 				= 24;
+			
+			// HOUR
+			interval_calc.hour.type 				= "hour";
+			interval_calc.hour.first 				= _first.hours;
+			interval_calc.hour.base 				= Math.floor(_first.hours);
+			interval_calc.hour.last 				= _last.hours;
+			interval_calc.hour.number 				= timespan.hours;
+			interval_calc.hour.multiplier 			= 1;
+			interval_calc.hour.minor 				= 60;
+			
+			// MINUTE
+			interval_calc.minute.type 				= "minute";
+			interval_calc.minute.first 				= _first.minutes;
+			interval_calc.minute.base 				= Math.floor(_first.minutes);
+			interval_calc.minute.last 				= _last.minutes;
+			interval_calc.minute.number 			= timespan.minutes;
+			interval_calc.minute.multiplier 		= 1;
+			interval_calc.minute.minor 				= 60;
+			
+			// SECOND
+			interval_calc.second.type 				= "decade";
+			interval_calc.second.first 				= _first.seconds;
+			interval_calc.second.base 				= Math.floor(_first.seconds);
+			interval_calc.second.last 				= _last.seconds;
+			interval_calc.second.number 			= timespan.seconds;
+			interval_calc.second.multiplier 		= 1;
+			interval_calc.second.minor 				= 10;
+		}
+		
+		function getDateFractions(the_date, is_utc) {
+			
+			var _time = {};
+			_time.days			=		the_date		/	dateFractionBrowser.day;
+			_time.weeks 		=		_time.days		/	dateFractionBrowser.week;
+			_time.months 		=		_time.days		/	dateFractionBrowser.month;
+			_time.years 		=		_time.months 	/	dateFractionBrowser.year;
+			_time.hours 		=		_time.days		*	dateFractionBrowser.hour;
+			_time.minutes 		=		_time.days		*	dateFractionBrowser.minute;
+			_time.seconds 		=		_time.days		*	dateFractionBrowser.second;
+			_time.decades 		=		_time.years		/	dateFractionBrowser.decade;
+			_time.centuries 	=		_time.years		/	dateFractionBrowser.century;
+			_time.milleniums 	=		_time.years		/	dateFractionBrowser.millenium;
+			_time.ages			=		_time.years		/	dateFractionBrowser.age;
+			_time.epochs		=		_time.years		/	dateFractionBrowser.epoch;
+			_time.eras			=		_time.years		/	dateFractionBrowser.era;
+			_time.eons			=		_time.years		/	dateFractionBrowser.eon;
+			
+			/*
+			trace("AGES "		 + 		_time.ages);
+			trace("EPOCHS "		 + 		_time.epochs);
+			trace("MILLENIUMS "  + 		_time.milleniums);
+			trace("CENTURIES "	 + 		_time.centuries);
+			trace("DECADES "	 + 		_time.decades);
+			trace("YEARS "		 + 		_time.years);
+			trace("MONTHS "		 + 		_time.months);
+			trace("WEEKS "		 + 		_time.weeks);
+			trace("DAYS "		 + 		_time.days);
+			trace("HOURS "		 + 		_time.hours);
+			trace("MINUTES "	 + 		_time.minutes);
+			trace("SECONDS "	 + 		_time.seconds);
+			*/
+			return _time;
+		}
+		
+		/*	POSITION
+			Positions elements on the timeline based on date
+			relative to the calculated interval
+		================================================== */
+		function positionRelative(_interval, first, last) {
+			var _first,
+				_last,
+				_type			= _interval.type,
+				timerelative = {
+					start:		"",
+					end:		"",
+					type:		_type
+				};
+			
+			/* FIRST
+			================================================== */
+			_first					= getDateFractions(first);
+			timerelative.start		= first.months;
+			
+			if (_type == "eon") {
+				timerelative.start	= _first.eons;
+			} else if (_type == "era") {
+				timerelative.start	= _first.eras;
+			} else if (_type == "epoch") {
+				timerelative.start	= _first.epochs;
+			} else if (_type == "age") {
+				timerelative.start	= _first.ages;
+			} else if (_type == "millenium") {
+				timerelative.start	= first.milleniums;
+			} else if (_type == "century") {
+				timerelative.start	= _first.centuries;
+			} else if (_type == "decade") {
+				timerelative.start	= _first.decades;
+			} else if (_type == "year") {
+				timerelative.start	= _first.years;
+			} else if (_type == "month") {
+				timerelative.start	= _first.months;
+			} else if (_type == "week") {
+				timerelative.start	= _first.weeks;
+			} else if (_type == "day") {
+				timerelative.start	= _first.days;
+			} else if (_type == "hour") {
+				timerelative.start	= _first.hours;
+			} else if (_type == "minute") {
+				timerelative.start	= _first.minutes;
+			}
+			
+			/* LAST
+			================================================== */
+			if (type.of(last) == "date") {
+				
+				_last					= getDateFractions(last);
+				timerelative.end		= last.months;
+				
+				if (_type == "eon") {
+					timerelative.end	= _last.eons;
+				} else if (_type == "era") {
+					timerelative.end	= _last.eras;
+				} else if (_type == "epoch") {
+					timerelative.end	= _last.epochs;
+				} else if (_type == "age") {
+					timerelative.end	= _last.ages;
+				} else if (_type == "millenium") {
+					timerelative.end	= last.milleniums;
+				} else if (_type == "century") {
+					timerelative.end	= _last.centuries;
+				} else if (_type == "decade") {
+					timerelative.end	= _last.decades;
+				} else if (_type == "year") {
+					timerelative.end	= _last.years;
+				} else if (_type == "month") {
+					timerelative.end	= _last.months;
+				} else if (_type == "week") {
+					timerelative.end	= _last.weeks;
+				} else if (_type == "day") {
+					timerelative.end	= _last.days;
+				} else if (_type == "hour") {
+					timerelative.end	= _last.hours;
+				} else if (_type == "minute") {
+					timerelative.end	= _last.minutes;
+				}
+				
+			} else {
+				
+				timerelative.end		= timerelative.start;
+				
+			}
+			
+			return timerelative
+		}
+		
+		function positionOnTimeline(the_interval, timerelative) {
+			return {
+				begin:	(timerelative.start	-	interval.base) * (config.nav.interval_width / config.nav.multiplier.current), 
+				end:	(timerelative.end	-	interval.base) * (config.nav.interval_width / config.nav.multiplier.current)
+			};
+		}
+		
+		function positionMarkers(is_animated) {
+			
+			var row						= 2,
+				previous_pos			= 0,
+				pos_offset				= -2,
+				row_depth				= 0,
+				row_depth_sub			= 0,
+				line_last_height_pos	= 150,
+				line_height				= 6,
+				cur_mark				= 0,
+				in_view_margin			= config.width,
+				pos_cache_array			= [],
+				pos_cache_max			= 6,
+				in_view = {
+					left:				timenav_pos.visible.left - in_view_margin,
+					right:				timenav_pos.visible.right + in_view_margin
+				},
+				i						= 0,
+				k						= 0;
+				
+			config.nav.minor_width = config.width;
+			
+			VMM.Lib.removeClass(".flag", "row1");
+			VMM.Lib.removeClass(".flag", "row2");
+			VMM.Lib.removeClass(".flag", "row3");
+			
+			for(i = 0; i < markers.length; i++) {
+				
+				var line,
+					marker				= markers[i],
+					pos					= positionOnTimeline(interval, markers[i].relative_pos),
+					row_pos				= 0,
+					is_in_view			= false,
+					pos_cache_obj		= {id: i, pos: 0, row: 0},
+					pos_cache_close		= 0;
+				
+				
+				// COMPENSATE FOR DATES BEING POITIONED IN THE MIDDLE
+				pos.begin				= Math.round(pos.begin +  pos_offset);
+				pos.end					= Math.round(pos.end + pos_offset);
+				line					= Math.round(pos.end - pos.begin);
+				marker.pos_left			= pos.begin;
+				
+				if (current_marker == i) {
+					timenav_pos.left			= (config.width/2) - pos;
+					timenav_pos.visible.left	= Math.abs(timenav_pos.left);
+					timenav_pos.visible.right	= Math.abs(timenav_pos.left) + config.width;
+					in_view.left				= timenav_pos.visible.left - in_view_margin;
+					in_view.right				= timenav_pos.visible.right + in_view_margin;
+				}
+				
+				if (Math.abs(pos.begin) >= in_view.left && Math.abs(pos.begin) <= in_view.right ) {
+					is_in_view = true;
+				}
+				
+				// APPLY POSITION TO MARKER
+				if (is_animated) {
+					VMM.Lib.stop(marker.marker);
+					VMM.Lib.animate(marker.marker, config.duration/2, config.ease, {"left": pos.begin});
+				} else {
+					VMM.Lib.stop(marker.marker);
+					VMM.Lib.css(marker.marker, "left", pos.begin);
+				}
+				
+				if (i == current_marker) {
+					cur_mark = pos.begin;
+				}
+				
+				// EVENT LENGTH LINE
+				if (line > 5) {
+					VMM.Lib.css(marker.lineevent, "height", line_height);
+					VMM.Lib.css(marker.lineevent, "top", line_last_height_pos);
+					if (is_animated) {
+						VMM.Lib.animate(marker.lineevent, config.duration/2, config.ease, {"width": line});
+					} else {
+						VMM.Lib.css(marker.lineevent, "width", line);
+					}
+				}
+				
+				// CONTROL ROW POSITION
+				if (tags.length > 0) {
+					
+					for (k = 0; k < tags.length; k++) {
+						if (k < config.nav.rows.current.length) {
+							if (marker.tag == tags[k]) {
+								row = k;
+								if (k == config.nav.rows.current.length - 1) {
+									trace("ON LAST ROW");
+									VMM.Lib.addClass(marker.flag, "flag-small-last");
+								}
+							}
+						}
+					}
+					row_pos = config.nav.rows.current[row];
+				} else {
+					
+					if (pos.begin - previous_pos.begin < (config.nav.marker.width + config.spacing)) {
+						if (row < config.nav.rows.current.length - 1) {
+							row ++;
+						
+						} else {
+							row = 0;
+							row_depth ++;
+						}
+					} else {
+						row_depth = 1;
+						row = 1;
+					}
+					row_pos = config.nav.rows.current[row];
+					
+				}
+				
+				// SET LAST MARKER POSITION
+				previous_pos = pos;
+				
+				// POSITION CACHE
+				pos_cache_obj.pos = pos;
+				pos_cache_obj.row = row;
+				pos_cache_array.push(pos_cache_obj);
+				if (pos_cache_array.length > pos_cache_max) {
+					VMM.Util.removeRange(pos_cache_array,0);
+				}
+				
+				//if (is_animated && is_in_view) {
+				if (is_animated) {
+					VMM.Lib.stop(marker.flag);
+					VMM.Lib.animate(marker.flag, config.duration, config.ease, {"top": row_pos});
+				} else {
+					VMM.Lib.stop(marker.flag);
+					VMM.Lib.css(marker.flag, "top", row_pos);
+				}
+				
+				// IS THE MARKER A REPRESENTATION OF A START SCREEN?
+				if (config.start_page && markers[i].type == "start") {
+					VMM.Lib.visible(marker.marker, false);
+					
+				}
+				
+				if (pos > config.nav.minor_width) {
+					config.nav.minor_width = pos;
+				}
+				
+				if (pos < config.nav.minor_left) {
+					config.nav.minor_left = pos;
+				}
+				
+			}
+			
+			// ANIMATE THE TIMELINE TO ADJUST TO CHANGES
+			if (is_animated) {
+				VMM.Lib.stop($timenav);
+				VMM.Lib.animate($timenav, config.duration/2, config.ease, {"left": (config.width/2) - (cur_mark)});
+			} else {
+				
+			}
+			
+			//VMM.Lib.delay_animate(config.duration, $timenav, config.duration/2, config.ease, {"left": (config.width/2) - (cur_mark)});
+			
+		
+		}
+		
+		function positionEras(is_animated) {
+			var i	= 0,
+				p	= 0;
+				
+			for(i = 0; i < era_markers.length; i++) {
+				var era			= era_markers[i],
+					pos			= positionOnTimeline(interval, era.relative_pos),
+					row_pos		= 0,
+					row			= 0,
+					era_height	= config.nav.marker.height * config.nav.rows.full.length,
+					era_length	= pos.end - pos.begin;
+					
+				// CONTROL ROW POSITION
+				if (era.tag != "") {
+					era_height = (config.nav.marker.height * config.nav.rows.full.length) / config.nav.rows.current.length;
+					for (p = 0; p < tags.length; p++) {
+						if (p < config.nav.rows.current.length) {
+							if (era.tag == tags[p]) {
+								row = p;
+							}
+						}
+					}
+					row_pos = config.nav.rows.current[row];
+					
+				} else {
+					row_pos = -1;
+				}
+				
+				// APPLY POSITION TO MARKER
+				if (is_animated) {
+					VMM.Lib.stop(era.content);
+					VMM.Lib.stop(era.text_content);
+					VMM.Lib.animate(era.content, config.duration/2, config.ease, {"top": row_pos, "left": pos.begin, "width": era_length, "height":era_height});
+					VMM.Lib.animate(era.text_content, config.duration/2, config.ease, {"left": pos.begin});
+				} else {
+					VMM.Lib.stop(era.content);
+					VMM.Lib.stop(era.text_content);
+					VMM.Lib.css(era.content, "left", pos.begin);
+					VMM.Lib.css(era.content, "width", era_length);
+					VMM.Lib.css(era.content, "height", era_height);
+					VMM.Lib.css(era.content, "top", row_pos);
+					VMM.Lib.css(era.text_content, "left", pos.begin);
+					
+				}
+
+			}
+		}
+		
+		function positionInterval(the_main_element, the_intervals, is_animated, is_minor) {
+			
+			var last_position		= 0,
+				last_position_major	= 0,
+				//in_view_margin		= (config.nav.minor_width/config.nav.multiplier.current)/2,
+				in_view_margin		= config.width,
+				in_view = {
+					left:			timenav_pos.visible.left - in_view_margin,
+					right:			timenav_pos.visible.right + in_view_margin
+				}
+				not_too_many		= true,
+				i					= 0;
+			
+			config.nav.minor_left = 0;
+				
+			if (the_intervals.length > 100) {
+				not_too_many = false;
+				trace("TOO MANY " + the_intervals.length);
+			}
+			
+			
+			for(i = 0; i < the_intervals.length; i++) {
+				var _interval			= the_intervals[i].element,
+					_interval_date		= the_intervals[i].date,
+					_interval_visible	= the_intervals[i].visible,
+					_pos				= positionOnTimeline(interval, the_intervals[i].relative_pos),
+					pos					= _pos.begin,
+					_animation			= the_intervals[i].animation,
+					is_visible			= true,
+					is_in_view			= false,
+					pos_offset			= 50;
+				
+				
+				_animation.pos			= pos;
+				_animation.animate		= false;
+				
+				if (Math.abs(pos) >= in_view.left && Math.abs(pos) <= in_view.right ) {
+					is_in_view = true;
+				}
+				
+				if (true) {
+					
+					// CONDENSE WHAT IS DISPLAYED
+					if (config.nav.multiplier.current > 16 && is_minor) {
+						is_visible = false;
+					} else {
+						if ((pos - last_position) < 65 ) {
+							if ((pos - last_position) < 35 ) {
+								if (i%4 == 0) {
+									if (pos == 0) {
+										is_visible = false;
+									}
+								} else {
+									is_visible = false;
+								}
+							} else {
+								if (!VMM.Util.isEven(i)) {
+									is_visible = false;
+								}
+							}
+						}
+					}
+					
+					if (is_visible) {
+						if (the_intervals[i].is_detached) {
+							VMM.Lib.append(the_main_element, _interval);
+							the_intervals[i].is_detached = false;
+						}
+					} else {
+						the_intervals[i].is_detached = true;
+						VMM.Lib.detach(_interval);
+					}
+					
+					
+					if (_interval_visible) {
+						if (!is_visible) {
+							_animation.opacity	= "0";
+							if (is_animated && not_too_many) {
+								_animation.animate	= true;
+							}
+							the_intervals[i].interval_visible = false;
+						} else {
+							_animation.opacity	= "100";
+							if (is_animated && is_in_view) {
+								_animation.animate	= true;
+							}
+						}
+					} else {
+						_animation.opacity	= "100";
+						if (is_visible) {
+							if (is_animated && not_too_many) {
+								_animation.animate	= true;
+							} else {
+								if (is_animated && is_in_view) {
+									_animation.animate	= true;
+								}
+							}
+							the_intervals[i].interval_visible = true;
+						} else {
+							if (is_animated && not_too_many) {
+								_animation.animate	= true;
+							}
+						}
+					}
+				
+					last_position = pos;
+				
+					if (pos > config.nav.minor_width) {
+						config.nav.minor_width = pos;
+					}
+					
+					if (pos < config.nav.minor_left) {
+						config.nav.minor_left = pos;
+					}
+					
+				}
+				
+				if (_animation.animate) {
+					VMM.Lib.animate(_interval, config.duration/2, config.ease, {opacity: _animation.opacity, left: _animation.pos});
+				} else {
+					VMM.Lib.css(_interval, "opacity", _animation.opacity);
+					VMM.Lib.css(_interval, "left", pos);
+				}
+			}
+			
+			config.nav.constraint.right_min = -(config.nav.minor_width)+(config.width);
+			config.nav.constraint.right = config.nav.constraint.right_min + (config.width/2);
+			
+			VMM.Lib.css($timeintervalminor_minor, "left", config.nav.minor_left - (config.width)/2);
+			VMM.Lib.width($timeintervalminor_minor, (config.nav.minor_width)+(config.width) + Math.abs(config.nav.minor_left) );
+			
+		}
+		
+		/* Interval Elements
+		================================================== */
+		function createIntervalElements(_interval, _array, _element_parent) {
+			
+			var inc_time			= 0,
+				_first_run			= true,
+				_last_pos			= 0,
+				_largest_pos		= 0,
+				_timezone_offset,
+				_first_date,
+				_last_date,
+				int_number			= Math.ceil(_interval.number) + 2,
+				firefox = {
+					flag:			false,
+					offset:			0
+				},
+				i					= 0;
+			
+			VMM.attachElement(_element_parent, "");
+			
+			_interval.date = new Date(data[0].startdate.getFullYear(), 0, 1, 0,0,0);
+			_timezone_offset = _interval.date.getTimezoneOffset();
+			
+			for(i = 0; i < int_number; i++) {
+				trace(_interval.type);
+				var _is_year			= false,
+					int_obj = {
+						element: 		VMM.appendAndGetElement(_element_parent, "<div>", _interval.classname),
+						date: 			new Date(data[0].startdate.getFullYear(), 0, 1, 0,0,0),
+						visible: 		false,
+						date_string:	"",
+						type: 			_interval.interval_type,
+						relative_pos:	0,
+						is_detached:	false,
+						animation: {
+							animate:	false,
+							pos:		"",
+							opacity:	"100"
+						
+						}
+					};
+				
+				if (_interval.type == "eon") {
+					if (_first_run) {
+						_first_date = Math.floor(data[0].startdate.getFullYear() / 500000000) * 500000000;
+					}
+					int_obj.date.setFullYear(_first_date + (inc_time * 500000000));
+					_is_year = true;
+				} else if (_interval.type == "era") {
+					if (_first_run) {
+						_first_date = Math.floor(data[0].startdate.getFullYear() / 100000000) * 100000000;
+					}
+					int_obj.date.setFullYear(_first_date + (inc_time * 100000000));
+					_is_year = true;
+				} else if (_interval.type == "epoch") {
+					if (_first_run) {
+						_first_date = Math.floor(data[0].startdate.getFullYear() / 10000000) * 10000000
+					}
+					int_obj.date.setFullYear(_first_date + (inc_time * 10000000));
+					_is_year = true;
+				} else if (_interval.type == "age") {
+					if (_first_run) {
+						_first_date = Math.floor(data[0].startdate.getFullYear() / 1000000) * 1000000
+					}
+					int_obj.date.setFullYear(_first_date + (inc_time * 1000000));
+					_is_year = true;
+				} else if (_interval.type == "millenium") {
+					if (_first_run) {
+						_first_date = Math.floor(data[0].startdate.getFullYear() / 1000) * 1000;
+					}
+					int_obj.date.setFullYear(_first_date + (inc_time * 1000));
+					_is_year = true;
+				} else if (_interval.type == "century") {
+					if (_first_run) {
+						_first_date = Math.floor(data[0].startdate.getFullYear() / 100) * 100
+					}
+					int_obj.date.setFullYear(_first_date + (inc_time * 100));
+					_is_year = true;
+				} else if (_interval.type == "decade") {
+					if (_first_run) {
+						_first_date = Math.floor(data[0].startdate.getFullYear() / 10) * 10;
+					}
+					int_obj.date.setFullYear(_first_date + (inc_time * 10));
+					_is_year = true;
+				} else if (_interval.type == "year") {
+					if (_first_run) {
+						_first_date = data[0].startdate.getFullYear();
+					}
+					int_obj.date.setFullYear(_first_date + inc_time);
+					_is_year = true;
+				} else if (_interval.type == "month") {
+					if (_first_run) {
+						_first_date = data[0].startdate.getMonth();
+					}
+					int_obj.date.setMonth(_first_date + inc_time);
+				} else if (_interval.type == "week") {
+					if (_first_run) {
+						_first_date = data[0].startdate.getMonth();
+					}
+					int_obj.date.setMonth(data[0].startdate.getMonth());
+					int_obj.date.setDate(_first_date + (inc_time * 7) );
+				} else if (_interval.type == "day") {
+					if (_first_run) {
+						_first_date = data[0].startdate.getDate();
+					}
+					int_obj.date.setMonth(data[0].startdate.getMonth());
+					int_obj.date.setDate(_first_date + inc_time);
+				} else if (_interval.type == "hour") {
+					if (_first_run) {
+						_first_date = data[0].startdate.getHours();
+					}
+					int_obj.date.setMonth(data[0].startdate.getMonth());
+					int_obj.date.setDate(data[0].startdate.getDate());
+					int_obj.date.setHours(_first_date + inc_time);
+				} else if (_interval.type == "minute") {
+					if (_first_run) {
+						_first_date = data[0].startdate.getMinutes();
+					}
+					int_obj.date.setMonth(data[0].startdate.getMonth());
+					int_obj.date.setDate(data[0].startdate.getDate());
+					int_obj.date.setHours(data[0].startdate.getHours());
+					int_obj.date.setMinutes(_first_date + inc_time);
+				} else if (_interval.type == "second") {
+					if (_first_run) {
+						_first_date = data[0].startdate.getSeconds();
+					}
+					int_obj.date.setMonth(data[0].startdate.getMonth());
+					int_obj.date.setDate(data[0].startdate.getDate());
+					int_obj.date.setHours(data[0].startdate.getHours());
+					int_obj.date.setMinutes(data[0].startdate.getMinutes());
+					int_obj.date.setSeconds(_first_date + inc_time);
+				}	else if (_interval.type == "millisecond") {
+					if (_first_run) {
+						_first_date = data[0].startdate.getMilliseconds();
+					}
+					int_obj.date.setMonth(data[0].startdate.getMonth());
+					int_obj.date.setDate(data[0].startdate.getDate());
+					int_obj.date.setHours(data[0].startdate.getHours());
+					int_obj.date.setMinutes(data[0].startdate.getMinutes());
+					int_obj.date.setSeconds(data[0].startdate.getSeconds());
+					int_obj.date.setMilliseconds(_first_date + inc_time);
+				}
+				
+				// FIX WEIRD FIREFOX BUG FOR GMT TIME FORMATTING
+				if (VMM.Browser.browser == "Firefox") {
+					if (int_obj.date.getFullYear() == "1970" && int_obj.date.getTimezoneOffset() != _timezone_offset) {
+						
+						trace("FIREFOX 1970 TIMEZONE OFFSET " + int_obj.date.getTimezoneOffset() + " SHOULD BE " + _timezone_offset);
+						trace(_interval.type + " " + _interval.date);
+						
+						// try and fix firefox bug, if not the flag will catch it
+						firefox.offset = (int_obj.date.getTimezoneOffset()/60);
+						firefox.flag = true;
+						int_obj.date.setHours(int_obj.date.getHours() + firefox.offset );
+						
+					} else if (firefox.flag) {
+						// catch the bug the second time around
+						firefox.flag = false;
+						int_obj.date.setHours(int_obj.date.getHours() + firefox.offset );
+						if (_is_year) {
+							firefox.flag = true;
+						}
+					}
+					
+				}
+				
+				if (_is_year) {
+					if ( int_obj.date.getFullYear() < 0 ) {
+						int_obj.date_string = 	Math.abs( int_obj.date.getFullYear() ).toString() + " B.C.";
+					} else {
+						int_obj.date_string = int_obj.date.getFullYear();
+					}
+				} else {
+					int_obj.date_string = VMM.Date.prettyDate(int_obj.date, true);
+				}
+				
+				// Increment Time
+				inc_time = inc_time + 1;
+				
+				// No longer first run
+				_first_run = false;
+				
+				int_obj.relative_pos = positionRelative(interval, int_obj.date);
+				_last_pos = int_obj.relative_pos.begin;
+				if (int_obj.relative_pos.begin > _largest_pos) {
+					_largest_pos = int_obj.relative_pos.begin;
+				}
+				
+				// Add the time string to the element and position it.
+				VMM.appendElement(int_obj.element, int_obj.date_string);
+				VMM.Lib.css(int_obj.element, "text-indent", -(VMM.Lib.width(int_obj.element)/2));
+				VMM.Lib.css(int_obj.element, "opacity", "0");
+				
+				// add the interval element to the array
+				_array.push(int_obj);
+				
+			}
+			
+			VMM.Lib.width($timeintervalminor_minor, _largest_pos);
+			
+			positionInterval(_element_parent, _array);
+			
+			
+			
+		}
+		
+		/* BUILD
+		================================================== */
+		function build() {
+			var i	= 0,
+				j	= 0;
+				
+			VMM.attachElement(layout, "");
+			
+			$timenav					= VMM.appendAndGetElement(layout, "<div>", "timenav");
+			$content					= VMM.appendAndGetElement($timenav, "<div>", "content");
+			$time						= VMM.appendAndGetElement($timenav, "<div>", "time");
+			$timeintervalminor			= VMM.appendAndGetElement($time, "<div>", "time-interval-minor");
+			$timeintervalminor_minor	= VMM.appendAndGetElement($timeintervalminor, "<div>", "minor");
+			$timeintervalmajor			= VMM.appendAndGetElement($time, "<div>", "time-interval-major");
+			$timeinterval				= VMM.appendAndGetElement($time, "<div>", "time-interval");
+			$timebackground				= VMM.appendAndGetElement(layout, "<div>", "timenav-background");
+			$timenavline				= VMM.appendAndGetElement($timebackground, "<div>", "timenav-line");
+			$timenavindicator			= VMM.appendAndGetElement($timebackground, "<div>", "timenav-indicator");
+			$timeintervalbackground		= VMM.appendAndGetElement($timebackground, "<div>", "timenav-interval-background", "<div class='top-highlight'></div>");
+			$toolbar					= VMM.appendAndGetElement(layout, "<div>", "vco-toolbar");
+			
+			
+			buildInterval();
+			buildMarkers();
+			buildEras();
+			calculateMultiplier();
+			positionMarkers(false);
+			positionEras();
+			
+			positionInterval($timeinterval, interval_array, false, true);
+			positionInterval($timeintervalmajor, interval_major_array);
+			
+			
+			if (config.start_page) {
+				$backhome = VMM.appendAndGetElement($toolbar, "<div>", "back-home", "<div class='icon'></div>");
+				VMM.bindEvent(".back-home", onBackHome, "click");
+				VMM.Lib.attribute($backhome, "title", VMM.master_config.language.messages.return_to_title);
+				VMM.Lib.attribute($backhome, "rel", "timeline-tooltip");
+				
+			}
+			
+			
+			// MAKE TIMELINE DRAGGABLE/TOUCHABLE
+			$dragslide = new VMM.DragSlider;
+			$dragslide.createPanel(layout, $timenav, config.nav.constraint, config.touch);
+			
+			
+			
+			if (config.touch && config.start_page) {
+				VMM.Lib.addClass($toolbar, "touch");
+				VMM.Lib.css($toolbar, "top", 55);
+				VMM.Lib.css($toolbar, "left", 10);
+			} else {
+				if (config.start_page) {
+					VMM.Lib.css($toolbar, "top", 27);
+				}
+				$zoomin		= VMM.appendAndGetElement($toolbar, "<div>", "zoom-in", "<div class='icon'></div>");
+				$zoomout	= VMM.appendAndGetElement($toolbar, "<div>", "zoom-out", "<div class='icon'></div>");
+				// ZOOM EVENTS
+				VMM.bindEvent($zoomin, onZoomIn, "click");
+				VMM.bindEvent($zoomout, onZoomOut, "click");
+				// TOOLTIP
+				VMM.Lib.attribute($zoomin, "title", VMM.master_config.language.messages.expand_timeline);
+				VMM.Lib.attribute($zoomin, "rel", "timeline-tooltip");
+				VMM.Lib.attribute($zoomout, "title", VMM.master_config.language.messages.contract_timeline);
+				VMM.Lib.attribute($zoomout, "rel", "timeline-tooltip");
+				$toolbar.tooltip({selector: "div[rel=timeline-tooltip]", placement: "right"});
+				
+				
+				// MOUSE EVENTS
+				VMM.bindEvent(layout, onMouseScroll, 'DOMMouseScroll');
+				VMM.bindEvent(layout, onMouseScroll, 'mousewheel');
+			}
+			
+			
+			
+			// USER CONFIGURABLE ADJUSTMENT TO DEFAULT ZOOM
+			if (config.nav.zoom.adjust != 0) {
+				if (config.nav.zoom.adjust < 0) {
+					for(i = 0; i < Math.abs(config.nav.zoom.adjust); i++) {
+						onZoomOut();
+					}
+				} else {
+					for(j = 0; j < config.nav.zoom.adjust; j++) {
+						onZoomIn();
+					}
+				}
+			}
+			
+			//VMM.fireEvent(layout, "LOADED");
+			_active = true;
+			
+			reSize(true);
+			VMM.fireEvent(layout, "LOADED");
+			
+		};
+		
+		function buildInterval() {
+			var i	= 0,
+				j	= 0;
+			// CALCULATE INTERVAL
+			timespan = getDateFractions((data[data.length - 1].enddate) - (data[0].startdate), true);
+			trace(timespan);
+			calculateInterval();
+
+			/* DETERMINE DEFAULT INTERVAL TYPE
+				millenium, ages, epoch, era and eon are not optimized yet. They may never be.
+			================================================== */
+			/*
+			if (timespan.eons				>		data.length / config.nav.density) {
+				interval					=		interval_calc.eon;
+				interval_major				=		interval_calc.eon;
+				interval_macro				=		interval_calc.era;
+			} else if (timespan.eras		>		data.length / config.nav.density) {
+				interval					=		interval_calc.era;
+				interval_major				=		interval_calc.eon;
+				interval_macro				=		interval_calc.epoch;
+			} else if (timespan.epochs		>		data.length / config.nav.density) {
+				interval					=		interval_calc.epoch;
+				interval_major				=		interval_calc.era;
+				interval_macro				=		interval_calc.age;
+			} else if (timespan.ages		>		data.length / config.nav.density) {
+				interval					=		interval_calc.ages;
+				interval_major				=		interval_calc.epoch;
+				interval_macro				=		interval_calc.millenium;
+			} else if (timespan.milleniums			>		data.length / config.nav.density) {
+				interval					=		interval_calc.millenium;
+				interval_major				=		interval_calc.age;
+				interval_macro				=		interval_calc.century;
+			} else 
+			*/
+			if (timespan.centuries			>		data.length / config.nav.density) {
+				interval					=		interval_calc.century;
+				interval_major				=		interval_calc.millenium;
+				interval_macro				=		interval_calc.decade;
+			} else if (timespan.decades		>		data.length / config.nav.density) {
+				interval					=		interval_calc.decade;
+				interval_major				=		interval_calc.century;
+				interval_macro				=		interval_calc.year;
+			} else if (timespan.years		>		data.length / config.nav.density) {	
+				interval					=		interval_calc.year;
+				interval_major				=		interval_calc.decade;
+				interval_macro				=		interval_calc.month;
+			} else if (timespan.months		>		data.length / config.nav.density) {
+				interval					=		interval_calc.month;
+				interval_major				=		interval_calc.year;
+				interval_macro				=		interval_calc.day;
+			} else if (timespan.days		>		data.length / config.nav.density) {
+				interval					=		interval_calc.day;
+				interval_major				=		interval_calc.month;
+				interval_macro				=		interval_calc.hour;
+			} else if (timespan.hours		>		data.length / config.nav.density) {
+				interval					=		interval_calc.hour;
+				interval_major				=		interval_calc.day;
+				interval_macro				=		interval_calc.minute;
+			} else if (timespan.minutes		>		data.length / config.nav.density) {
+				interval					=		interval_calc.minute;
+				interval_major				=		interval_calc.hour;
+				interval_macro				=		interval_calc.second;
+			} else if (timespan.seconds		>		data.length / config.nav.density) {
+				interval					=		interval_calc.second;
+				interval_major				=		interval_calc.minute;
+				interval_macro				=		interval_calc.second;
+			} else {
+				trace("NO IDEA WHAT THE TYPE SHOULD BE");
+				interval					=		interval_calc.day;
+				interval_major				=		interval_calc.month;
+				interval_macro				=		interval_calc.hour;
+			}
+			
+			trace("INTERVAL TYPE: " + interval.type);
+			trace("INTERVAL MAJOR TYPE: " + interval_major.type);
+			
+			createIntervalElements(interval, interval_array, $timeinterval);
+			createIntervalElements(interval_major, interval_major_array, $timeintervalmajor);
+			
+			// Cleanup duplicate interval elements between normal and major
+			for(i = 0; i < interval_array.length; i++) {
+				for(j = 0; j < interval_major_array.length; j++) {
+					if (interval_array[i].date_string == interval_major_array[j].date_string) {
+						VMM.attachElement(interval_array[i].element, "");
+					}
+				}
+			}
+		}
+		
+		function buildMarkers() {
+			
+			var row			= 2,
+				lpos		= 0,
+				row_depth	= 0,
+				i			= 0,
+				k			= 0,
+				l			= 0;
+				
+				
+			markers			= [];
+			era_markers		= [];
+			
+			for(i = 0; i < data.length; i++) {
+				
+				var _marker,
+					_marker_flag,
+					_marker_content,
+					_marker_dot,
+					_marker_line,
+					_marker_line_event,
+					_marker_obj,
+					_marker_title		= "",
+					has_title			= false;
+				
+				
+				_marker					= VMM.appendAndGetElement($content, "<div>", "marker");
+				_marker_flag			= VMM.appendAndGetElement(_marker, "<div>", "flag");
+				_marker_content			= VMM.appendAndGetElement(_marker_flag, "<div>", "flag-content");
+				_marker_dot				= VMM.appendAndGetElement(_marker, "<div>", "dot");
+				_marker_line			= VMM.appendAndGetElement(_marker, "<div>", "line");
+				_marker_line_event		= VMM.appendAndGetElement(_marker_line, "<div>", "event-line");
+				_marker_relative_pos	= positionRelative(interval, data[i].startdate, data[i].enddate);
+				_marker_thumb			= "";
+				
+				// THUMBNAIL
+				if (data[i].asset != null && data[i].asset != "") {
+					VMM.appendElement(_marker_content, VMM.MediaElement.thumbnail(data[i].asset, 24, 24, data[i].uniqueid));
+				} else {
+					VMM.appendElement(_marker_content, "<div style='margin-right:7px;height:50px;width:2px;float:left;'></div>");
+				}
+				
+				// ADD DATE AND TITLE
+				if (data[i].title == "" || data[i].title == " " ) {
+					trace("TITLE NOTHING")
+					if (typeof data[i].slug != 'undefined' && data[i].slug != "") {
+						trace("SLUG")
+						_marker_title = VMM.Util.untagify(data[i].slug);
+						has_title = true;
+					} else {
+						var m = VMM.MediaType(data[i].asset.media);
+						if (m.type == "quote" || m.type == "unknown") {
+							_marker_title = VMM.Util.untagify(m.id);
+							has_title = true;
+						} else {
+							has_title = false;
+						}
+					}
+				} else if (data[i].title != "" || data[i].title != " ") {
+					trace(data[i].title)
+					_marker_title = VMM.Util.untagify(data[i].title);
+					has_title = true;
+				} else {
+					trace("TITLE SLUG NOT FOUND " + data[i].slug)
+				}
+				
+				if (has_title) {
+					VMM.appendElement(_marker_content, "<h3>" + _marker_title + "</h3>");
+				} else {
+					VMM.appendElement(_marker_content, "<h3>" + _marker_title + "</h3>");
+					VMM.appendElement(_marker_content, "<h3 id='marker_content_" + data[i].uniqueid + "'>" + _marker_title + "</h3>");
+				}
+				
+				// ADD ID
+				VMM.Lib.attr(_marker, "id", ( "marker_" + data[i].uniqueid).toString() );
+				
+				// MARKER CLICK
+				VMM.bindEvent(_marker_flag, onMarkerClick, "", {number: i});
+				VMM.bindEvent(_marker_flag, onMarkerHover, "mouseenter mouseleave", {number: i, elem:_marker_flag});
+				
+				_marker_obj = {
+					marker: 			_marker,
+					flag: 				_marker_flag,
+					lineevent: 			_marker_line_event,
+					type: 				"marker",
+					full:				true,
+					relative_pos:		_marker_relative_pos,
+					tag:				data[i].tag,
+					pos_left:			0
+				};
+				
+				
+				if (data[i].type == "start") {
+					trace("BUILD MARKER HAS START PAGE");
+					config.start_page = true;
+					_marker_obj.type = "start";
+				}
+				
+				if (data[i].type == "storify") {
+					_marker_obj.type = "storify";
+				}
+				
+				
+				if (data[i].tag) {
+					tags.push(data[i].tag);
+				}
+				
+				markers.push(_marker_obj);
+				
+				
+				
+			}
+			
+			// CREATE TAGS
+			tags = VMM.Util.deDupeArray(tags);
+			if (tags.length > 3) {
+				config.nav.rows.current = config.nav.rows.half;
+			} else {
+				config.nav.rows.current = config.nav.rows.full;
+			}
+			for(k = 0; k < tags.length; k++) {
+				if (k < config.nav.rows.current.length) {
+					var tag_element = VMM.appendAndGetElement($timebackground, "<div>", "timenav-tag");
+					VMM.Lib.addClass(tag_element, "timenav-tag-row-" + (k+1));
+					if (tags.length > 3) {
+						VMM.Lib.addClass(tag_element, "timenav-tag-size-half");
+					} else {
+						VMM.Lib.addClass(tag_element, "timenav-tag-size-full");
+					}
+					VMM.appendElement(tag_element, "<div><h3>" + tags[k] + "</h3></div>");
+				}
+				
+			}
+			
+			// RESIZE FLAGS IF NEEDED
+			if (tags.length > 3) {
+				for(l = 0; l < markers.length; l++) {
+					VMM.Lib.addClass(markers[l].flag, "flag-small");
+					markers[l].full = false;
+				}
+			}
+
+			
+		}
+		
+		function buildEras() {
+			var number_of_colors	= 6,
+				current_color		= 0,
+				j					= 0;
+			// CREATE ERAS
+			for(j = 0; j < eras.length; j++) {
+				var era = {
+						content: 			VMM.appendAndGetElement($content, "<div>", "era"),
+						text_content: 		VMM.appendAndGetElement($timeinterval, "<div>", "era"),
+						startdate: 			VMM.Date.parse(eras[j].startDate),
+						enddate: 			VMM.Date.parse(eras[j].endDate),
+						title: 				eras[j].headline,
+						uniqueid: 			VMM.Util.unique_ID(6),
+						tag:				"",
+						relative_pos:	 	""
+					},
+					st						= VMM.Date.prettyDate(era.startdate),
+					en						= VMM.Date.prettyDate(era.enddate),
+					era_text				= "<div>&nbsp;</div>";
+					
+				if (typeof eras[j].tag != "undefined") {
+					era.tag = eras[j].tag;
+				}
+				
+				era.relative_pos = positionRelative(interval, era.startdate, era.enddate);
+				
+				VMM.Lib.attr(era.content, "id", era.uniqueid);
+				VMM.Lib.attr(era.text_content, "id", era.uniqueid + "_text");
+				
+				// Background Color
+				VMM.Lib.addClass(era.content, "era"+(current_color+1));
+				VMM.Lib.addClass(era.text_content, "era"+(current_color+1));
+				
+				if (current_color < number_of_colors) {
+					current_color++;
+				} else {
+					current_color = 0;
+				}
+				
+				VMM.appendElement(era.content, era_text);
+				VMM.appendElement(era.text_content, VMM.Util.unlinkify(era.title));
+				
+				era_markers.push(era);
+				
+			}
+			
+		}
+		
+	};
+	
+}
+
+
+/* **********************************************
+     Begin VMM.Timeline.DataObj.js
+********************************************** */
+
+/*	VMM.Timeline.DataObj.js
+    TIMELINE SOURCE DATA PROCESSOR
+================================================== */
+
+if (typeof VMM.Timeline !== 'undefined' && typeof VMM.Timeline.DataObj == 'undefined') {
+	VMM.Timeline.DataObj = {
+		data_obj: {},
+		model_array: [],
+		getData: function (raw_data) {
+			VMM.Timeline.DataObj.data_obj = {};
+			VMM.fireEvent(global, VMM.Timeline.Config.events.messege, VMM.Timeline.Config.language.messages.loading_timeline);
+			if (type.of(raw_data) == "object") {
+				trace("DATA SOURCE: JSON OBJECT");
+				VMM.Timeline.DataObj.parseJSON(raw_data);
+			} else if (type.of(raw_data) == "string") {
+				if (raw_data.match("%23")) {
+					trace("DATA SOURCE: TWITTER SEARCH");
+					VMM.Timeline.DataObj.model.tweets.getData("%23medill");
+				} else if (	raw_data.match("spreadsheet") ) {
+					trace("DATA SOURCE: GOOGLE SPREADSHEET");
+					VMM.Timeline.DataObj.model.googlespreadsheet.getData(raw_data);
+				} else if (raw_data.match("storify.com")) {
+					trace("DATA SOURCE: STORIFY");
+					VMM.Timeline.DataObj.model.storify.getData(raw_data);
+					//http://api.storify.com/v1/stories/number10gov/g8-and-nato-chicago-summit
+				} else if (raw_data.match("\.jsonp")) {
+					trace("DATA SOURCE: JSONP");
+					LoadLib.js(raw_data, VMM.Timeline.DataObj.onJSONPLoaded);
+				} else {
+					trace("DATA SOURCE: JSON");
+					var req = "";
+					if (raw_data.indexOf("?") > -1) {
+						req = raw_data + "&callback=onJSONP_Data";
+					} else {
+						req = raw_data + "?callback=onJSONP_Data";
+					}
+					VMM.getJSON(req, VMM.Timeline.DataObj.parseJSON);
+				}
+			} else if (type.of(raw_data) == "html") {
+				trace("DATA SOURCE: HTML");
+				VMM.Timeline.DataObj.parseHTML(raw_data);
+			} else {
+				trace("DATA SOURCE: UNKNOWN");
+			}
+			
+		},
+		
+		onJSONPLoaded: function() {
+			trace("JSONP IS LOADED");
+			VMM.fireEvent(global, VMM.Timeline.Config.events.data_ready, storyjs_jsonp_data);
+		},
+		
+		parseHTML: function (d) {
+			trace("parseHTML");
+			trace("WARNING: THIS IS STILL ALPHA AND WILL NOT WORK WITH ID's other than #timeline");
+			var _data_obj = VMM.Timeline.DataObj.data_template_obj;
+			
+			/*	Timeline start slide
+			================================================== */
+			if (VMM.Lib.find("#timeline section", "time")[0]) {
+				_data_obj.timeline.startDate = VMM.Lib.html(VMM.Lib.find("#timeline section", "time")[0]);
+				_data_obj.timeline.headline = VMM.Lib.html(VMM.Lib.find("#timeline section", "h2"));
+				_data_obj.timeline.text = VMM.Lib.html(VMM.Lib.find("#timeline section", "article"));
+				
+				var found_main_media = false;
+				
+				if (VMM.Lib.find("#timeline section", "figure img").length != 0) {
+					found_main_media = true;
+					_data_obj.timeline.asset.media = VMM.Lib.attr(VMM.Lib.find("#timeline section", "figure img"), "src");
+				} else if (VMM.Lib.find("#timeline section", "figure a").length != 0) {
+					found_main_media = true;
+					_data_obj.timeline.asset.media = VMM.Lib.attr(VMM.Lib.find("#timeline section", "figure a"), "href");
+				} else {
+					//trace("NOT FOUND");
+				}
+
+				if (found_main_media) {
+					if (VMM.Lib.find("#timeline section", "cite").length != 0) {
+						_data_obj.timeline.asset.credit = VMM.Lib.html(VMM.Lib.find("#timeline section", "cite"));
+					}
+					if (VMM.Lib.find(this, "figcaption").length != 0) {
+						_data_obj.timeline.asset.caption = VMM.Lib.html(VMM.Lib.find("#timeline section", "figcaption"));
+					}
+				}
+			}
+			
+			/*	Timeline Date Slides
+			================================================== */
+			VMM.Lib.each("#timeline li", function(i, elem){
+				
+				var valid_date = false;
+				
+				var _date = {
+					"type":"default",
+					"startDate":"",
+		            "headline":"",
+		            "text":"",
+		            "asset":
+		            {
+		                "media":"",
+		                "credit":"",
+		                "caption":""
+		            },
+		            "tags":"Optional"
+				};
+				
+				if (VMM.Lib.find(this, "time") != 0) {
+					
+					valid_date = true;
+					
+					_date.startDate = VMM.Lib.html(VMM.Lib.find(this, "time")[0]);
+
+					if (VMM.Lib.find(this, "time")[1]) {
+						_date.endDate = VMM.Lib.html(VMM.Lib.find(this, "time")[1]);
+					}
+
+					_date.headline = VMM.Lib.html(VMM.Lib.find(this, "h3"));
+
+					_date.text = VMM.Lib.html(VMM.Lib.find(this, "article"));
+
+					var found_media = false;
+					if (VMM.Lib.find(this, "figure img").length != 0) {
+						found_media = true;
+						_date.asset.media = VMM.Lib.attr(VMM.Lib.find(this, "figure img"), "src");
+					} else if (VMM.Lib.find(this, "figure a").length != 0) {
+						found_media = true;
+						_date.asset.media = VMM.Lib.attr(VMM.Lib.find(this, "figure a"), "href");
+					} else {
+						//trace("NOT FOUND");
+					}
+
+					if (found_media) {
+						if (VMM.Lib.find(this, "cite").length != 0) {
+							_date.asset.credit = VMM.Lib.html(VMM.Lib.find(this, "cite"));
+						}
+						if (VMM.Lib.find(this, "figcaption").length != 0) {
+							_date.asset.caption = VMM.Lib.html(VMM.Lib.find(this, "figcaption"));
+						}
+					}
+					
+					trace(_date);
+					_data_obj.timeline.date.push(_date);
+					
+				}
+				
+			});
+			
+			VMM.fireEvent(global, VMM.Timeline.Config.events.data_ready, _data_obj);
+			
+		},
+		
+		parseJSON: function(d) {
+			trace("parseJSON");
+			if (d.timeline.type == "default") {
+				trace("DATA SOURCE: JSON STANDARD TIMELINE");
+				VMM.fireEvent(global, VMM.Timeline.Config.events.data_ready, d);
+			} else if (d.timeline.type == "twitter") {
+				trace("DATA SOURCE: JSON TWEETS");
+				VMM.Timeline.DataObj.model_Tweets.buildData(d);
+				
+			} else {
+				trace("DATA SOURCE: UNKNOWN JSON");
+				trace(type.of(d.timeline));
+			};
+		},
+		
+		/*	MODEL OBJECTS 
+			New Types of Data can be formatted for the timeline here
+		================================================== */
+		
+		model: {
+			
+			googlespreadsheet: {
+				extractSpreadsheetKey: function(url) {
+					var key	= VMM.Util.getUrlVars(url)["key"];
+					if (!key) {
+						if (url.match("docs.google.com/spreadsheets/d/")) {
+							var pos = url.indexOf("docs.google.com/spreadsheets/d/") + "docs.google.com/spreadsheets/d/".length;
+							var tail = url.substr(pos);
+							key = tail.split('/')[0]
+						}
+					}
+					if (!key) { key = url}
+					return key;
+				},
+				getData: function(raw) {
+					var getjsondata, key, worksheet, url, timeout, tries = 0;
+					
+					// new Google Docs URLs can specify 'key' differently. 
+					// that format doesn't seem to have a way to specify a worksheet.
+					key	= VMM.Timeline.DataObj.model.googlespreadsheet.extractSpreadsheetKey(raw);
+					worksheet = VMM.Util.getUrlVars(raw)["worksheet"];
+					if (typeof worksheet == "undefined") worksheet = "od6";
+					
+					url	= "https://spreadsheets.google.com/feeds/list/" + key + "/" + worksheet + "/public/values?alt=json";
+					
+					timeout = setTimeout(function() {
+						trace("Google Docs timeout " + url);
+						trace(url);
+						if (tries < 3) {
+							VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Still waiting on Google Docs, trying again " + tries);
+							tries ++;
+							getjsondata.abort()
+							requestJsonData();
+						} else {
+							VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Google Docs is not responding");
+						}
+					}, 16000);
+					
+					function requestJsonData() {
+						getjsondata = VMM.getJSON(url, function(d) {
+							clearTimeout(timeout);
+							VMM.Timeline.DataObj.model.googlespreadsheet.buildData(d);
+						})
+							.error(function(jqXHR, textStatus, errorThrown) {
+								if (jqXHR.status == 400) {
+									VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Error reading Google spreadsheet. Check the URL and make sure it's published to the web.");
+									clearTimeout(timeout);
+									return;
+								}
+								trace("Google Docs ERROR");
+								trace("Google Docs ERROR: " + textStatus + " " + jqXHR.responseText);
+							})
+							.success(function(d) {
+								clearTimeout(timeout);
+							});
+					}
+					
+					requestJsonData();
+				},
+				
+				buildData: function(d) {
+					var data_obj	= VMM.Timeline.DataObj.data_template_obj,
+						is_valid	= false;
+					
+					VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Parsing Google Doc Data");
+
+					function getGVar(v) {
+						if (typeof v != 'undefined') {
+							return v.$t;
+						} else {
+							return "";
+						}
+					}
+					if (typeof d.feed.entry == 'undefined') {
+						VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Error parsing spreadsheet. Make sure you have no blank rows and that the headers have not been changed.");
+					} else {
+						is_valid = true;
+						
+						for(var i = 0; i < d.feed.entry.length; i++) {
+							var dd		= d.feed.entry[i],
+								dd_type	= "";
+						
+							if (typeof dd.gsx$type != 'undefined') {
+								dd_type = dd.gsx$type.$t;
+							} else if (typeof dd.gsx$titleslide != 'undefined') {
+								dd_type = dd.gsx$titleslide.$t;
+							}
+						
+							if (dd_type.match("start") || dd_type.match("title") ) {
+								data_obj.timeline.startDate		= getGVar(dd.gsx$startdate);
+								data_obj.timeline.headline		= getGVar(dd.gsx$headline);
+								data_obj.timeline.asset.media	= getGVar(dd.gsx$media);
+								data_obj.timeline.asset.caption	= getGVar(dd.gsx$mediacaption);
+								data_obj.timeline.asset.credit	= getGVar(dd.gsx$mediacredit);
+								data_obj.timeline.text			= getGVar(dd.gsx$text);
+								data_obj.timeline.type			= "google spreadsheet";
+							} else if (dd_type.match("era")) {
+								var era = {
+									startDate:		getGVar(dd.gsx$startdate),
+									endDate:		getGVar(dd.gsx$enddate),
+									headline:		getGVar(dd.gsx$headline),
+									text:			getGVar(dd.gsx$text),
+									tag:			getGVar(dd.gsx$tag)
+								}
+								data_obj.timeline.era.push(era);
+							} else {
+								var date = {
+										type:			"google spreadsheet",
+										startDate:		getGVar(dd.gsx$startdate),
+										endDate:		getGVar(dd.gsx$enddate),
+										headline:		getGVar(dd.gsx$headline),
+										text:			getGVar(dd.gsx$text),
+										tag:			getGVar(dd.gsx$tag),
+										asset: {
+											media:		getGVar(dd.gsx$media),
+											credit:		getGVar(dd.gsx$mediacredit),
+											caption:	getGVar(dd.gsx$mediacaption),
+											thumbnail:	getGVar(dd.gsx$mediathumbnail)
+										}
+								};
+							
+								data_obj.timeline.date.push(date);
+							}
+						};
+						
+					}
+					
+					
+					if (is_valid) {
+						VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Finished Parsing Data");
+						VMM.fireEvent(global, VMM.Timeline.Config.events.data_ready, data_obj);
+					} else {
+						VMM.fireEvent(global, VMM.Timeline.Config.events.messege, VMM.Language.messages.loading + " Google Doc Data (cells)");
+						trace("There may be too many entries. Still trying to load data. Now trying to load cells to avoid Googles limitation on cells");
+						VMM.Timeline.DataObj.model.googlespreadsheet.getDataCells(d.feed.link[0].href);
+					}
+				},
+				
+				getDataCells: function(raw) {
+					var getjsondata, key, url, timeout, tries = 0;
+					
+					key	= VMM.Timeline.DataObj.model.googlespreadsheet.extractSpreadsheetKey(raw);
+					url	= "https://spreadsheets.google.com/feeds/cells/" + key + "/od6/public/values?alt=json";
+					
+					timeout = setTimeout(function() {
+						trace("Google Docs timeout " + url);
+						trace(url);
+						if (tries < 3) {
+							VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Still waiting on Google Docs, trying again " + tries);
+							tries ++;
+							getjsondata.abort()
+							requestJsonData();
+						} else {
+							VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Google Docs is not responding");
+						}
+					}, 16000);
+					
+					function requestJsonData() {
+						getjsondata = VMM.getJSON(url, function(d) {
+							clearTimeout(timeout);
+							VMM.Timeline.DataObj.model.googlespreadsheet.buildDataCells(d);
+						})
+							.error(function(jqXHR, textStatus, errorThrown) {
+								trace("Google Docs ERROR");
+								trace("Google Docs ERROR: " + textStatus + " " + jqXHR.responseText);
+							})
+							.success(function(d) {
+								clearTimeout(timeout);
+							});
+					}
+					
+					requestJsonData();
+				},
+				
+				buildDataCells: function(d) {
+					var data_obj	= VMM.Timeline.DataObj.data_template_obj,
+						is_valid	= false,
+						cellnames	= ["timeline"],
+						list 		= [],
+						max_row		= 0,
+						i			= 0,
+						k			= 0;
+					
+					VMM.fireEvent(global, VMM.Timeline.Config.events.messege, VMM.Language.messages.loading_timeline + " Parsing Google Doc Data (cells)");
+
+					function getGVar(v) {
+						if (typeof v != 'undefined') {
+							return v.$t;
+						} else {
+							return "";
+						}
+					}
+					
+					if (typeof d.feed.entry != 'undefined') {
+						is_valid = true;
+						
+						// DETERMINE NUMBER OF ROWS
+						for(i = 0; i < d.feed.entry.length; i++) {
+							var dd				= d.feed.entry[i];
+							
+							if (parseInt(dd.gs$cell.row) > max_row) {
+								max_row = parseInt(dd.gs$cell.row);
+							}
+						}
+						
+						// CREATE OBJECT FOR EACH ROW
+						for(var i = 0; i < max_row + 1; i++) {
+							var date = {
+								type:			"",
+								startDate:		"",
+								endDate:		"",
+								headline:		"",
+								text:			"",
+								tag:			"",
+								asset: {
+									media:		"",
+									credit:		"",
+									caption:	"",
+									thumbnail:	""
+								}
+							};
+							list.push(date);
+						}
+						
+						// PREP GOOGLE DOC CELL DATA TO EVALUATE
+						for(i = 0; i < d.feed.entry.length; i++) {
+							var dd				= d.feed.entry[i],
+								dd_type			= "",
+								column_name		= "",
+								cell = {
+									content: 	getGVar(dd.gs$cell),
+									col: 		dd.gs$cell.col,
+									row: 		dd.gs$cell.row,
+									name: 		""
+								};
+								
+							//trace(cell);
+							
+							if (cell.row == 1) {
+								if (cell.content == "Start Date") {
+									column_name = "startDate";
+								} else if (cell.content == "End Date") {
+									column_name = "endDate";
+								} else if (cell.content == "Headline") {
+									column_name = "headline";
+								} else if (cell.content == "Text") {
+									column_name = "text";
+								} else if (cell.content == "Media") {
+									column_name = "media";
+								} else if (cell.content == "Media Credit") {
+									column_name = "credit";
+								} else if (cell.content == "Media Caption") {
+									column_name = "caption";
+								} else if (cell.content == "Media Thumbnail") {
+									column_name = "thumbnail";
+								} else if (cell.content == "Type") {
+									column_name = "type";
+								} else if (cell.content == "Tag") {
+									column_name = "tag";
+								}
+								
+								cellnames.push(column_name);
+								
+							} else {
+								cell.name = cellnames[cell.col];
+								list[cell.row][cell.name] = cell.content;
+							}
+							
+						};
+						
+
+						for(i = 0; i < list.length; i++) {
+							var date	= list[i];
+							if (date.type.match("start") || date.type.match("title") ) {
+								data_obj.timeline.startDate		= date.startDate;
+								data_obj.timeline.headline		= date.headline;
+								data_obj.timeline.asset.media	= date.media;
+								data_obj.timeline.asset.caption	= date.caption;
+								data_obj.timeline.asset.credit	= date.credit;
+								data_obj.timeline.text			= date.text;
+								data_obj.timeline.type			= "google spreadsheet";
+							} else if (date.type.match("era")) {
+								var era = {
+									startDate:		date.startDate,
+									endDate:		date.endDate,
+									headline:		date.headline,
+									text:			date.text,
+									tag:			date.tag
+								}
+								data_obj.timeline.era.push(era);
+							} else {
+								if (date.startDate) {
+
+									var date = {
+											type:			"google spreadsheet",
+											startDate:		date.startDate,
+											endDate:		date.endDate,
+											headline:		date.headline,
+											text:			date.text,
+											tag:			date.tag,
+											asset: {
+												media:		date.media,
+												credit:		date.credit,
+												caption:	date.caption,
+												thumbnail:	date.thumbnail
+											}
+									};
+								
+									data_obj.timeline.date.push(date);
+
+								} else {
+									trace("Skipping item " + i + " in list: no start date.")
+								}
+							}
+							
+						}
+						
+					}
+					is_valid = data_obj.timeline.date.length > 0;
+					if (is_valid) {
+						VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Finished Parsing Data");
+						VMM.fireEvent(global, VMM.Timeline.Config.events.data_ready, data_obj);
+					} else {
+						VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Unable to load Google Doc data source. Make sure you have no blank rows and that the headers have not been changed.");
+					}
+				}
+				
+			},
+			
+			storify: {
+				
+				getData: function(raw) {
+					var key, url, storify_timeout;
+					//http://storify.com/number10gov/g8-and-nato-chicago-summit
+					//http://api.storify.com/v1/stories/number10gov/g8-and-nato-chicago-summit
+					
+					VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Loading Storify...");
+					
+					key	= raw.split("storify.com\/")[1];
+					url	= "//api.storify.com/v1/stories/" + key + "?per_page=300&callback=?";
+					
+					storify_timeout = setTimeout(function() {
+						trace("STORIFY timeout");
+						VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Storify is not responding");
+					}, 6000);
+					
+					VMM.getJSON(url, VMM.Timeline.DataObj.model.storify.buildData)
+						.error(function(jqXHR, textStatus, errorThrown) {
+							trace("STORIFY error");
+							trace("STORIFY ERROR: " + textStatus + " " + jqXHR.responseText);
+						})
+						.success(function(d) {
+							clearTimeout(storify_timeout);
+						});
+					
+				},
+				
+				buildData: function(d) {
+					VMM.fireEvent(global, VMM.Timeline.Config.events.messege, "Parsing Data");
+					var _data_obj = VMM.Timeline.DataObj.data_template_obj;
+					
+					_data_obj.timeline.startDate	= 	new Date(d.content.date.created);;
+					_data_obj.timeline.headline		= 	d.content.title;
+					
+					trace(d);
+					//d.permalink
+					var tt			=	"";
+					var t_name		=	d.content.author.username;
+					var t_nickname	=	"";
+					if (typeof d.content.author.name != 'undefined') {
+						t_name		=	d.content.author.name;
+						t_nickname	=	d.content.author.username + "&nbsp;";
+					}
+					if (typeof d.content.description != 'undefined' && d.content.description != null) {
+						tt			+=	d.content.description;
+					}
+					
+					tt				+=	"<div class='storify'>"
+					//tt				 += " <a href='" + d.content.permalink + "' target='_blank' alt='link to original story' title='link to original story'>" + "<span class='created-at'></span>" + " </a>";
+					
+					tt				+=	"<div class='vcard author'><a class='screen-name url' href='" + d.content.author.permalink + "' target='_blank'>";
+					
+					tt				+=	"<span class='avatar'><img src='" + d.content.author.avatar + "' style='max-width: 32px; max-height: 32px;'></span>"
+					tt				+=	"<span class='fn'>" + t_name + "</span>";
+					tt				+=	"<span class='nickname'>" + t_nickname + "<span class='thumbnail-inline'></span></span>";
+					tt				+=	"</a>";
+					//tt				+=	"<span class='nickname'>" + d.content.author.stats.stories + " Stories</span>";
+					//tt				+=	"<span class='nickname'>" + d.content.author.stats.subscribers + " Subscribers</span>";
+					tt				+=	"</div>"
+					tt				+=	"</div>";
+					
+					_data_obj.timeline.text = tt;
+					_data_obj.timeline.asset.media = d.content.thumbnail;
+					
+					//_data_obj.timeline.asset.media = 		dd.gsx$media.$t;
+					//_data_obj.timeline.asset.caption = 		dd.gsx$mediacaption.$t;
+					//_data_obj.timeline.asset.credit = 		dd.gsx$mediacredit.$t;
+					_data_obj.timeline.type = 				"storify";
+					
+					for(var i = 0; i < d.content.elements.length; i++) {
+						var dd = d.content.elements[i];
+						var is_text = false;
+						var d_date = new Date(dd.posted_at);
+						//trace(tempdat);
+						trace(dd.type);
+						//trace(dd);
+						var _date = {
+							"type": 		"storify",
+							"startDate": 	dd.posted_at,
+							"endDate": 		dd.posted_at,
+				            "headline": 	" ",
+							"slug": 		"", 
+				            "text": 		"",
+				            "asset": {
+								"media": 	"", 
+								"credit": 	"", 
+								"caption": 	"" 
+							}
+						};
+						
+						/*	MEDIA
+						================================================== */
+						if (dd.type == "image") {
+							
+							if (typeof dd.source.name != 'undefined') {
+								if (dd.source.name == "flickr") {
+									_date.asset.media		=	"//flickr.com/photos/" + dd.meta.pathalias + "/" + dd.meta.id + "/";
+									_date.asset.credit		=	"<a href='" + _date.asset.media + "'>" + dd.attribution.name + "</a>";
+									_date.asset.credit		+=	" on <a href='" + dd.source.href + "'>" + dd.source.name + "</a>";
+								} else if (dd.source.name	==	"instagram") {
+									_date.asset.media		=	dd.permalink;
+									_date.asset.credit		=	"<a href='" + dd.permalink + "'>" + dd.attribution.name + "</a>";
+									_date.asset.credit		+=	" on <a href='" + dd.source.href + "'>" + dd.source.name + "</a>";
+								} else {
+									_date.asset.credit		=	"<a href='" + dd.permalink + "'>" + dd.attribution.name + "</a>";
+									
+									if (typeof dd.source.href != 'undefined') {
+										_date.asset.credit	+=	" on <a href='" + dd.source.href + "'>" + dd.source.name + "</a>";
+									}
+									
+									_date.asset.media		=	dd.data.image.src;
+								}
+							} else {
+								_date.asset.credit			=	"<a href='" + dd.permalink + "'>" + dd.attribution.name + "</a>";
+								_date.asset.media			=	dd.data.image.src;
+							}
+							
+							_date.slug	 					=	dd.attribution.name;
+							if (typeof dd.data.image.caption != 'undefined') {
+								if (dd.data.image.caption != 'undefined') {
+									_date.asset.caption				=	dd.data.image.caption;
+									_date.slug	 					=	dd.data.image.caption;
+								}
+							}
+							
+						} else if (dd.type == "quote") {
+							if (dd.permalink.match("twitter")) {
+								_date.asset.media	=	dd.permalink; 
+								_date.slug = VMM.Util.untagify(dd.data.quote.text);
+							} else if (dd.permalink.match("storify")) {
+								is_text = true;
+								_date.asset.media	=	"<blockquote>" + dd.data.quote.text.replace(/<\s*\/?\s*b\s*.*?>/g,"") + "</blockquote>";
+							}
+						} else if (dd.type == "link") {
+							_date.headline		=	dd.data.link.title;
+							_date.text			=	dd.data.link.description;
+							if (dd.data.link.thumbnail != 'undefined' && dd.data.link.thumbnail != '') {
+								_date.asset.media	=	dd.data.link.thumbnail;
+							} else {
+								_date.asset.media	=	dd.permalink;
+							}
+							//_date.asset.media	=	dd.permalink;
+							_date.asset.caption	=	"<a href='" + dd.permalink + "' target='_blank'>" + dd.data.link.title + "</a>"
+							_date.slug			=	dd.data.link.title;
+							
+						} else if (dd.type == "text") {
+							if (dd.permalink.match("storify")) {
+								is_text = true;
+								var d_name		=	d.content.author.username;
+								var d_nickname	=	"";
+								if (typeof dd.attribution.name != 'undefined') {
+									t_name		=	dd.attribution.name;
+									t_nickname	=	dd.attribution.username + "&nbsp;";
+								}
+								
+								var asset_text	=	"<div class='storify'>"
+								asset_text		+=	"<blockquote><p>" + dd.data.text.replace(/<\s*\/?\s*b\s*.*?>/g,"") + "</p></blockquote>";
+								//asset_text		+=	" <a href='" + dd.attribution.href + "' target='_blank' alt='link to author' title='link to author'>" + "<span class='created-at'></span>" + " </a>";
+
+								asset_text		+=	"<div class='vcard author'><a class='screen-name url' href='" + dd.attribution.href + "' target='_blank'>";
+								asset_text		+=	"<span class='avatar'><img src='" + dd.attribution.thumbnail + "' style='max-width: 32px; max-height: 32px;'></span>"
+								asset_text		+=	"<span class='fn'>" + t_name + "</span>";
+								asset_text		+=	"<span class='nickname'>" + t_nickname + "<span class='thumbnail-inline'></span></span>";
+								asset_text		+=	"</a></div></div>";
+								_date.text		=	asset_text;
+								
+								// Try and put it before the element where it is expected on storify
+								if ( (i+1) >= d.content.elements.length ) {
+									_date.startDate = d.content.elements[i-1].posted_at;
+									
+								} else {
+									if (d.content.elements[i+1].type == "text" && d.content.elements[i+1].permalink.match("storify")) {
+										if ( (i+2) >= d.content.elements.length ) {
+											_date.startDate = d.content.elements[i-1].posted_at;
+										} else {
+											if (d.content.elements[i+2].type == "text" && d.content.elements[i+2].permalink.match("storify")) {
+												if ( (i+3) >= d.content.elements.length ) {
+													_date.startDate = d.content.elements[i-1].posted_at;
+												} else {
+													if (d.content.elements[i+3].type == "text" && d.content.elements[i+3].permalink.match("storify")) {
+														_date.startDate = d.content.elements[i-1].posted_at;
+													} else {
+														trace("LEVEL 3");
+														_date.startDate = d.content.elements[i+3].posted_at;
+													}
+												}
+											} else {
+												trace("LEVEL 2");
+												_date.startDate = d.content.elements[i+2].posted_at;
+											}
+										}
+									} else {
+										trace("LEVEL 1");
+										_date.startDate = d.content.elements[i+1].posted_at;
+									}
+									
+								}
+								_date.endDate = _date.startDate
+							}
+							
+							
+						} else if (dd.type == "video") {
+							_date.headline		=	dd.data.video.title;
+							_date.asset.caption	=	dd.data.video.description;
+							_date.asset.caption	=	dd.source.username;
+							_date.asset.media	=	dd.data.video.src;
+						} else {
+							trace("NO MATCH ");
+							trace(dd);
+						}
+						
+						if (is_text) {
+							_date.slug = VMM.Util.untagify(dd.data.text);
+						}
+						
+						_data_obj.timeline.date.push(_date);
+						
+						
+					};
+				
+					VMM.fireEvent(global, VMM.Timeline.Config.events.data_ready, _data_obj);
+				}
+				
+			},
+			
+			tweets: {
+				
+				type: "twitter",
+			
+				buildData: function(raw_data) {
+					VMM.bindEvent(global, VMM.Timeline.DataObj.model.tweets.onTwitterDataReady, "TWEETSLOADED");
+					VMM.ExternalAPI.twitter.getTweets(raw_data.timeline.tweets);
+				},
+			
+				getData: function(raw_data) {
+					VMM.bindEvent(global, VMM.Timeline.DataObj.model.tweets.onTwitterDataReady, "TWEETSLOADED");
+					VMM.ExternalAPI.twitter.getTweetSearch(raw_data);
+				},
+			
+				onTwitterDataReady: function(e, d) {
+					var _data_obj = VMM.Timeline.DataObj.data_template_obj;
+
+					for(var i = 0; i < d.tweetdata.length; i++) {
+
+						var _date = {
+							"type":"tweets",
+							"startDate":"",
+				            "headline":"",
+				            "text":"",
+				            "asset":
+				            {
+				                "media":"",
+				                "credit":"",
+				                "caption":""
+				            },
+				            "tags":"Optional"
+						};
+						// pass in the 'created_at' string returned from twitter //
+						// stamp arrives formatted as Tue Apr 07 22:52:51 +0000 2009 //
+					
+						//var twit_date = VMM.ExternalAPI.twitter.parseTwitterDate(d.tweetdata[i].raw.created_at);
+						//trace(twit_date);
+					
+						_date.startDate = d.tweetdata[i].raw.created_at;
+					
+						if (type.of(d.tweetdata[i].raw.from_user_name)) {
+							_date.headline = d.tweetdata[i].raw.from_user_name + " (<a href='https://twitter.com/" + d.tweetdata[i].raw.from_user + "'>" + "@" + d.tweetdata[i].raw.from_user + "</a>)" ;						
+						} else {
+							_date.headline = d.tweetdata[i].raw.user.name + " (<a href='https://twitter.com/" + d.tweetdata[i].raw.user.screen_name + "'>" + "@" + d.tweetdata[i].raw.user.screen_name + "</a>)" ;
+						}
+					
+						_date.asset.media = d.tweetdata[i].content;
+						_data_obj.timeline.date.push(_date);
+					
+					};
+				
+					VMM.fireEvent(global, VMM.Timeline.Config.events.data_ready, _data_obj);
+				}
+				
+			}
+		},
+		
+		
+		/*	TEMPLATE OBJECTS
+		================================================== */
+		data_template_obj: {  "timeline": { "headline":"", "description":"", "asset": { "media":"", "credit":"", "caption":"" }, "date": [], "era":[] } },
+		date_obj: {"startDate":"2012,2,2,11,30", "headline":"", "text":"", "asset": {"media":"http://youtu.be/vjVfu8-Wp6s", "credit":"", "caption":"" }, "tags":"Optional"}
+	
+	};
+	
 }
